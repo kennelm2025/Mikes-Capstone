@@ -44,7 +44,8 @@ Section 2: Inputs and Outputs
 
 Each iteration consists of submitting a single query point per function and receiving a scalar response.
 
-Inputs
+Inputs:
+
 Inputs take a query format: x1-x2-x3-...-xn, each xi: lies in the range [0, 1] and is specified to six decimal places. Dimensionality varies by function (from 2D to 8D). I am constrained to one query per function per iteration per week.
 
 Outputs: 

@@ -36,26 +36,11 @@ The Iterative Process: Each week follows this cycle:
 5. Update dataset:  Incorporate new data points into analysis
 6. Revise my strategy: Adjust my approach based on learnings and new data points
 
-Weekly Reflection Questions
-•	After each round, I reflect on:
-•	What method I used and why
-•	Whether my query focused on exploration or exploitation
-•	What the latest result taught me
-•	What my strategy is for the next round
-
 I repeat this process each week, building understanding iteratively, just as optimisation unfolds in real-world ML projects. My weekly reflections support my final write-up and presentations.
-Functions Overview
-Function	Dimensions	Initial Samples
-F1	2D	10
-F2	2D	10
-F3	3D	10
-F4	4D	10
-F5	4D	10
-F6	5D	10
-F7	6D	10
-F8	8D	10
+Functions Overview - F1 and F2 are 2D functions,F3 is a 3d function, F4 and F5 are 4D functions, F6 is a D6 function, F7 is a 6D function and F8 is an 8D function.
 
 Section 2: Inputs and Outputs
+
 Each iteration consists of submitting a single query point per function and receiving a scalar response.
 Inputs
 Inputs take a query format: x1-x2-x3-...-xn

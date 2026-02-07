@@ -2,7 +2,8 @@ The Bayesian Optimization Capstone Project – Mike Kennelly.
 
 Section 1: Project Overview
 Overview
-This repository documents my complete work for the Bayesian Optimization capstone project, a progressive, multi-week exploration and optimization of eight synthetic black-box functions using Gaussian Process-based Bayesian Optimization techniques.
+This repository documents my work for the Bayesian Optimization capstone project, a multi week exploration and optimization of eight synthetic black-box functions using Gaussian Process-based Bayesian Optimization techniques.
+
 Project Summary
 How the Capstone Works:
 •	Maximizing eight unknown functions: One query per function per week
@@ -10,17 +11,21 @@ How the Capstone Works:
 •	Submit inputs precisely: Via the capstone project portal in the correct format
 •	Reflect, revise, and iterate: Over several rounds, building knowledge incrementally
 •	Success criteria: It’s not just looking for the highest global maximum, achieving the highest value, but demonstrating thoughtful, data-driven decision-making in reflections
+
 My Approach:
 I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies  including use of other models such as SVMs and ensemble trees to help with high dimensionality, that adjust exploration/exploitation balance based on function complexity and convergence patterns.
+
 The Challenge
 What I'm Working With:
 There are eight synthetic black-box functions, that are unknown mathematical functions that accept inputs and return a single output. My goal is to find the inputs that give the ‘highest possible output’ for each function.
+
 Key Characteristics:
 •	Black box: I cannot see internal workings of the functions
 •	Maximization:  Every function is a maximization task
 •	Observable:  Can observe how functions respond to different inputs
 •	Initially sparse:  Each function starts with only 10 known data points
 •	Increasing complexity: Functions range from 2D to 8D in dimensionality
+
 The Iterative Process: Each week follows this cycle:
 1. Review existing data:  Analyse the growing dataset from previous weeks
 2. Choose a new input point: Select one query point per function (8 total)
@@ -28,12 +33,14 @@ The Iterative Process: Each week follows this cycle:
 4. Receive output: Get new outputs once submission is processed
 5. Update dataset:  Incorporate new data points into analysis
 6. Revise my strategy: Adjust my approach based on learnings and new data points
+
 Weekly Reflection Questions
 •	After each round, I reflect on:
 •	What method I used and why
 •	Whether my query focused on exploration or exploitation
 •	What the latest result taught me
 •	What my strategy is for the next round
+
 I repeat this process each week, building understanding iteratively, just as optimisation unfolds in real-world ML projects. My weekly reflections support my final write-up and presentations.
 Functions Overview
 Function	Dimensions	Initial Samples

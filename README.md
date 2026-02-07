@@ -1,15 +1,14 @@
 The Bayesian Optimization Capstone Project – Mike Kennelly. 
 
-Section 1: Project Overview
-Overview
+Section 1: Project Overview:-
 This repository documents my work for the Bayesian Optimization capstone project, a multi week exploration and optimization of eight synthetic black-box functions using Gaussian Process-based Bayesian Optimization techniques.
 
-Project Summary
 How the Capstone Works:
 
 Maximizing eight unknown functions with one allowed query per function per week. Using the ML method Bayesian Optimization to find the highest value, I submit inputs weekly in a very precise format e.g. each query must use the format: x1-x2-x3-...-xn, where each xᵢ must begin with 0 and is specified to six decimal places(0.123456-0.654321) for a 2D function. Submissions are made via the capstone project portal and each week I reflect, revise, and iterate, over 12 rounds/weeks, building knowledge incrementally. The success criteria for the project include ; achieving the highest value, demonstrating thoughtful analysis and planning, and data-driven decision-making to determine the recommended submission each week. 
 
 My Approach:
+
 I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies. I also look to use including use of other models such as SVMs and ensemble trees to help with high dimensionality.
 
 The Challenge:
@@ -40,7 +39,7 @@ I repeat this process each week, building understanding iteratively, just as opt
 
 Functions Overview - F1 and F2 are 2D functions,F3 is a 3d function, F4 and F5 are 4D functions, F6 is a D6 function, F7 is a 6D function and F8 is an 8D function.
 
-Section 2: Inputs and Outputs
+Section 2: Inputs and Outputs:-
 
 Each iteration consists of submitting a single query point per function and receiving a scalar response.
 
@@ -53,13 +52,16 @@ Outputs:
 Outputs are a single real-valued scalar representing the functions response to the input data provided. Output scale, smoothness, and noise level are unknown and function-specific. Outputs are used only to inform subsequent modelling and query decisions
 
 Examples: 
-Inputs  : Function 5:	[0.119879, 0.498557, 0.477944, 0.494719]
+Inputs  : Function 5 -	[0.119879, 0.498557, 0.477944, 0.494719]
 
-Outputs : Function 5:	60.06641925294364
+Outputs : Function 5 -	60.06641925294364
  
-Section 3: Challenge Objectives
+Section 3: Challenge Objectives:-
 
-Section 4: Technical Approach
+Key oblectives include; achieving the highest possible value, demonstrating thoughtful analysis and planning, being data-driven in decision-making to determine the recommended submission each week.
+
+Section 4: Technical Approach:-
+
 I chose Gaussian Process (GP) Regression with acquisition function optimization as my primary method across all weeks.
 Why Bayesian Optimization?
 	Sample efficient: Makes intelligent decisions with limited data

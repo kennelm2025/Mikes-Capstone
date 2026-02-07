@@ -89,7 +89,8 @@ kernel = ConstantKernel(1.0, (1e-10, 1e10)) * \
 
 Acquisition Function
 
-I focused on Expected Improvement (EI) as my primary method, though I also explored Upper Confidence Bound (UCB) for each function. In Week 2, I developed a dimension-adaptive approach that adjusts parameters based on function complexity. I configured EI for maximization with:
+I focused on Expected Improvement (EI) as my primary method, though I also explored Upper Confidence Bound (UCB) for each function. In Week 2, I developed a dimension-adaptive approach that adjusts parameters based on function complexity. 
+I configured EI for maximization with:
 
 For Low Dimensions (F1-F2, 2D):
 -	Conservative parameters: ξ = 0.01, κ = 2.0

@@ -94,20 +94,20 @@ I focused on Expected Improvement (EI) as my primary method, though I also explo
 For Low Dimensions (F1-F2, 2D):
 -	Conservative parameters: ξ = 0.01, κ = 2.0
 -	Emphasis on exploitation near known good regions
--	Justification: Small search space (10% coverage), can visualize landscape, safe to refine locally
+-	Justification: Small search space (10% coverage), so I can visualise landscape and safe to refine locally
 
 For Mid Dimensions (F3-F5, 3D-4D):
 -	Balanced approach: ξ = 0.01-0.05, κ = 2.0-2.3
 -	Adjust based on convergence signals from previous weeks
--	Mix of exploration and exploitation
+-	I used a mix of exploration and exploitation
 
 For High Dimensions (F6-F8, 5D-8D):
--	Aggressive exploration: ξ = 0.1, κ = 2.5
--	Trust GP recommendations even when counterintuitive
--	150-200 random restarts for acquisition optimization
--	**Justification:** 0.00004% coverage in 8D, human intuition fails, must trust mathematics
+- I chose aggressive exploration: ξ = 0.1, κ = 2.5
+- I trusted the GP recommendations even when counterintuitive e.g. F8 setting three dimensions to 0 based on low marginal impact
+- 150-200 random restarts for acquisition optimization due to extreme sparsity e.g. 0.00004% coverage in 8D!!
 
-Weekly Progression: Ongoing strategy and plans adopted
+Weekly Progression: Ongoing strategy and plans adopted :-
+
 
 Week1: 
 

@@ -54,6 +54,7 @@ Outputs are a single real-valued scalar representing the functions response to t
 
 Examples: 
 Inputs  : Function 5:	[0.119879, 0.498557, 0.477944, 0.494719]
+
 Outputs : Function 5:	60.06641925294364
  
 Section 3: Challenge Objectives

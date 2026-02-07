@@ -37,23 +37,23 @@ The Iterative Process: Each week follows this cycle:
 6. Revise my strategy: Adjust my approach based on learnings and new data points
 
 I repeat this process each week, building understanding iteratively, just as optimisation unfolds in real-world ML projects. My weekly reflections support my final write-up and presentations.
+
 Functions Overview - F1 and F2 are 2D functions,F3 is a 3d function, F4 and F5 are 4D functions, F6 is a D6 function, F7 is a 6D function and F8 is an 8D function.
 
 Section 2: Inputs and Outputs
 
 Each iteration consists of submitting a single query point per function and receiving a scalar response.
+
 Inputs
-Inputs take a query format: x1-x2-x3-...-xn
-•	Each xi:
-o	Lies in the range [0, 1]
-o	Is specified to six decimal places
-•	Dimensionality: varies by function (from 2D to 8D)
-•	Constraint: one query per function per iteration
+Inputs take a query format: x1-x2-x3-...-xn, each xi: lies in the range [0, 1] and is specified to six decimal places. Dimensionality varies by function (from 2D to 8D). I am constrained to one query per function per iteration per week.
+
 Outputs: 
-•	A single real-valued scalar representing the function response
-•	Output scale, smoothness, and noise level are unknown and function-specific
-•	Outputs are used only to inform subsequent modelling and query decisions
-Examples of week one Inputs and Outputs achieved.
+
+Outputs are a single real-valued scalar representing the functions response to the input data provided. Output scale, smoothness, and noise level are unknown and function-specific. Outputs are used only to inform subsequent modelling and query decisions
+
+Examples: 
+Inputs  : Function 5:	[0.119879, 0.498557, 0.477944, 0.494719]
+Outputs : Function 5:	60.06641925294364
  
 Section 3: Challenge Objectives
 

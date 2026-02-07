@@ -169,7 +169,7 @@ Key Findings:
 
 -	F6 (5D):Week 1 ranked low, old exploration, 0.000021% coverage, should have used EI there.   
 
--	F8 (8D):Most critical decision, 0.000041% coverage (needle in haystack) , GP suggested: [0.0, 0.188, 0.0, 0.090, 0.923, 0.461, 0.0, 0.530], after feature analysis performed marginal sffects (univariate), X₁, X₃, X₇ have minimal impact and are safe to set to 0!
+-	F8 (8D):Most critical decision, 0.000041% coverage (needle in haystack) , GP suggested: [0.0, 0.188, 0.0, 0.090, 0.923, 0.461, 0.0, 0.530], after feature analysis performed marginal effects, X₁, X₃, X₇ spear to have minimal impact and are safe to set to 0!
 X₁: Δ = 0.2  (minimal impact)
 X₂: Δ = 1.1  (moderate)
 X₃: Δ = 0.3  (minimal impact)

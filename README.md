@@ -65,11 +65,13 @@ Section 4: Technical Approach:-
 
 I chose Gaussian Process (GP) Regression with acquisition function optimization as my primary method across all weeks.
 Why Bayesian Optimization?
-	Sample efficient: Makes intelligent decisions with limited data
-	Handles uncertainty: Provides probabilistic predictions with confidence intervals
-	Balances exploration/exploitation: Naturally trades off between finding new regions and refining known good areas
-	Works in high dimensions: Only viable approach for 8D with 41 samples (0.00004% coverage)
-Gaussian Process Model: Kernel Configuration:
+- Sample efficient: Makes intelligent decisions with limited data
+- Handles uncertainty: Provides probabilistic predictions with confidence intervals
+- Balances exploration/exploitation: Naturally trades off between finding new regions and refining known good areas
+- Works in high dimensions: Only viable approach for 8D with 41 samples (0.00004% coverage)
+
+Gaussian Process Model Kernel Configuration:
+
 Kernel type: Matérn ν=2.5 (balances smoothness and flexibility)
 Kernel components:
 -	`ConstantKernel` : Scales output variance
@@ -77,6 +79,7 @@ Kernel components:
 -	`WhiteKernel`:  Models observation noise
 -	Hyperparameter optimization30+ random restarts to avoid local optima
 -	Normalization:`normalize_y=True` for numerical stability
+
 Example kernel setup:
 ```python
 kernel = ConstantKernel(1.0, (1e-10, 1e10)) * \

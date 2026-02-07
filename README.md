@@ -6,11 +6,12 @@ This repository documents my work for the Bayesian Optimization capstone project
 
 Project Summary
 How the Capstone Works:
-•	Maximizing eight unknown functions: One query per function per week
-•	Choose the ML method: Options include random sampling, grid search, Bayesian Optimization, or manual selection
-•	Submit inputs precisely: Via the capstone project portal in the correct format
-•	Reflect, revise, and iterate: Over several rounds, building knowledge incrementally
-•	Success criteria: It’s not just looking for the highest global maximum, achieving the highest value, but demonstrating thoughtful, data-driven decision-making in reflections
+
+•	Maximizing eight unknown functions with one allowed query per function per week
+•	Using the ML method Bayesian Optimization
+•	Submit inputs weekly and very precisely e.g. each query must use the format: x1-x2-x3-...-xn, where each xᵢ must begin with 0 and is specified to six decimal places(0.123456-0.654321) for a 2D function. Submissions are made via the capstone project portal in the correct format
+•	Each week I reflect, revise, and iterate, over 12 rounds, building knowledge incrementally
+•	Success criteria are achieving the highest value, but demonstrating thoughtful, data-driven decision-making in reflections i.e not just the highest global maximum.
 
 My Approach:
 I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies  including use of other models such as SVMs and ensemble trees to help with high dimensionality, that adjust exploration/exploitation balance based on function complexity and convergence patterns.

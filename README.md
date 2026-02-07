@@ -12,11 +12,12 @@ Maximizing eight unknown functions with one allowed query per function per week.
 My Approach:
 I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies. I also look to use including use of other models such as SVMs and ensemble trees to help with high dimensionality.
 
-The Challenge
-What I'm working with:
+The Challenge:
+
 There are eight synthetic black-box functions, that are unknown mathematical functions that accept inputs and return a single output. My goal is to find the inputs that give the ‘highest possible output’ for each function.
 
 Key Characteristics:
+
 •	Black box: I cannot see internal workings of the functions
 •	Maximization:  Every function is a maximization task
 •	Observable:  Can observe how functions respond to different inputs

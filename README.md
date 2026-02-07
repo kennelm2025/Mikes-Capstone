@@ -1,4 +1,5 @@
-Bayesian Optimization Capstone Project – Mike Kennelly
+The Bayesian Optimization Capstone Project – Mike Kennelly
+
 Section 1: Project Overview
 Overview
 This repository documents my complete work for the Bayesian Optimization capstone project, a progressive, multi-week exploration and optimization of eight synthetic black-box functions using Gaussian Process-based Bayesian Optimization techniques.
@@ -125,24 +126,29 @@ Key Findings:
 -	F3 (3D):** All outputs negative, best ~-0.014
 -	F4 (4D):** Best ~-2.6, wide range [-33 to -2.6]
 -	F8 (8D):** Best ~9.3, high variance across samples
+
 Exploration vs Exploitation:
 -	Week 1 focused primarily on exploitation refining near known good points
 -	Conservative approach to build initial understanding
 -	Random restarts: 10-30 per function
+
 What I Learned:
 -	All functions exhibit non-linear behavior requiring GP modeling
 -	Linear regression R² = 0.23 vs GP R² = 0.89 (F4) proves non-linearity
 -	initial samples have poor coverage, especially in high dimensions
+
 Proposed strategy for Week 2:
 -	Continue conservative approach for converging functions
 -	Increase exploration for poorly-performing functions
 -	Track which Week 1 points perform well
+
 Week 2: 
 My Objectives:
 -	Full Bayesian Optimization implementation with refined strategies
 -	Dimension-adaptive parameter tuning
 -	Comprehensive convergence analysis
 -	Strategy visualization and justification
+
 Method Used: 
 -	Converging functions (F2, F5, F7): Exploitation-focused
 -	Parameters: ξ=0.01, κ=2.0
@@ -151,6 +157,7 @@ Method Used:
 -	Strategy: Bold GP-guided exploration
 -	Balanced functions (F3, F4): Mixed approach
 -	 Adjust based on EI/UCB signals
+
 Key Findings:
 -	Convergence Champions (Exploitation Strategy):
 -	F7 (6D):Week 1 ranked 2nd (0.809 vs 1.365) → Continue local refinement
@@ -176,10 +183,12 @@ Key week 2 decision was on F8 : I decided to trust the GP outputs! Even if they 
 -	Accepted GP's [0.0, 0.188, 0.0, ...] recommendation
 -	Predicted 10.244 vs current 9.598 = 6.7% improvement
 -	Conservative alternative would only predict 2% improvement
+
 Exploration vs Exploitation Balance Adopted:
 -	Low-D (F1-F3): 70% exploitation, 30% exploration
 -	Mid-D (F4-F5): 50-50 balanced
 -	High-D (F6-F8): 60% exploration, 40% exploitation
+
 What I Learned:
 1. Dimensionality is exponential: 8D is fundamentally different from 2D
 2. rust mathematics in high-D: Intuition fails beyond 5D
@@ -187,10 +196,9 @@ What I Learned:
 4. Convergence signals matter: Week 2 performance guides Week 3 strategy
 5. Coverage is critical : 0.00004% for F8 means BO is literally the only viable approach
 
-
-
 Proposed strategy for Week 3:
 -	Take a hybrid model approach and consider how SVM and Ensembles might help me understand the data better.
+
 Week 3 : TBA 
 My Objectives:
 Method Used: 
@@ -198,6 +206,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 4:
+
 Week 4: TBA 
 My Objectives:
 Method Used: 
@@ -205,6 +214,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 5:
+
 Week 5: TBA 
 My Objectives:
 Method Used: 
@@ -212,6 +222,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 6:
+
 Week 6: TBA 
 My Objectives:
 Method Used: 
@@ -219,6 +230,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 7:
+
 Week 7: TBA 
 My Objectives:
 Method Used: 
@@ -226,6 +238,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 8:
+
 Week 8: TBA 
 My Objectives:
 Method Used: 
@@ -233,6 +246,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 9:
+
 Week 9: TBA 
 My Objectives:
 Method Used: 
@@ -248,6 +262,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 11:
+
 Week 11: TBA 
 My Objectives:
 Method Used: 
@@ -255,6 +270,7 @@ Key Findings:
 Exploration vs Exploitation:
 What I Learned:
 Proposed strategy for Week 12:
+
 Week 12: TBA
 My Objectives:
 Method Used: 

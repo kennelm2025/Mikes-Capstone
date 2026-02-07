@@ -1,6 +1,7 @@
 The Bayesian Optimization Capstone Project – Mike Kennelly. 
 
 Section 1: Project Overview:-
+
 This repository documents my work for the Bayesian Optimization capstone project, a multi week exploration and optimization of eight synthetic black-box functions using Gaussian Process-based Bayesian Optimization techniques.
 
 How the Capstone Works:

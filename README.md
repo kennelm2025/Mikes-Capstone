@@ -19,9 +19,13 @@ There are eight synthetic black-box functions, that are unknown mathematical fun
 Key Characteristics:
 
 •	Black box: I cannot see internal workings of the functions
+
 •	Maximization:  Every function is a maximization task
+
 •	Observable:  Can observe how functions respond to different inputs
+
 •	Initially sparse:  Each function starts with only 10 known data points
+
 •	Increasing complexity: Functions range from 2D to 8D in dimensionality
 
 The Iterative Process: Each week follows this cycle:

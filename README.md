@@ -1,4 +1,4 @@
-The Bayesian Optimization Capstone Project – Mike Kennelly 
+The Bayesian Optimization Capstone Project – Mike Kennelly. 
 
 Section 1: Project Overview
 Overview

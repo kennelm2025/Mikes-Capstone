@@ -7,17 +7,13 @@ This repository documents my work for the Bayesian Optimization capstone project
 Project Summary
 How the Capstone Works:
 
-•	Maximizing eight unknown functions with one allowed query per function per week
-•	Using the ML method Bayesian Optimization
-•	Submit inputs weekly and very precisely e.g. each query must use the format: x1-x2-x3-...-xn, where each xᵢ must begin with 0 and is specified to six decimal places(0.123456-0.654321) for a 2D function. Submissions are made via the capstone project portal in the correct format
-•	Each week I reflect, revise, and iterate, over 12 rounds, building knowledge incrementally
-•	Success criteria are achieving the highest value, but demonstrating thoughtful, data-driven decision-making in reflections i.e not just the highest global maximum.
+Maximizing eight unknown functions with one allowed query per function per week. Using the ML method Bayesian Optimization to find the highest value, I submit inputs weekly in a very precise format e.g. each query must use the format: x1-x2-x3-...-xn, where each xᵢ must begin with 0 and is specified to six decimal places(0.123456-0.654321) for a 2D function. Submissions are made via the capstone project portal and each week I reflect, revise, and iterate, over 12 rounds/weeks, building knowledge incrementally. The success criteria for the project include ; achieving the highest value, demonstrating thoughtful analysis and planning, and data-driven decision-making to determine the recommended submission each week. 
 
 My Approach:
-I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies  including use of other models such as SVMs and ensemble trees to help with high dimensionality, that adjust exploration/exploitation balance based on function complexity and convergence patterns.
+I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies. I also look to use including use of other models such as SVMs and ensemble trees to help with high dimensionality.
 
 The Challenge
-What I'm Working With:
+What I'm working with:
 There are eight synthetic black-box functions, that are unknown mathematical functions that accept inputs and return a single output. My goal is to find the inputs that give the ‘highest possible output’ for each function.
 
 Key Characteristics:

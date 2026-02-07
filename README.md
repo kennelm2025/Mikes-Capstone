@@ -1,4 +1,4 @@
-The Bayesian Optimization Capstone Project – Mike Kennelly
+The Bayesian Optimization Capstone Project – Mike Kennelly.
 
 Section 1: Project Overview
 Overview
@@ -159,16 +159,19 @@ Method Used:
 -	 Adjust based on EI/UCB signals
 
 Key Findings:
--	Convergence Champions (Exploitation Strategy):
 -	F7 (6D):Week 1 ranked 2nd (0.809 vs 1.365) → Continue local refinement
 -	Week 2 recommendation: [0.410, 0.299, 0.510, 0.814, 0.072, 0.461]
--	Predicted: 1.359 (very close to current best 1.365)
+-	Predicted 1.359 (very close to current best 1.365)
+
 -	F2 (2D): Week 1 ranked 3rd → Conservative exploitation
--	Recommendation stayed at [0.753, 0.927]
 -	Already at 75th percentile for both dimensions
+
 -	F5 (4D):Steady improvement.Maintain course Predicted 5.5% improvement
+
 -	F1 (2D): Week 1 performed poorly → Try different region
+
 -	F6 (5D):Week 1 ranked low, old exploration, 0.000021% coverage, should have used EI there.   
+
 -	F8 (8D):Most critical decision, 0.000041% coverage (needle in haystack) , GP suggested: [0.0, 0.188, 0.0, 0.090, 0.923, 0.461, 0.0, 0.530], after feature analysis performed marginal sffects (univariate), X₁, X₃, X₇ have minimal impact and are safe to set to 0!
 X₁: Δ = 0.2  (minimal impact)
 X₂: Δ = 1.1  (moderate)

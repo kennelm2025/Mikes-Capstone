@@ -117,7 +117,7 @@ My Objectives:
 -	Fit initial Gaussian Process models
 -	Explore basic acquisition functions (EI and UCB)
 -	Generate first query recommendations
--	
+
 Method Used: 
 -	Gaussian Process regression with Matérn kernel
 -	Expected Improvement acquisition function

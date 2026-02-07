@@ -88,29 +88,36 @@ kernel = ConstantKernel(1.0, (1e-10, 1e10)) * \
 ```
 
 Acquisition Function
-•	Expected Improvement (EI): My primary method
+
+-	Expected Improvement (EI): My primary method
 -	Formula: EI(x) = E[max(0, f(x) - f(x_best) - ξ)]
 -	Parameter ξ (xi): Controls exploration intensity
 -	ξ = 0.01: Conservative (exploitation-focused)
 -	ξ = 0.1: Aggressive (exploration-focused)
 
-Dimension-Adaptive Strategy (From Week 3)
-I developed a dimension-adaptive approach that adjusts parameters based on function complexity:
+
+In Week 2 I developed a dimension-adaptive approach that adjusts parameters based on function complexity:
+
  Low Dimensions (F1-F2, 2D):
 -	Conservative parameters: ξ = 0.01, κ = 2.0
 -	Emphasis on exploitation near known good regions
 -	Justification: Small search space (10% coverage), can visualize landscape, safe to refine locally
+
    Mid Dimensions (F3-F5, 3D-4D):
 -	Balanced approach: ξ = 0.01-0.05, κ = 2.0-2.3
 -	Adjust based on convergence signals from previous weeks
 -	Mix of exploration and exploitation
+
 High Dimensions (F6-F8, 5D-8D):
 -	Aggressive exploration: ξ = 0.1, κ = 2.5
 -	Trust GP recommendations even when counterintuitive
 -	150-200 random restarts for acquisition optimization
 -	**Justification:** 0.00004% coverage in 8D, human intuition fails, must trust mathematics
+
 Weekly Progression: Ongoing strategy and plans adopted
+
 Week1: 
+
 My Objectives:
 -	Load and understand initial 10-point datasets
 -	Fit initial Gaussian Process models

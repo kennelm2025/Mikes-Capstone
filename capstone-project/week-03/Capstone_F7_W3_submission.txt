@@ -1,0 +1,11 @@
+F7 WEEK 3 SUBMISSION
+======================================================================
+
+RECOMMENDATION:
+0.000000-0.426480-0.305686-0.172140-0.357890-0.637217
+
+STRATEGY: Pure GP with 30% Local Focus
+SOURCE: Local
+DISTANCE FROM W2: 0.084
+PREDICTION: 1.543955 ± 0.171854
+EXPECTED GAIN: -11.23%

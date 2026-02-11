@@ -202,75 +202,13 @@ What I Learned:
 Proposed strategy for Week 3:
 -	Take a hybrid model approach and consider how SVM and Ensembles might help me understand the data better.
 
-Week 3 : Hybrid Model approach.
-
+Week 3 : TBA 
 My Objectives:
-- Test multiple classifier models (SVM, Decision Trees, Random Forest, Gradient Boosting) 
-  before GP optimization
-- Implement conditional strategies that adapt based on model reliability (CV scores)
-- Balance aggressive exploration (F1, F2, F3, F7) with conservative exploitation 
-  (F4, F5, F8) across portfolio
-- Validate "explore early, exploit later" philosophy at Week 3/12 timing
-
 Method Used: 
-- Sequential Hybrid Approach: Classifier filters candidates → GP optimizes 
-  within filtered set
-- Model Testing: 	
-	- Test 9 models per function with 3-fold cross-validation
-	- Threshold: CV ≥60% = reliable, ≥70% = excellent
-	- Select best model or fall back to Pure GP if all fail
-- Three-Way Comparison: 
-	-Pure GP vs Pure Models vs GP+Models to validate 
-         recommendations
 Key Findings:
-- Model Performance Varies by Dimension:
-  - F1 (2D): Decision Tree 83.3% CV (4 models tied) > Linear SVM 67%
-  - F2 (2D): Decision Tree 75% > Linear SVM 67% > RBF SVM 58%
-  - F4 (4D): Linear SVM 68.8% (n/p=8.0, best ratio)
-  - F7 (6D): All models failed (<60% CV) → Pure GP fallback
-
-- Pattern: Decision Trees excel on low-D, SVMs reliable on mid-D, 
-    both struggle on high-D with sparse data
-
-- GP Flatness Limitation Discovered:
-  - F1 (12 samples, 2D): GP predicted μ≈-0.0003 everywhere with σ≈0.001
-  - μ/σ ratio = 0.3 (noise > signal)
-  - GP cannot distinguish between regions with sparse data
-  - Risk: False convergence signal (appears optimal when just uncertain)
-
- 
-  - Exploration: (4 functions): F1, F2, F3, F7
-    - F1: Distance 0.28 (far from W2 rank 1) - testing model hypothesis
-    - F2: Distance 0.31 (boundary [1.0, 1.0]) - escape poor performance
-    - F3: Return to W1 region (W2 declined) - adaptive optimization
-    - F7: X1=0.0 boundary - Pure GP edge testing
-  
-  - Exploitation: (4 functions): F4, F5, F6, F8
-    - F4: Distance 0.08 (tight local refinement of rank 1)
-    - F5: Boundary HIGH (X3≈1.0, X4≈1.0) - continue W2 success
-    - F6: Conditional strategy (SVM CV 68.5% → use sequential)
-    - F8: Boundary LOW (X1≈0.01, X3≈0.002) - minimize strategy
-
+Exploration vs Exploitation:
 What I Learned:
-1. Model Selection is Important:
-   - Testing 9 models revealed dramatically different recommendations
-   - Decision Trees often outperform SVMs on low-dimensional data
-   - No single model dominates—must test and validate
-
-2. Sequential Filtering Changes Outcomes:
-   - Pure GP (no filtering) → conservative recommendations
-   - Model filtering → introduces different candidate regions
-   - GP+high σ in filtered regions → aggressive exploration
-   - The approach itself (not just hyperparameters) determines strategy
-
-
 Proposed strategy for Week 4:
-If hybrid models outperformed Pure GP for week 3 I will;
-- Expand model testing to include further Kernel tunning, Increase use of Decision Trees 
-    - Continue exploring new regions on F1-F3
-    - Test other far regions suggested by models
-    - If boundary strategies worked on F5, F7, F8 I'll continue on the same path. 
-  
 
 Week 4: TBA 
 My Objectives:
@@ -347,41 +285,12 @@ MyCodeStructure
 Each notebook follows this structure:
 1.	Import libraries: Load required packages
 2.	Load data:  Import .npy files with inputs/outputs
-3.	Exploratory analysis: Testing Models, statistics, best points, coverage
+3.	Exploratory analysis: Statistics, best points, coverage
 4.	Gaussian Process model:  Fit GP with optimized hyperparameters
 5.	Acquisition function: Compute and Compare  EI & UCB
 6.	Optimization: Find point that maximizes acquisition
 7.	Visualization: Plot GP predictions and acquisition function
 8.	Recommendation: Make submission recommendation query point with justification
 
-My Repository Structure: 
-Repository Structure Section:
-
-capstone_project/
-├── notebooks/
-│   ├── Capstone_F1_W3.ipynb          # F1: GP+Models aggressive exploration
-│   ├── Capstone_F2_W3.ipynb          # F2: Model testing + boundary
-│   ├── Capstone_F3_W3.ipynb          # F3: Week 1 focus + exploration
-│   ├── Capstone_F4_W3.ipynb          # F4: Local exploitation
-│   ├── Capstone_F5_W3.ipynb          # F5: Sequential SVM→GP boundary HIGH
-│   ├── Capstone_F6_W3.ipynb          # F6: Conditional strategy
-│   ├── Capstone_F7_W3.ipynb          # F7: Pure GP (SVM failed)
-│   └── Capstone_F8_W3.ipynb          # F8: Sequential SVM→GP boundary LOW
-│
-├── data/
-│   ├── f1_w3_inputs.npy              # Input data (12 samples, 2D)
-│   ├── f1_w3_outputs.npy             # Output data
-│   ├── f2_w3_inputs.npy              # ...
-│   └── ...
-│
-├── outputs/
-│   ├── Week3_Submissions.txt         		  # All submission strings
-│   ├── Week3_Observations_and_Strategy.md  # Strategy documentation
-│   ├── Capstone_F1_W3_acquisition.png      # Acquisition curves
-│   ├── Capstone_F1_W3_results.png          # Results dashboard
-│   └── ...
-│
-│
-└── README.md                         # This file
-
-End
+My Repository Structure
+TBA

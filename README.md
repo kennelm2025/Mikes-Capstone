@@ -224,7 +224,7 @@ Method Used:
          recommendations
 Key Findings:
 - Model Performance Varies by Dimension:
-  - F1 (2D): Decision Tree 83.3% CV (4 models tied) > Linear SVM 67%
+  - F1 (2D): Decision Tree 83.3% CV > Linear SVM 67%
   - F2 (2D): Decision Tree 75% > Linear SVM 67% > RBF SVM 58%
   - F4 (4D): Linear SVM 68.8% (n/p=8.0, best ratio)
   - F7 (6D): All models failed (<60% CV) → Pure GP fallback

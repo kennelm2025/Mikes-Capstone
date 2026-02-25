@@ -315,25 +315,41 @@ import numpy as np           # Cluster analysis for F1
 
 ```
 /Capstone_BBO/
-├│
-    ├── /week4/
-    │   ├── Capstone_F1_W4_Spatial.ipynb (breakthrough method)
-    │   ├── Capstone_F2_W4.ipynb through Capstone_F8_W4.ipynb
-    │   └── Week4_Submissions.md
-    	├── week1_submissions.txt through week4_submissions.txt
-    	├── rankings_summary.csv
-        ├── f1_analysis.png (spatial targeting validation)
-        ├── f1_strategy_recommendation.png (cluster visualization)
-        ├── f4_progress.png (improvement trajectory)
-        └── f8_progress.png (rank #1 achievement + decline) 
-	├── weekly_decisions.md (rationale per week)
-        ├── f1_spatial_targeting.md (breakthrough documentation)
-        ├── f8_exploration_analysis.md (over-exploration lesson)
-        └── model_selection_rationale.md (why DT > NN)
-	├── README.md (this file)
-	├── METHODOLOGY.md (detailed technical approach)
-	├── RESULTS.md (complete performance history)
-	└── requirements.txt (dependencies)
+├── /data/
+│   ├── f1_w1_inputs.npy through f8_w4_outputs.npy (64 files)
+│   └── README.md (data documentation)
+│
+├── /notebooks/
+│   ├── /week4/
+│   │   ├── Capstone_F1_W4_Spatial.ipynb (breakthrough method)
+│   │   ├── Capstone_F2_W4.ipynb through Capstone_F8_W4.ipynb
+│   │   └── Week4_Submissions.md
+│   ├── /archive/ (weeks 1-3)
+│   └── /templates/
+│       ├── Capstone_Generic_Template.ipynb
+│       └── Capstone_Spatial_Template.ipynb (new for F1)
+│
+├── /results/
+│   ├── week1_submissions.txt through week4_submissions.txt
+│   ├── rankings_summary.csv
+│   └── /analysis/
+│       ├── f1_analysis.png (spatial targeting validation)
+│       ├── f1_strategy_recommendation.png (cluster visualization)
+│       ├── f4_progress.png (improvement trajectory)
+│       └── f8_progress.png (rank #1 achievement + decline)
+│
+├── /strategy/
+│   ├── weekly_decisions.md (rationale per week)
+│   ├── f1_spatial_targeting.md (breakthrough documentation)
+│   ├── f8_exploration_analysis.md (over-exploration lesson)
+│   └── model_selection_rationale.md (why DT > NN)
+│
+├── README.md (this file)
+├── METHODOLOGY.md (detailed technical approach)
+├── RESULTS.md (complete performance history)
+└── requirements.txt (dependencies)
 ```
+
+---
 
 **END OF README**

@@ -7,8 +7,17 @@
 
 ---
 
-### Key Innovation on this weeks strategy
-F1 Spatial Targeting: When standard Bayesian Optimization failed due to degenerate landscape (92% identical outputs), pivoted to spatial cluster analysis, achieving 99.6% improvement in distance to optimal cluster.
+## 🏆 Final Results Summary
+
+### Overall Performance
+- **Competition Size:** 43 participants
+- **Rank #1 Achievements:** 3 (F3, F4, F8 Week 3)
+- **Top-3 Achievements:** 4 (F3, F4, F7, F8)
+- **Functions Optimized:** 8 (F1-F8, 2D to 8D)
+- **Total Queries:** 220 (5 weeks × 8 functions × 5-6 samples/week)
+
+### Key Innovation
+**F1 Spatial Targeting:** When standard Bayesian Optimization failed due to degenerate landscape (92% identical outputs), pivoted to spatial cluster analysis, achieving 99.6% improvement in distance to optimal cluster.
 
 ---
 
@@ -141,7 +150,7 @@ Function 8 (8D): 0.124245-0.707381-0.198569-0.790421-0.197258-0.733195-0.378511-
 
 ## 🎓 Key Learnings
 
-1. Data-Appropriate Model Selection
+### 1. Data-Appropriate Model Selection
 **Finding:** Decision Trees (200 parameters, 83% CV) consistently outperformed Neural Networks (45,569 parameters, 48-65% CV) on small datasets (14-44 samples).
 
 **Neural Networks Tested:**
@@ -154,7 +163,7 @@ Extra Large: 256-128-64-32-1 (45,569 parameters) → 48% CV
 
 **Lesson:** AlexNet-style depth requires AlexNet-scale data. With 44 samples vs 45,569 parameters (ratio: 0.001), neural networks overfitted while Decision Trees provided natural regularization.
 
-2. Spatial Targeting for Degenerate Landscapes
+### 2. Spatial Targeting for Degenerate Landscapes
 **Challenge:** F1 exhibited 92% identical outputs (≈0), causing GP acquisition collapse.
 
 **Solution:** 
@@ -164,7 +173,7 @@ Extra Large: 256-128-64-32-1 (45,569 parameters) → 48% CV
 
 **Result:** 99.6% improvement, demonstrating problem-specific solutions outperform broken standard methods.
 
- 3. Context-Dependent Exploration-Exploitation
+### 3. Context-Dependent Exploration-Exploitation
 **F8 Case Study:**
 - Week 3: 9.819 (rank #1, optimal)
 - Week 4: 9.334 (explored away, rank declined)
@@ -172,7 +181,7 @@ Extra Large: 256-128-64-32-1 (45,569 parameters) → 48% CV
 
 **Lesson:** Strategy must match competitive position. Defending rank #1 requires tight exploitation; improving from rank #14 requires exploration.
 
- 4. Meta-Level > Individual Depth
+### 4. Meta-Level > Individual Depth
 **Evidence:**
 - Choosing between Decision Trees and NNs (meta-level) provided more value than optimizing NN depth (32-16-1 vs 256-128-64-32-1)
 - Decision Tree (shallow, 200 params): 83% CV, rank #1
@@ -216,6 +225,120 @@ from scipy.stats import norm  # Expected Improvement
 - ✓ Evidence-based over assumption-driven (CV guides selection)
 
 ---
+
+## 🗂️ Repository Structure
+
+```
+/Capstone_BBO/
+├── /data/
+│   ├── f1_w1_inputs.npy through f8_w5_outputs.npy (80 files)
+│   └── README.md (data documentation)
+│
+├── /notebooks/
+│   ├── /week5/
+│   │   ├── Capstone_F1_W5_Spatial.ipynb
+│   │   ├── Capstone_F2_W5.ipynb through Capstone_F8_W5.ipynb
+│   │   └── Week5_Submissions_POPULATED.md
+│   ├── /archive/ (weeks 1-4)
+│   └── /templates/
+│       ├── Capstone_Generic_Template.ipynb
+│       └── Capstone_Spatial_Template.ipynb
+│
+├── /results/
+│   ├── week1_submissions.txt through week5_submissions.txt
+│   ├── rankings_summary.csv
+│   └── /analysis/
+│       ├── f1_analysis.png (spatial targeting validation)
+│       ├── f4_progress.png (incremental improvement)
+│       └── f8_progress.png (rank #1 achievement)
+│
+├── /strategy/
+│   ├── weekly_decisions.md (rationale per week)
+│   ├── f1_spatial_targeting.md (breakthrough documentation)
+│   └── model_selection_rationale.md (why DT > NN)
+│
+├── README.md (this file)
+├── METHODOLOGY.md (detailed technical approach)
+├── RESULTS.md (complete performance history)
+├── LESSONS_LEARNED.md (key insights)
+├── requirements.txt (dependencies)
+└── environment.yml (conda environment)
+```
+
+---
+
+## 🚀 Reproducibility
+
+### Environment Setup
+
+**Requirements:**
+```bash
+pip install -r requirements.txt
+```
+
+**Key Dependencies:**
+```
+numpy>=1.21.0
+scipy>=1.7.0
+scikit-learn>=1.0.0
+tensorflow>=2.8.0
+matplotlib>=3.4.0
+```
+
+### Running Week 5 Notebooks
+
+**For each function F1-F8:**
+```bash
+# Upload to Google Colab or run locally
+jupyter notebook Capstone_F{1-8}_W5.ipynb
+
+# OR using Python directly
+python -c "import notebook; notebook.run('Capstone_F1_W5.ipynb')"
+```
+
+**Expected Output:**
+- Cross-validation scores for all models
+- Best model selection
+- Final submission in format: `[x1, x2, ..., xn]`
+- Convert to interface format: `x1-x2-...-xn`
+
+---
+
+## 📊 Cross-Validation Results (Week 5)
+
+| Function | Best Model | CV Score | Strategy | Allocation |
+|----------|-----------|----------|----------|------------|
+| F1 | Spatial (N/A) | N/A | Cluster targeting | N/A |
+| F2 | Decision Tree | 78.3% | Standard | 70/30 |
+| F3 | Decision Tree | 77.8% | Tight exploit | 90/10 |
+| F4 | Random Forest | 67.7% | Tight exploit | 90/10 |
+| F5 | Decision Tree | 87.5% | Standard | 70/30 |
+| F6 | Random Forest | 70.8% | Standard | 70/30 |
+| F7 | Random Forest | 79.5% | Standard | 70/30 |
+| F8 | Random Forest | 79.7% | Recovery | 80/20 |
+
+---
+
+## 🎯 Expected Week 5 Outcomes
+
+### Realistic Expectations
+- **F1:** Rank #3-6 (spatial targeting, different cluster than Week 4)
+- **F2:** Rank #4-7 (standard competitive performance)
+- **F3:** Rank #1-4 (tight exploitation defense)
+- **F4:** Rank #1-3 (tight exploitation defense)
+- **F5:** Rank #10-15 (challenging high-variance function)
+- **F6:** Rank #8-13 (building on improvement trajectory)
+- **F7:** Rank #3-6 (podium maintenance)
+- **F8:** Rank #2-5 (recovery from Week 4 decline)
+
+### Success Metrics
+- **Rank #1 Defenses:** 1-2 (F3, F4)
+- **Top-5 Finishes:** 4-5 total
+- **Major Innovations Validated:** F1 spatial targeting
+- **Overall Performance:** Strong competitive showing
+
+---
+
 ## 📝 Reflection
 
 ### What Worked
@@ -257,47 +380,69 @@ from scipy.stats import norm  # Expected Improvement
 
 ---
 
+## 🏆 Competitive Benchmarking
 
+### Human Baseline Competition
+- **Total Participants:** 43 (42 human competitors + self)
+- **Identical Conditions:** Same training, data, and time constraints
 
-## 🗂️ Repository Structure
+### Performance vs Humans
+- **Beat 42 humans:** F3 (rank #1 from 43)
+- **Beat 42 humans:** F4 (rank #1 from 43)
+- **Beat 42 humans:** F8 Week 3 (rank #1 from 43)
+- **Beat 40 humans:** F7 (rank #3 from 43)
 
-```
-/Capstone_BBO/
-├── /data/
-│   ├── f1_w1_inputs.npy through f8_w5_outputs.npy (80 files)
-│   └── README.md (data documentation)
-│
-├── /notebooks/
-│   ├── /week5/
-│   │   ├── Capstone_F1_W5_Spatial.ipynb
-│   │   ├── Capstone_F2_W5.ipynb through Capstone_F8_W5.ipynb
-│   │   └── Week5_Submissions_POPULATED.md
-│   ├── /archive/ (weeks 1-4)
-│   └── /templates/
-│       ├── Capstone_Generic_Template.ipynb
-│       └── Capstone_Spatial_Template.ipynb
-│
-├── /results/
-│   ├── week1_submissions.txt through week5_submissions.txt
-│   ├── rankings_summary.csv
-│   └── /analysis/
-│       ├── f1_analysis.png (spatial targeting validation)
-│       ├── f4_progress.png (incremental improvement)
-│       └── f8_progress.png (rank #1 achievement)
-│
-├── /strategy/
-│   ├── weekly_decisions.md (rationale per week)
-│   ├── f1_spatial_targeting.md (breakthrough documentation)
-│   └── model_selection_rationale.md (why DT > NN)
-│
-├── README.md (this file)
-├── METHODOLOGY.md (detailed technical approach)
-├── RESULTS.md (complete performance history)
-├── LESSONS_LEARNED.md (key insights)
-├── requirements.txt (dependencies)
-└── environment.yml (conda environment)
-```
+### Validation
+Three rank #1 finishes demonstrate that simpler, data-appropriate methods (Decision Trees: 200 parameters, 83% CV) beating sophisticated alternatives (Neural Networks: 45,569 parameters, 48% CV) delivers human-competitive performance.
 
+---
 
+## 🔗 Related Documentation
+
+- **[METHODOLOGY.md](./METHODOLOGY.md)** - Detailed technical approach
+- **[RESULTS.md](./RESULTS.md)** - Complete week-by-week performance
+- **[LESSONS_LEARNED.md](./LESSONS_LEARNED.md)** - Key insights and learnings
+- **[/strategy/](./strategy/)** - Weekly decision rationale
+- **[/analysis/](./results/analysis/)** - Performance visualizations
+
+---
+
+## 📧 Contact
+
+**GitHub:** [your-username]  
+**Email:** [your-email]  
+**Course:** Black-Box Optimization Capstone  
+**Institution:** [your-institution]
+
+---
+
+## 📄 License
+
+This project is for academic purposes as part of the Black-Box Optimization capstone course.
+
+---
+
+## 🙏 Acknowledgments
+
+- Course instructors for providing the competition framework
+- scikit-learn, TensorFlow, and SciPy communities for excellent libraries
+- 42 fellow students for competitive benchmarking
+
+---
+
+**Last Updated:** February 25, 2026  
+**Status:** Week 5 Final Submission Complete ✅  
+**Expected Results:** Pending Week 5 ranking release
+
+---
+
+## 📌 Quick Links
+
+- [Week 5 Submissions](./notebooks/week5/Week5_Submissions_POPULATED.md)
+- [F1 Spatial Targeting Analysis](./results/analysis/f1_analysis.png)
+- [F4 Progress Chart](./results/analysis/f4_progress.png)
+- [F8 Performance History](./results/analysis/f8_progress.png)
+
+---
 
 **END OF README**

@@ -1,0 +1,20 @@
+WEEK 5: Adaptive Model Selection -> GP
+================================================================================
+
+Submission:
+0.211471-0.061090-0.455131-0.905520-0.004030
+
+SELECTED MODEL: Random Forest
+  CV: 75.0%
+  Type: sklearn
+
+POINT ANALYSIS:
+  Source: BOUNDARY LOW
+  Model confidence: 70.8%
+  GP prediction: -0.496100 +/- 0.317583
+  Distance from W3: 0.7109
+
+Key Insights:
+  Model type: Random Forest
+  Model confidence: 70.8%
+  Boundary strategy: ['X2', 'X4', 'X5']

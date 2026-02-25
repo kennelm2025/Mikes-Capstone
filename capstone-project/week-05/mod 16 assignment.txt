@@ -1,0 +1,40 @@
+Reflect on the following prompts, and post your responses on the discussion board.
+
+Repository structure
+How have you organised your repository so far (e.g. data, notebooks, queries, results)?
+What changes will you make to improve clarity, navigability and reproducibility?
+Coding libraries and packages
+Which libraries or frameworks (e.g. PyTorch, TensorFlow, scikit-learn) are central to your approach?
+Why are these choices appropriate for your problem, and what trade-offs did you consider?
+Documentation
+How do your README and other documents currently describe the purpose, inputs, outputs and objectives of your BBO capstone project?
+What updates do you need to align the documentation with your most recent strategy and results?
+
+Reflect on the following prompts, and post your responses on the discussion board.
+
+Repository structure:
+
+My repository has a very simple 3 layer structure 
+1. Capstone
+2. Week - W1,W2,W3...
+3. Notebooks, Data, Strategy, outputs, Submissions, Visualisations, README etc.
+
+I have found that this simple structure makes life much easier. This allows me to create a set of new function notebooks and data sets very easily every week. I have a generic notebook and data file creator that I can use to create the base footprint of notebooks and datasets for the next weeks work. 
+
+PUT MY GITHUB ADDRESS HERE...
+PUT REPOSITORY IMAGES HERE....
+
+
+
+
+I work on my own laptop so have installed GitHub Desktop that pushes my weeks work onto GitHub very seamlessly.
+
+
+How have you organised your repository so far (e.g. data, notebooks, queries, results)?
+What changes will you make to improve clarity, navigability and reproducibility?
+Coding libraries and packages
+Which libraries or frameworks (e.g. PyTorch, TensorFlow, scikit-learn) are central to your approach?
+Why are these choices appropriate for your problem, and what trade-offs did you consider?
+Documentation
+How do your README and other documents currently describe the purpose, inputs, outputs and objectives of your BBO capstone project?
+What updates do you need to align the documentation with your most recent strategy and results?

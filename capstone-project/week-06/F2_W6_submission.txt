@@ -1,0 +1,5 @@
+# F2 Week 6 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Random Forest CV=86.6% | GP R2=1.0000
+# mu=0.611979 sigma=0.129725 EI=0.031373
+# best=0.649651 delta=-0.037672
+0.689863-0.170000

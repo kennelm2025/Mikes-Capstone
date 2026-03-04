@@ -1,6 +1,7 @@
 # References & Academic Justifications
 
-**Mike Kennelly | BBO Capstone Project | MSc AI**
+# Bayesian Optimisation Capstone
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
 This file documents the academic papers and frameworks that informed the design of the BBO pipeline. Each entry notes what it justifies in the codebase.
 

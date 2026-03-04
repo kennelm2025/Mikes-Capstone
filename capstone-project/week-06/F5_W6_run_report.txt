@@ -1,6 +1,6 @@
 ======================================================================
   BBO RUN REPORT — F5  Week 6
-  Generated : 2026-02-27 13:43:58
+  Generated : 2026-03-01 16:04:13
 ======================================================================
 
 ── DATA ────────────────────────────────────────────────────────────
@@ -8,18 +8,18 @@
   Week        : 6
   Samples     : 25  |  Dims: 4D  |  n/p: 6.25
   Y range     : [0.112940, 2912.986679]
-  All-time best: 2912.98667902  @ index 23
+  All-time best: 4890.58000000  @ index 23
   Best point  : [0.354704 0.918228 0.996554 0.945368]
   Last week   : 24.47767690
 
 ── HYPERPARAMETERS ─────────────────────────────────────────────────
   TOP_PERCENTILE    = 30%
   N_CANDIDATES      = 10,000
-  EXPLOIT_RATIO     = 0.9  (90% near best, 9% random)
-  EXPLOIT_SIGMA     = 0.02
+  EXPLOIT_RATIO     = 0.85  (85% near best, 15% random)
+  EXPLOIT_SIGMA     = 0.04
   UCB_KAPPA         = 2.0  (UCB = mu + 2.0*sigma)
   EI_XI             = 0.01
-  GP_RESTARTS       = 10
+  GP_RESTARTS       = 5
   FILTER_PERCENTILE = 50%  (keep top 50%)
   RANDOM_SEED       = 42
   NN_SMALL          = (16, 8)
@@ -32,7 +32,7 @@
   Fitted spec     : 1.13**2 * Matern(length_scale=1.26, nu=2.5)
   normalize_y     : True
   alpha (nugget)  : 1e-6
-  n_restarts      : 10
+  n_restarts      : 5
   Training R²     : 1.000000
   Training RMSE   : 0.00093672
   Fitted params   :
@@ -54,6 +54,7 @@
   Model                             CV Mean    CV Std  Selected
   ----------------------------------------------------------
   Logistic Regression                0.8393    0.1183  ★ SELECTED
+  CNN-1D (learning)                  0.8333    0.1179  
   Decision Tree                      0.8036    0.1286  
   Linear SVM                         0.7560    0.0897  
   Random Forest                      0.7560    0.0897  
@@ -66,30 +67,30 @@
   EI formula: (mu - y_best - xi)*Phi(Z) + sigma*phi(Z)
   UCB formula: mu + 2.0*sigma
   Direction : MAXIMIZE — argmax
-  EI max    : 150.38280407
-  UCB max   : 3445.83354269
-  % EI > 0  : 100.0%
+  EI max    : 0.00000120
+  UCB max   : 3527.51302186
+  % EI > 0  : 97.1%
 
 ── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
   Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
   ------------------------------------------------------------------
-  X1       0.3547   0.4293   4488.296710    0.4271    0.4824 YES
-  X2       0.9182   0.9337   1235.534894    0.9950    1.0000 YES
-  X3       0.9966   0.9987   1624.529018    1.0000    0.9447 YES
-  X4       0.9454   0.9588    898.279787    1.0000    1.0000 YES
+  X1       0.3547   0.5038   4488.296710    0.5879    0.4824 NO
+  X2       0.9182   0.9491   1235.534894    0.5578    1.0000 NO
+  X3       0.9966   1.0000   1624.529018    0.7437    0.9447 NO
+  X4       0.9454   0.9723    898.279787    0.5980    1.0000 NO
 
 ── SUBMISSION ──────────────────────────────────────────────────────
-  Point     : [0.42926067 0.933676   0.99868778 0.95883349]
-  GP mu     : 3022.75539201
-  GP sigma  : 211.53907534
-  EI        : 150.38280407
-  UCB       : 3445.83354269
-  EI driver : exploitation
-  Delta vs best: +109.76871299
-  Prediction: NEW BEST
+  Point     : [0.50381733 0.94912401 1.         0.97229899]
+  GP mu     : 2724.39955061
+  GP sigma  : 393.07258535
+  EI        : 0.00000120
+  UCB       : 3510.54472131
+  EI driver : exploration
+  Delta vs best: -2166.18044939
+  Prediction: RECOVERY
 
   FORMATTED STRING:
-  0.429261-0.933676-0.998688-0.958833
+  0.503817-0.949124-1.000000-0.972299
 
 ── VISUALISATIONS PRODUCED ─────────────────────────────────────────
   ✅  F5_W6_Step3_History.png

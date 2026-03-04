@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F7",
     "week": 6,
-    "timestamp": "2026-02-27 13:50:23",
+    "timestamp": "2026-03-01 15:17:35",
     "input_file": "f7_w6_inputs.npy",
     "output_file": "f7_w6_outputs.npy",
     "objective": "MAXIMIZE"
@@ -49,9 +49,9 @@
       "rationale": "sigma=0.04 in [0,1]^6 creates \u00b10.08 search radius. Tight enough to stay near best, loose enough to find local improvements."
     },
     "UCB_KAPPA": {
-      "value": 2.0,
+      "value": 2.5,
       "purpose": "Exploration weight in UCB = mu + kappa*sigma. Higher = more exploratory.",
-      "rationale": "kappa=2.0 ~ 95% CI. Standard choice for Week 6. Use 3-5 early in search, 1-2 when exploiting known best region."
+      "rationale": "kappa=2.5 ~ 95% CI. Standard choice for Week 6. Use 3-5 early in search, 1-2 when exploiting known best region."
     },
     "EI_XI": {
       "value": 0.01,
@@ -206,6 +206,19 @@
         ],
         "selected": false,
         "type": "neural_network"
+      },
+      "CNN-1D (learning)": {
+        "cv_mean": 0.771429,
+        "cv_std": 0.114286,
+        "cv_folds": [
+          0.714286,
+          0.857143,
+          0.571429,
+          0.857143,
+          0.857143
+        ],
+        "selected": false,
+        "type": "neural_network"
       }
     }
   },
@@ -219,10 +232,10 @@
   "acquisition": {
     "method": "Expected Improvement (primary) + UCB (reference)",
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
-    "ucb_formula": "UCB(x) = mu + 2.0*sigma",
+    "ucb_formula": "UCB(x) = mu + 2.5*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
     "ei_max": 0.04626096,
-    "ucb_max": 1.7036941,
+    "ucb_max": 1.81680621,
     "pct_positive_ei": 100.0
   },
   "submission": {
@@ -238,7 +251,7 @@
     "gp_mu": 1.30979105,
     "gp_sigma": 0.18636412,
     "ei": 0.04626096,
-    "ucb": 1.68251929,
+    "ucb": 1.77570135,
     "exploit_term": -0.02367697,
     "explore_term": 0.06993793,
     "ei_driver": "exploration",
@@ -251,7 +264,7 @@
       "submission_value": 0.125004,
       "gp_sensitivity": 0.484685,
       "ei_peak_at": 0.140704,
-      "ucb_peak_at": 0.190955,
+      "ucb_peak_at": 0.211055,
       "ei_ucb_agree": true
     },
     "X2": {
@@ -259,7 +272,7 @@
       "submission_value": 0.469529,
       "gp_sensitivity": 0.215312,
       "ei_peak_at": 0.432161,
-      "ucb_peak_at": 0.40201,
+      "ucb_peak_at": 0.386935,
       "ei_ucb_agree": true
     },
     "X3": {
@@ -267,7 +280,7 @@
       "submission_value": 0.270182,
       "gp_sensitivity": 0.346512,
       "ei_peak_at": 0.311558,
-      "ucb_peak_at": 0.351759,
+      "ucb_peak_at": 0.376884,
       "ei_ucb_agree": true
     },
     "X4": {
@@ -275,7 +288,7 @@
       "submission_value": 0.283254,
       "gp_sensitivity": 0.484892,
       "ei_peak_at": 0.296482,
-      "ucb_peak_at": 0.336683,
+      "ucb_peak_at": 0.356784,
       "ei_ucb_agree": true
     },
     "X5": {
@@ -283,7 +296,7 @@
       "submission_value": 0.405263,
       "gp_sensitivity": 0.087597,
       "ei_peak_at": 0.351759,
-      "ucb_peak_at": 0.316583,
+      "ucb_peak_at": 0.296482,
       "ei_ucb_agree": true
     },
     "X6": {
@@ -291,7 +304,7 @@
       "submission_value": 0.722827,
       "gp_sensitivity": 0.443751,
       "ei_peak_at": 0.673367,
-      "ucb_peak_at": 0.633166,
+      "ucb_peak_at": 0.613065,
       "ei_ucb_agree": true
     }
   },

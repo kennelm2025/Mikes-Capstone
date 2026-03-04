@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F2",
     "week": 6,
-    "timestamp": "2026-02-27 13:07:34",
+    "timestamp": "2026-03-01 15:24:30",
     "input_file": "f2_w6_inputs.npy",
     "output_file": "f2_w6_outputs.npy",
     "objective": "MAXIMIZE"
@@ -45,9 +45,9 @@
       "rationale": "sigma=0.03 in [0,1]^2 creates \u00b10.06 search radius. Tight enough to stay near best, loose enough to find local improvements."
     },
     "UCB_KAPPA": {
-      "value": 2.0,
+      "value": 2.5,
       "purpose": "Exploration weight in UCB = mu + kappa*sigma. Higher = more exploratory.",
-      "rationale": "kappa=2.0 ~ 95% CI. Standard choice for Week 6. Use 3-5 early in search, 1-2 when exploiting known best region."
+      "rationale": "kappa=2.5 ~ 95% CI. Standard choice for Week 6. Use 3-5 early in search, 1-2 when exploiting known best region."
     },
     "EI_XI": {
       "value": 0.01,
@@ -55,9 +55,9 @@
       "rationale": "xi=0.01 prevents EI from over-committing to tiny improvements near best. Small value: slight nudge toward exploration."
     },
     "GP_RESTARTS": {
-      "value": 8,
+      "value": 5,
       "purpose": "Random restarts for GP kernel hyperparameter optimisation.",
-      "rationale": "8 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
+      "rationale": "5 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
     },
     "FILTER_PERCENTILE": {
       "value": 50,
@@ -98,7 +98,7 @@
     },
     "normalize_y": true,
     "alpha_nugget": 1e-06,
-    "n_restarts": 8,
+    "n_restarts": 5,
     "train_r2": 1.0,
     "train_rmse": 2.4e-07,
     "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
@@ -181,6 +181,16 @@
         ],
         "selected": false,
         "type": "neural_network"
+      },
+      "CNN-1D (learning)": {
+        "cv_mean": 0.669643,
+        "cv_std": 0.044643,
+        "cv_folds": [
+          0.625,
+          0.714286
+        ],
+        "selected": false,
+        "type": "neural_network"
       }
     }
   },
@@ -194,10 +204,10 @@
   "acquisition": {
     "method": "Expected Improvement (primary) + UCB (reference)",
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
-    "ucb_formula": "UCB(x) = mu + 2.0*sigma",
+    "ucb_formula": "UCB(x) = mu + 2.5*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
     "ei_max": 0.03137261,
-    "ucb_max": 0.9007109,
+    "ucb_max": 0.99790792,
     "pct_positive_ei": 99.98
   },
   "submission": {
@@ -209,7 +219,7 @@
     "gp_mu": 0.61197879,
     "gp_sigma": 0.12972517,
     "ei": 0.03137261,
-    "ucb": 0.87142912,
+    "ucb": 0.9362917,
     "exploit_term": -0.01700116,
     "explore_term": 0.04837377,
     "ei_driver": "exploration",
@@ -222,7 +232,7 @@
       "submission_value": 0.689863,
       "gp_sensitivity": 1.619735,
       "ei_peak_at": 0.688442,
-      "ucb_peak_at": 0.743719,
+      "ucb_peak_at": 0.748744,
       "ei_ucb_agree": true
     },
     "X2": {
@@ -230,7 +240,7 @@
       "submission_value": 0.17,
       "gp_sensitivity": 0.379275,
       "ei_peak_at": 0.120603,
-      "ucb_peak_at": 0.100503,
+      "ucb_peak_at": 0.090452,
       "ei_ucb_agree": true
     }
   },

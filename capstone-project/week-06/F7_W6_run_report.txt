@@ -1,6 +1,6 @@
 ======================================================================
   BBO RUN REPORT — F7  Week 6
-  Generated : 2026-02-27 13:50:23
+  Generated : 2026-03-01 15:17:35
 ======================================================================
 
 ── DATA ────────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@
   N_CANDIDATES      = 10,000
   EXPLOIT_RATIO     = 0.8  (80% near best, 19% random)
   EXPLOIT_SIGMA     = 0.04
-  UCB_KAPPA         = 2.0  (UCB = mu + 2.0*sigma)
+  UCB_KAPPA         = 2.5  (UCB = mu + 2.5*sigma)
   EI_XI             = 0.01
   GP_RESTARTS       = 8
   FILTER_PERCENTILE = 50%  (keep top 50%)
@@ -56,6 +56,7 @@
   Random Forest                      0.8000    0.1143  ★ SELECTED
   Linear SVM                         0.7714    0.1938  
   Logistic Regression                0.7714    0.1938  
+  CNN-1D (learning)                  0.7714    0.1143  
   Decision Tree                      0.6571    0.1143  
   NN-Large (128, 64, 32)             0.5714    0.1565  
   NN-Medium (64, 32)                 0.5429    0.1895  
@@ -64,28 +65,28 @@
 ── ACQUISITION ─────────────────────────────────────────────────────
   Method    : EI (primary) + UCB (reference)
   EI formula: (mu - y_best - xi)*Phi(Z) + sigma*phi(Z)
-  UCB formula: mu + 2.0*sigma
+  UCB formula: mu + 2.5*sigma
   Direction : MAXIMIZE — argmax
   EI max    : 0.04626096
-  UCB max   : 1.70369410
+  UCB max   : 1.81680621
   % EI > 0  : 100.0%
 
 ── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
   Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
   ------------------------------------------------------------------
-  X1       0.0579   0.1250      0.484685    0.1407    0.1910 YES
-  X2       0.4917   0.4695      0.215312    0.4322    0.4020 YES
-  X3       0.2474   0.2702      0.346512    0.3116    0.3518 YES
-  X4       0.2181   0.2833      0.484892    0.2965    0.3367 YES
-  X5       0.4204   0.4053      0.087597    0.3518    0.3166 YES
-  X6       0.7310   0.7228      0.443751    0.6734    0.6332 YES
+  X1       0.0579   0.1250      0.484685    0.1407    0.2111 YES
+  X2       0.4917   0.4695      0.215312    0.4322    0.3869 YES
+  X3       0.2474   0.2702      0.346512    0.3116    0.3769 YES
+  X4       0.2181   0.2833      0.484892    0.2965    0.3568 YES
+  X5       0.4204   0.4053      0.087597    0.3518    0.2965 YES
+  X6       0.7310   0.7228      0.443751    0.6734    0.6131 YES
 
 ── SUBMISSION ──────────────────────────────────────────────────────
   Point     : [0.12500357 0.46952869 0.27018155 0.2832543  0.40526322 0.72282663]
   GP mu     : 1.30979105
   GP sigma  : 0.18636412
   EI        : 0.04626096
-  UCB       : 1.68251929
+  UCB       : 1.77570135
   EI driver : exploration
   Delta vs best: -0.05517726
   Prediction: RECOVERY

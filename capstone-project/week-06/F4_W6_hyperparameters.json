@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F4",
     "week": 6,
-    "timestamp": "2026-02-27 13:21:45",
+    "timestamp": "2026-03-01 15:07:17",
     "input_file": "f4_w6_inputs.npy",
     "output_file": "f4_w6_outputs.npy",
     "objective": "MAXIMIZE"
@@ -37,9 +37,9 @@
       "rationale": "10,000 provides dense coverage in 4D space. Larger = better coverage but slower GP."
     },
     "EXPLOIT_RATIO": {
-      "value": 0.85,
+      "value": 0.9,
       "purpose": "Fraction of candidates sampled near best-known point (exploitation) vs random (exploration).",
-      "rationale": "85% exploitation justified at Week 6 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
+      "rationale": "90% exploitation justified at Week 6 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
     },
     "EXPLOIT_SIGMA": {
       "value": 0.03,
@@ -57,9 +57,9 @@
       "rationale": "xi=0.01 prevents EI from over-committing to tiny improvements near best. Small value: slight nudge toward exploration."
     },
     "GP_RESTARTS": {
-      "value": 8,
+      "value": 5,
       "purpose": "Random restarts for GP kernel hyperparameter optimisation.",
-      "rationale": "8 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
+      "rationale": "5 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
     },
     "FILTER_PERCENTILE": {
       "value": 50,
@@ -100,7 +100,7 @@
     },
     "normalize_y": true,
     "alpha_nugget": 1e-06,
-    "n_restarts": 8,
+    "n_restarts": 5,
     "train_r2": 1.0,
     "train_rmse": 1.404e-05,
     "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
@@ -204,14 +204,27 @@
         ],
         "selected": false,
         "type": "neural_network"
+      },
+      "CNN-1D (learning)": {
+        "cv_mean": 0.857143,
+        "cv_std": 0.090351,
+        "cv_folds": [
+          0.857143,
+          0.714286,
+          1.0,
+          0.857143,
+          0.857143
+        ],
+        "selected": false,
+        "type": "neural_network"
       }
     }
   },
   "candidates": {
     "total_generated": 10000,
-    "n_exploit": 8500,
-    "n_explore": 1500,
-    "after_filter": 6217,
+    "n_exploit": 9000,
+    "n_explore": 1000,
+    "after_filter": 6580,
     "filter_model": "Random Forest"
   },
   "acquisition": {

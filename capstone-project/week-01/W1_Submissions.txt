@@ -1,0 +1,78 @@
+BBO CAPSTONE — WEEK 1 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.082507-1.539519
+Function 2:  0.705607-1.487930
+Function 3:  0.965995-0.517677-0.402788
+Function 4:  0.414086-0.477129-0.465693-0.474096
+Function 5:  0.119879-0.498557-0.477944-0.494719
+Function 6:  0.021735-0.562570-0.467217-0.534433-0.423745
+Function 7:  0.057896-0.395803-0.389609-0.512819-0.467201-0.484704
+Function 8:  0.009077-0.472150-0.515970-0.430449-0.468951-0.460126-0.579196-0.506720
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — initial samples only
+  Result     : 0
+  Submission : 0.082507-1.539519
+
+F2 (2D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — initial samples only
+  Result     : 0.52462
+  Submission : 0.705607-1.487930
+
+F3 (3D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — all outputs negative
+  Result     : -0.013577
+  Submission : 0.965995-0.517677-0.402788
+
+F4 (4D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — deeply negative outputs
+  Result     : -2.6271
+  Submission : 0.414086-0.477129-0.465693-0.474096
+
+F5 (4D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — large value function
+  Result     : 60.066
+  Submission : 0.119879-0.498557-0.477944-0.494719
+
+F6 (5D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — all outputs negative
+  Result     : -1.3389
+  Submission : 0.021735-0.562570-0.467217-0.534433-0.423745
+
+F7 (6D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — X1 boundary signal
+  Result     : 0.80852
+  Submission : 0.057896-0.395803-0.389609-0.512819-0.467201-0.484704
+
+F8 (8D)
+  Strategy   : EXPLORE
+  Note       : Pure GP + EI/UCB — X1 boundary strong signal
+  Result     : 9.0093
+  Submission : 0.009077-0.472150-0.515970-0.430449-0.468951-0.460126-0.579196-0.506720
+
+=======================================================
+RUNNING BEST TO DATE (after this week)
+=======================================================
+  F1: best = 0  (W1)
+  F2: best = 0.52462  (W1)
+  F3: best = -0.013577  (W1)
+  F4: best = -2.6271  (W1)
+  F5: best = 60.066  (W1)
+  F6: best = -1.3389  (W1)
+  F7: best = 0.80852  (W1)
+  F8: best = 9.0093  (W1)

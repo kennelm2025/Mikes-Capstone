@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F1",
     "week": 6,
-    "timestamp": "2026-02-27 13:37:47",
+    "timestamp": "2026-03-01 15:47:56",
     "input_file": "f1_w6_inputs.npy",
     "output_file": "f1_w6_outputs.npy",
     "objective": "MAXIMIZE"
@@ -35,19 +35,19 @@
       "rationale": "10,000 provides dense coverage in 2D space. Larger = better coverage but slower GP."
     },
     "EXPLOIT_RATIO": {
-      "value": 0.8,
+      "value": 0.6,
       "purpose": "Fraction of candidates sampled near best-known point (exploitation) vs random (exploration).",
-      "rationale": "80% exploitation justified at Week 6 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
+      "rationale": "60% exploitation justified at Week 6 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
     },
     "EXPLOIT_SIGMA": {
-      "value": 0.05,
+      "value": 0.08,
       "purpose": "Gaussian std dev for exploitation sampling around best point.",
-      "rationale": "sigma=0.05 in [0,1]^2 creates \u00b10.10 search radius. Tight enough to stay near best, loose enough to find local improvements."
+      "rationale": "sigma=0.08 in [0,1]^2 creates \u00b10.16 search radius. Tight enough to stay near best, loose enough to find local improvements."
     },
     "UCB_KAPPA": {
-      "value": 2.0,
+      "value": 3.0,
       "purpose": "Exploration weight in UCB = mu + kappa*sigma. Higher = more exploratory.",
-      "rationale": "kappa=2.0 ~ 95% CI. Standard choice for Week 6. Use 3-5 early in search, 1-2 when exploiting known best region."
+      "rationale": "kappa=3.0 ~ 95% CI. Standard choice for Week 6. Use 3-5 early in search, 1-2 when exploiting known best region."
     },
     "EI_XI": {
       "value": 0.01,
@@ -181,45 +181,55 @@
         ],
         "selected": true,
         "type": "neural_network"
+      },
+      "CNN-1D (learning)": {
+        "cv_mean": 0.723214,
+        "cv_std": 0.151786,
+        "cv_folds": [
+          0.875,
+          0.571429
+        ],
+        "selected": false,
+        "type": "neural_network"
       }
     }
   },
   "candidates": {
     "total_generated": 10000,
-    "n_exploit": 8000,
-    "n_explore": 2000,
+    "n_exploit": 6000,
+    "n_explore": 4000,
     "after_filter": 5000,
     "filter_model": "NN-Large (128, 64, 32)"
   },
   "acquisition": {
     "method": "Expected Improvement (primary) + UCB (reference)",
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
-    "ucb_formula": "UCB(x) = mu + 2.0*sigma",
+    "ucb_formula": "UCB(x) = mu + 3.0*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
     "ei_max": 0.0,
-    "ucb_max": 0.00157456,
-    "pct_positive_ei": 99.86
+    "ucb_max": 0.00246875,
+    "pct_positive_ei": 99.94
   },
   "submission": {
     "point": [
-      0.70375285,
-      0.7233588
+      0.70370593,
+      0.72782092
     ],
-    "formatted_string": "0.703753-0.723359",
-    "gp_mu": -0.00023488,
-    "gp_sigma": 0.00089926,
+    "formatted_string": "0.703706-0.727821",
+    "gp_mu": -0.00023517,
+    "gp_sigma": 0.00089929,
     "ei": 0.0,
-    "ucb": 0.00156364,
+    "ucb": 0.00246269,
     "exploit_term": -0.0,
     "explore_term": 0.0,
     "ei_driver": "exploration",
-    "delta_vs_best": -0.00023488,
+    "delta_vs_best": -0.00023517,
     "prediction": "exploration"
   },
   "dimensions": {
     "X1": {
       "best_point_value": 0.688418,
-      "submission_value": 0.703753,
+      "submission_value": 0.703706,
       "gp_sensitivity": 1e-06,
       "ei_peak_at": 0.703518,
       "ucb_peak_at": 0.698492,
@@ -227,10 +237,10 @@
     },
     "X2": {
       "best_point_value": 0.724106,
-      "submission_value": 0.723359,
+      "submission_value": 0.727821,
       "gp_sensitivity": 0.0,
       "ei_peak_at": 0.839196,
-      "ucb_peak_at": 0.738693,
+      "ucb_peak_at": 0.708543,
       "ei_ucb_agree": false
     }
   },

@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F5",
     "week": 6,
-    "timestamp": "2026-02-27 13:43:58",
+    "timestamp": "2026-03-01 16:04:13",
     "input_file": "f5_w6_inputs.npy",
     "output_file": "f5_w6_outputs.npy",
     "objective": "MAXIMIZE"
@@ -15,7 +15,7 @@
     "y_max": 2912.98667902,
     "y_mean": 282.67561506,
     "y_std": 603.99713782,
-    "best_value": 2912.98667902,
+    "best_value": 4890.58,
     "best_idx": 23,
     "best_point": [
       0.354704,
@@ -37,14 +37,14 @@
       "rationale": "10,000 provides dense coverage in 4D space. Larger = better coverage but slower GP."
     },
     "EXPLOIT_RATIO": {
-      "value": 0.9,
+      "value": 0.85,
       "purpose": "Fraction of candidates sampled near best-known point (exploitation) vs random (exploration).",
-      "rationale": "90% exploitation justified at Week 6 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
+      "rationale": "85% exploitation justified at Week 6 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
     },
     "EXPLOIT_SIGMA": {
-      "value": 0.02,
+      "value": 0.04,
       "purpose": "Gaussian std dev for exploitation sampling around best point.",
-      "rationale": "sigma=0.02 in [0,1]^4 creates \u00b10.04 search radius. Tight enough to stay near best, loose enough to find local improvements."
+      "rationale": "sigma=0.04 in [0,1]^4 creates \u00b10.08 search radius. Tight enough to stay near best, loose enough to find local improvements."
     },
     "UCB_KAPPA": {
       "value": 2.0,
@@ -57,9 +57,9 @@
       "rationale": "xi=0.01 prevents EI from over-committing to tiny improvements near best. Small value: slight nudge toward exploration."
     },
     "GP_RESTARTS": {
-      "value": 10,
+      "value": 5,
       "purpose": "Random restarts for GP kernel hyperparameter optimisation.",
-      "rationale": "10 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
+      "rationale": "5 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
     },
     "FILTER_PERCENTILE": {
       "value": 50,
@@ -100,7 +100,7 @@
     },
     "normalize_y": true,
     "alpha_nugget": 1e-06,
-    "n_restarts": 10,
+    "n_restarts": 5,
     "train_r2": 1.0,
     "train_rmse": 0.00093672,
     "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
@@ -197,13 +197,25 @@
         ],
         "selected": false,
         "type": "neural_network"
+      },
+      "CNN-1D (learning)": {
+        "cv_mean": 0.833333,
+        "cv_std": 0.117851,
+        "cv_folds": [
+          1.0,
+          0.666667,
+          0.833333,
+          0.833333
+        ],
+        "selected": false,
+        "type": "neural_network"
       }
     }
   },
   "candidates": {
     "total_generated": 10000,
-    "n_exploit": 9000,
-    "n_explore": 1000,
+    "n_exploit": 8500,
+    "n_explore": 1500,
     "after_filter": 5000,
     "filter_model": "Logistic Regression"
   },
@@ -212,60 +224,60 @@
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
     "ucb_formula": "UCB(x) = mu + 2.0*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
-    "ei_max": 150.38280407,
-    "ucb_max": 3445.83354269,
-    "pct_positive_ei": 100.0
+    "ei_max": 1.2e-06,
+    "ucb_max": 3527.51302186,
+    "pct_positive_ei": 97.06
   },
   "submission": {
     "point": [
-      0.42926067,
-      0.933676,
-      0.99868778,
-      0.95883349
+      0.50381733,
+      0.94912401,
+      1.0,
+      0.97229899
     ],
-    "formatted_string": "0.429261-0.933676-0.998688-0.958833",
-    "gp_mu": 3022.75539201,
-    "gp_sigma": 211.53907534,
-    "ei": 150.38280407,
-    "ucb": 3445.83354269,
-    "exploit_term": 76.61927233,
-    "explore_term": 73.76353174,
-    "ei_driver": "exploitation",
-    "delta_vs_best": 109.76871299,
-    "prediction": "new_best"
+    "formatted_string": "0.503817-0.949124-1.000000-0.972299",
+    "gp_mu": 2724.39955061,
+    "gp_sigma": 393.07258535,
+    "ei": 1.2e-06,
+    "ucb": 3510.54472131,
+    "exploit_term": -3.866e-05,
+    "explore_term": 3.986e-05,
+    "ei_driver": "exploration",
+    "delta_vs_best": -2166.18044939,
+    "prediction": "recovery"
   },
   "dimensions": {
     "X1": {
       "best_point_value": 0.354704,
-      "submission_value": 0.429261,
+      "submission_value": 0.503817,
       "gp_sensitivity": 4488.29671,
-      "ei_peak_at": 0.427136,
+      "ei_peak_at": 0.58794,
       "ucb_peak_at": 0.482412,
-      "ei_ucb_agree": true
+      "ei_ucb_agree": false
     },
     "X2": {
       "best_point_value": 0.918228,
-      "submission_value": 0.933676,
+      "submission_value": 0.949124,
       "gp_sensitivity": 1235.534894,
-      "ei_peak_at": 0.994975,
+      "ei_peak_at": 0.557789,
       "ucb_peak_at": 1.0,
-      "ei_ucb_agree": true
+      "ei_ucb_agree": false
     },
     "X3": {
       "best_point_value": 0.996554,
-      "submission_value": 0.998688,
+      "submission_value": 1.0,
       "gp_sensitivity": 1624.529018,
-      "ei_peak_at": 1.0,
+      "ei_peak_at": 0.743719,
       "ucb_peak_at": 0.944724,
-      "ei_ucb_agree": true
+      "ei_ucb_agree": false
     },
     "X4": {
       "best_point_value": 0.945368,
-      "submission_value": 0.958833,
+      "submission_value": 0.972299,
       "gp_sensitivity": 898.279787,
-      "ei_peak_at": 1.0,
+      "ei_peak_at": 0.59799,
       "ucb_peak_at": 1.0,
-      "ei_ucb_agree": true
+      "ei_ucb_agree": false
     }
   },
   "visualisations": {

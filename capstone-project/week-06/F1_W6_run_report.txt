@@ -1,6 +1,6 @@
 ======================================================================
   BBO RUN REPORT — F1  Week 6
-  Generated : 2026-02-27 13:37:47
+  Generated : 2026-03-01 15:47:56
 ======================================================================
 
 ── DATA ────────────────────────────────────────────────────────────
@@ -15,9 +15,9 @@
 ── HYPERPARAMETERS ─────────────────────────────────────────────────
   TOP_PERCENTILE    = 30%
   N_CANDIDATES      = 10,000
-  EXPLOIT_RATIO     = 0.8  (80% near best, 19% random)
-  EXPLOIT_SIGMA     = 0.05
-  UCB_KAPPA         = 2.0  (UCB = mu + 2.0*sigma)
+  EXPLOIT_RATIO     = 0.6  (60% near best, 40% random)
+  EXPLOIT_SIGMA     = 0.08
+  UCB_KAPPA         = 3.0  (UCB = mu + 3.0*sigma)
   EI_XI             = 0.01
   GP_RESTARTS       = 5
   FILTER_PERCENTILE = 50%  (keep top 50%)
@@ -55,6 +55,7 @@
   ----------------------------------------------------------
   NN-Large (128, 64, 32)             0.7411    0.1161  ★ SELECTED
   NN-Medium (64, 32)                 0.7232    0.1518  
+  CNN-1D (learning)                  0.7232    0.1518  
   Random Forest                      0.6696    0.0446  
   Linear SVM                         0.5982    0.0268  
   Logistic Regression                0.5982    0.0268  
@@ -64,30 +65,30 @@
 ── ACQUISITION ─────────────────────────────────────────────────────
   Method    : EI (primary) + UCB (reference)
   EI formula: (mu - y_best - xi)*Phi(Z) + sigma*phi(Z)
-  UCB formula: mu + 2.0*sigma
+  UCB formula: mu + 3.0*sigma
   Direction : MAXIMIZE — argmax
   EI max    : 0.00000000
-  UCB max   : 0.00157456
+  UCB max   : 0.00246875
   % EI > 0  : 99.9%
 
 ── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
   Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
   ------------------------------------------------------------------
-  X1       0.6884   0.7038      0.000001    0.7035    0.6985 YES
-  X2       0.7241   0.7234      0.000000    0.8392    0.7387 NO
+  X1       0.6884   0.7037      0.000001    0.7035    0.6985 YES
+  X2       0.7241   0.7278      0.000000    0.8392    0.7085 NO
 
 ── SUBMISSION ──────────────────────────────────────────────────────
-  Point     : [0.70375285 0.7233588 ]
-  GP mu     : -0.00023488
-  GP sigma  : 0.00089926
+  Point     : [0.70370593 0.72782092]
+  GP mu     : -0.00023517
+  GP sigma  : 0.00089929
   EI        : 0.00000000
-  UCB       : 0.00156364
+  UCB       : 0.00246269
   EI driver : exploration
-  Delta vs best: -0.00023488
+  Delta vs best: -0.00023517
   Prediction: EXPLORATION
 
   FORMATTED STRING:
-  0.703753-0.723359
+  0.703706-0.727821
 
 ── VISUALISATIONS PRODUCED ─────────────────────────────────────────
   ✅  F1_W6_Step3_History.png

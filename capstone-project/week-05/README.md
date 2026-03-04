@@ -1,5 +1,5 @@
-# BBO Capstone — Week 5
-**Mike Kennelly | MSc AI | Black-Box Optimisation**
+# Bayesian Optimisation Capstone — Week 5
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
 Week 5 uses the same 5-model CV pipeline as W4 — now stabilised. The critical
 development is the **week log system**: submission emails cross-referenced

@@ -1,5 +1,5 @@
-# BBO Capstone — Week 2
-**Mike Kennelly | MSc AI | Black-Box Optimisation**
+# Bayesian Optimisation Capstone — Week 2
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
 Week 2 incorporates the first submission result. GP refitted on expanded
 history. Local refinement added — neighbourhood search around the current

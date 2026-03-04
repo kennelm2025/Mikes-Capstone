@@ -1,5 +1,5 @@
-# BBO Capstone — Week 1
-**Mike Kennelly | MSc AI | Black-Box Optimisation**
+# Bayesian Optimisation Capstone — Week 1
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
 Week 1 baseline. Each function receives initial platform samples and a first
 GP surrogate is fitted. No submission history exists yet — pure exploration.

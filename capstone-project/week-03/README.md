@@ -1,5 +1,5 @@
-# BBO Capstone — Week 3
-**Mike Kennelly | MSc AI | Black-Box Optimisation**
+# Bayesian Optimisation Capstone — Week 3
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
 Week 3 introduces the SVM classifier pre-filter — the most significant
 pipeline change of the capstone. A classifier trained on binary labels

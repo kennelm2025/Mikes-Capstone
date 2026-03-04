@@ -1,5 +1,6 @@
-# BBO Capstone — Week 4
-**Mike Kennelly | MSc AI | Black-Box Optimisation**
+# Bayesian Optimisation Capstone — Week 4
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
+
 
 Week 4 expands from a single SVM to 5 classifier families compared via
 cross-validation. The best CV model filters candidates for that function

@@ -1,387 +1,178 @@
-The Bayesian Optimization Capstone Project – Mike Kennelly. 
+# Bayesian Optimisation Capstone
+### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
-Section 1: Project Overview:-
+> Maximising eight unknown black-box functions simultaneously.
+> One query per function per week. No gradients, no source code, no function form.
 
-This repository documents my work for the Bayesian Optimization capstone project, a multi week exploration and optimization of eight synthetic black-box functions using Gaussian Process-based Bayesian Optimization techniques.
+---
 
-How the Capstone Works:
+## The Challenge
 
-Maximizing eight unknown functions with one allowed query per function per week. Using the ML method Bayesian Optimization to find the highest value, I submit inputs weekly in a very precise format e.g. each query must use the format: x1-x2-x3-...-xn, where each xᵢ must begin with 0 and is specified to six decimal places(0.123456-0.654321) for a 2D function. Submissions are made via the capstone project portal and each week I reflect, revise, and iterate, over 12 rounds/weeks, building knowledge incrementally. The success criteria for the project include ; achieving the highest value, demonstrating thoughtful analysis and planning, and data-driven decision-making to determine the recommended submission each week. 
+Eight synthetic black-box functions that accept inputs and return a single scalar output.
+The goal is to find the inputs that produce the highest possible output for each function —
+with only one submission per function per week and no visibility of the function internals.
 
-My Approach:
+**Key characteristics:**
+- **Black box** — no access to the function's internal workings
+- **Maximisation** — every function is a maximisation task
+- **Sparse data** — each function starts with only 10 known data points
+- **One query per week** — every submission must count
+- **Increasing complexity** — functions range from 2D (F1, F2) to 8D (F8)
 
-I chose Gaussian Process-based Bayesian Optimization as my primary method, with dimension-adaptive strategies. I also look to use including use of other models such as SVMs and ensemble trees to help with high dimensionality.
+**Submission format:** `x1-x2-x3-...-xn` where each xᵢ ∈ [0, 1] to six decimal places.
+Example (4D): `0.803046-0.945451-0.997548-0.976270`
 
-The Challenge:
+---
 
-There are eight synthetic black-box functions, that are unknown mathematical functions that accept inputs and return a single output. My goal is to find the inputs that give the ‘highest possible output’ for each function.
+## Why Bayesian Optimisation?
 
-Key Characteristics:
+With only one evaluation per week, standard approaches fail:
 
-•	Black box: I cannot see internal workings of the functions
+| Approach | Why it fails |
+|----------|-------------|
+| Grid search | 10^6 points needed in 6D — would take centuries |
+| Random search | No learning between queries |
+| Gradient descent | No gradient available |
+| Neural network | Needs thousands of examples to train |
 
-•	Maximization:  Every function is a maximization task
+**Bayesian Optimisation** is specifically designed for expensive black-box functions.
+It builds a probabilistic surrogate (Gaussian Process) of the unknown function and uses
+an acquisition function to decide where to query next — balancing exploitation of known
+good regions against exploration of uncertain ones.
 
-•	Observable:  Can observe how functions respond to different inputs
+For F8 (8D, ~44 samples): coverage is approximately 0.00004% of the search space.
+BO is literally the only viable approach.
 
-•	Initially sparse:  Each function starts with only 10 known data points
+---
 
-•	Increasing complexity: Functions range from 2D to 8D in dimensionality
+## Technical Approach
 
-The Iterative Process: Each week follows this cycle:
-1. Review existing data:  Analyse the growing dataset from previous weeks
-2. Choose a new input point: Select one query point per function (8 total)
-3. Submit via the capstone portal: Submit chosen inputs in the correct format
-4. Receive output: Get new outputs once submission is processed
-5. Update dataset:  Incorporate new data points into analysis
-6. Revise my strategy: Adjust my approach based on learnings and new data points
+### Gaussian Process Surrogate
 
-I repeat this process each week, building understanding iteratively, just as optimisation unfolds in real-world ML projects. My weekly reflections support my final write-up and presentations.
-
-Functions Overview - F1 and F2 are 2D functions,F3 is a 3d function, F4 and F5 are 4D functions, F6 is a D6 function, F7 is a 6D function and F8 is an 8D function.
-
-Section 2: Inputs and Outputs:-
-
-Each iteration consists of submitting a single query point per function and receiving a scalar response.
-
-Inputs:
-
-Inputs take a query format: x1-x2-x3-...-xn, each xi: lies in the range [0, 1] and is specified to six decimal places. Dimensionality varies by function (from 2D to 8D). I am constrained to one query per function per iteration per week.
-
-Outputs: 
-
-Outputs are a single real-valued scalar representing the functions response to the input data provided. Output scale, smoothness, and noise level are unknown and function-specific. Outputs are used only to inform subsequent modelling and query decisions
-
-Examples: 
-Inputs  : Function 5 -	[0.119879, 0.498557, 0.477944, 0.494719]
-
-Outputs : Function 5 -	60.06641925294364
- 
-Section 3: Challenge Objectives:-
-
-Key objectives include; achieving the highest possible value, demonstrating thoughtful analysis and planning, being data-driven in decision-making to determine the recommended submission each week.
-
-Section 4: Technical Approach:-
-
-I chose Gaussian Process (GP) Regression with acquisition function optimization as my primary method across all weeks.
-Why Bayesian Optimization?
-- Sample efficient: Makes intelligent decisions with limited data
-- Handles uncertainty: Provides probabilistic predictions with confidence intervals
-- Balances exploration/exploitation: Naturally trades off between finding new regions and refining known good areas
-- Works in high dimensions: Only viable approach for 8D with 41 samples (0.00004% coverage)
-
-Gaussian Process Model Kernel Configuration:
-
-Kernel type: Matérn ν=2.5 (balances smoothness and flexibility)
-Kernel components:
--	`ConstantKernel` : Scales output variance
--	`RBF/Matérn` : Captures spatial correlation between points
--	`WhiteKernel`:  Models observation noise
--	Hyperparameter optimization30+ random restarts to avoid local optima
--	Normalization:`normalize_y=True` for numerical stability
-
-Example kernel setup:
 ```python
 kernel = ConstantKernel(1.0, (1e-10, 1e10)) * \
          Matern(length_scale=0.3, length_scale_bounds=(0.01, 10.0), nu=2.5) + \
          WhiteKernel(noise_level=1e-10, noise_level_bounds=(1e-12, 1e-2))
 ```
 
-Acquisition Function
+- **Matérn ν=2.5** — balances smoothness and flexibility across all 8 functions
+- **ConstantKernel** — scales output variance
+- **normalize_y=True** — numerical stability across functions with very different scales
+- **n_restarts_optimizer** — avoids poor local optima in hyperparameter fitting
 
-I focused on Expected Improvement (EI) as my primary method, though I also explored Upper Confidence Bound (UCB) for each function. In Week 2, I developed a dimension-adaptive approach that adjusts parameters based on function complexity. 
-I configured EI for maximization with:
+### Acquisition Functions
 
-For Low Dimensions (F1-F2, 2D):
--	Conservative parameters: ξ = 0.01, κ = 2.0
--	Emphasis on exploitation near known good regions
--	Justification: Small search space (10% coverage), so I can visualise landscape and safe to refine locally
+Two acquisition strategies computed and combined each week:
 
-For Mid Dimensions (F3-F5, 3D-4D):
--	Balanced approach: ξ = 0.01-0.05, κ = 2.0-2.3
--	Adjust based on convergence signals from previous weeks
--	I used a mix of exploration and exploitation
+**Expected Improvement (EI)** — Jones et al. (1998). Integrates GP uncertainty to give
+a principled explore/exploit balance. EI = max(0, μ − best) weighted by GP confidence.
 
-For High Dimensions (F6-F8, 5D-8D):
-- I chose aggressive exploration: ξ = 0.1, κ = 2.5
-- I trusted the GP recommendations even when counterintuitive e.g. F8 setting three dimensions to 0 based on low marginal impact
-- 150-200 random restarts for acquisition optimization due to extreme sparsity e.g. 0.00004% coverage in 8D!!
+**Upper Confidence Bound (UCB)** — Srinivas et al. (2010). Uses μ + κσ to directly
+trade off predicted value against uncertainty. κ tuned per function dimensionality.
 
-Weekly Progression: Ongoing strategy and plans adopted :-
+### Classifier Pre-Filter (from Week 3)
 
+Historical outputs converted to binary labels (top 30% = class 1). A classifier
+is trained and used to screen 10,000 random candidates before the GP ranks them —
+concentrating the GP's attention on structurally promising regions.
 
-Week1: 
+From Week 4, five classifier families compared via 5-fold CV each week:
+Linear SVM | Decision Tree | Random Forest | Logistic Regression | Neural Network
 
-My Objectives:
--	Load and understand initial 10-point datasets
--	Fit initial Gaussian Process models
--	Explore basic acquisition functions (EI and UCB)
--	Generate first query recommendations
+From Week 6, CNN-1D added as Model 8 — detects local coordinate-pair patterns
+via Conv1d that standard classifiers miss.
 
-Method Used: 
--	Gaussian Process regression with Matérn kernel
--	Expected Improvement acquisition function
--	Standard parameters (ξ=0.01, κ=2.0)
+### Explore / Exploit Parameters
 
-Key Findings:
--	F1 (2D):** Best initial value ~7.7×10⁻¹⁶ (extremely small, near zero)
--	F2 (2D):** Best initial value ~0.61
--	F3 (3D):** All outputs negative, best ~-0.014
--	F4 (4D):** Best ~-2.6, wide range [-33 to -2.6]
--	F8 (8D):** Best ~9.3, high variance across samples
+| Dimension | EXPLOIT_RATIO | EXPLOIT_SIGMA | UCB κ |
+|-----------|--------------|---------------|-------|
+| 2D (F1, F2) | 0.60–0.85 | 0.06–0.08 | 2.0–3.0 |
+| 3D–4D (F3–F5) | 0.80–0.85 | 0.04–0.05 | 2.0–2.5 |
+| 5D–8D (F6–F8) | 0.80–0.85 | 0.04–0.05 | 2.0–2.5 |
 
-Exploration vs Exploitation:
--	Week 1 focused primarily on exploitation refining near known good points
--	Conservative approach to build initial understanding
--	Random restarts: 10-30 per function
+---
 
-What I Learned:
--	All functions exhibit non-linear behavior requiring GP modeling
--	Linear regression R² = 0.23 vs GP R² = 0.89 (F4) proves non-linearity
--	initial samples have poor coverage, especially in high dimensions
+## Pipeline Evolution
 
-Proposed strategy for Week 2:
--	Continue conservative approach for converging functions
--	Increase exploration for poorly-performing functions
--	Track which Week 1 points perform well
+| Week | Key Development | Academic Basis |
+|------|----------------|----------------|
+| W1 | GP + EI/UCB baseline | Jones (1998), Rasmussen & Williams (2006) |
+| W2 | Local refinement around best point | Jones (1998) — exploitation |
+| W3 | SVM classifier pre-filter | Cybenko (1989), Goodfellow et al. (2016) |
+| W4 | Multi-model CV — 5 classifier families | Barrett et al. (2019) |
+| W5 | Pipeline stabilised — week log audit | Chennu et al. — noisy signal interpretation |
+| W6 | CNN-1D Model 8, true best corrections | Eriksson et al. (2019), Barrett et al. |
+| W7+ | Adaptive TuRBO trust region (planned) | Eriksson et al. (2019) |
 
-Week 2: 
-My Objectives:
--	Full Bayesian Optimization implementation with refined strategies
--	Dimension-adaptive parameter tuning
--	Comprehensive convergence analysis
--	Strategy visualization and justification
+---
 
-Method Used: 
--	Converging functions (F2, F5, F7): Exploitation-focused
--	Parameters: ξ=0.01, κ=2.0
--	Strategy: Local refinement near best points
--	Diverging functions (F1, F6, F8): Exploration-focused, Parameters: ξ=0.1, κ=2.5
--	Strategy: Bold GP-guided exploration
--	Balanced functions (F3, F4): Mixed approach
--	 Adjust based on EI/UCB signals
+## Repository Structure
 
-Key Findings:
--	F7 (6D):Week 1 ranked 2nd (0.809 vs 1.365) → Continue local refinement
+Each week folder is self-contained with its own README, strategy document,
+submission record, and notebooks. See each week's README for detail.
 
--	F2 (2D): Week 1 ranked 3rd → Conservative exploitation. Already at 75th percentile for both dimensions
+```
+capstone-project/
+├── README.md               ← This file
+├── references.md           ← Academic justifications
+├── week-01/                ← GP + EI/UCB baseline
+├── week-02/                ← Local refinement added
+├── week-03/                ← SVM classifier pre-filter
+├── week-04/                ← Multi-model CV (5 families)
+├── week-05/                ← Week log audit + pipeline stabilised
+├── week-06/                ← CNN-1D + true best corrections
+└── week-07 to week-12/     ← Upcoming
+```
 
--	F5 (4D):Steady improvement.Maintain course Predicted 5.5% improvement
+Each week folder contains:
+```
+week-XX/
+├── README_WX.md                  ← Week summary and results
+├── BBO_WX_Strategy_Summary.md    ← Per-function strategy rationale
+├── WX_Submissions.txt            ← Exact coordinates submitted + results
+└── Capstone_F[1-8]_WX.ipynb     ← One notebook per function
+```
 
--	F1 (2D): Week 1 performed poorly → Try different region
+---
 
--	F6 (5D):Week 1 ranked low, old exploration, 0.000021% coverage, should have used EI there.   
+## Academic Foundations
 
--	F8 (8D):Most critical decision, 0.000041% coverage (needle in haystack) , GP suggested: [0.0, 0.188, 0.0, 0.090, 0.923, 0.461, 0.0, 0.530], after feature analysis performed marginal effects, X₁, X₃, X₇ spear to have minimal impact and are safe to set to 0!
-X₁: Δ = 0.2  (minimal impact)
-X₂: Δ = 1.1  (moderate)
-X₃: Δ = 0.3  (minimal impact)
-X₄: Δ = 0.6  (low)
-X₅: Δ = 4.8  (very high impact!)
-X₆: Δ = 2.1  (high)
-X₇: Δ = 0.4  (minimal impact)
-X₈: Δ = 3.2  (very high impact!)
+| Paper | Justifies |
+|-------|-----------|
+| Jones et al. (1998) | Expected Improvement acquisition |
+| Rasmussen & Williams (2006) | GP surrogate, Matérn kernel |
+| Srinivas et al. (2010) | GP-UCB dual acquisition strategy |
+| Eriksson et al. (2019) — TuRBO | Trust-region candidate generation |
+| Cybenko (1989) | Universal approximation — classifier basis |
+| Goodfellow et al. (2016) | Neural network architecture |
+| Barrett et al. (2019) | When do NNs outperform simpler models? |
+| Calandra et al. (2016) | Real-world BO with expensive evaluations |
+| Chennu et al. | Bayesian interpretation of weekly score signals |
+| Kelta | Explore/exploit ratio formalisation |
 
-Key week 2 decision was on F8 : I decided to trust the GP outputs! Even if they looked crazy!
--	Accepted GP's [0.0, 0.188, 0.0, ...] recommendation
--	Predicted 10.244 vs current 9.598 = 6.7% improvement
--	Conservative alternative would only predict 2% improvement
+Full citations and per-paper pipeline justifications: [`references.md`](references.md)
 
-Exploration vs Exploitation Balance Adopted:
--	Low-D (F1-F3): 70% exploitation, 30% exploration
--	Mid-D (F4-F5): 50-50 balanced
--	High-D (F6-F8): 60% exploration, 40% exploitation
+---
 
-What I Learned:
-1. Dimensionality is exponential: 8D is fundamentally different from 2D
-2. rust mathematics in high-D: Intuition fails beyond 5D
-3. Feature effects validate decisions: Interpretability builds confidence
-4. Convergence signals matter: Week 2 performance guides Week 3 strategy
-5. Coverage is critical : 0.00004% for F8 means BO is literally the only viable approach
+## Running Any Notebook
 
-Proposed strategy for Week 3:
--	Take a hybrid model approach and consider how SVM and Ensembles might help me understand the data better.
+```bash
+pip install numpy scikit-learn matplotlib scipy torch
 
-Week 3 : Hybrid Model approach.
+# Place in same folder as the notebook:
+#   fX_wY_inputs.npy  +  fX_wY_outputs.npy
+# W6 notebooks also require:
+#   week_log_FX.json
 
-My Objectives:
-- Test multiple classifier models (SVM, Decision Trees, Random Forest, Gradient Boosting) 
-  before GP optimization
-- Implement conditional strategies that adapt based on model reliability (CV scores)
-- Balance aggressive exploration (F1, F2, F3, F7) with conservative exploitation 
-  (F4, F5, F8) across portfolio
-- Validate "explore early, exploit later" philosophy at Week 3/12 timing
+# Run all cells top to bottom
+# Final cell prints the formatted submission string
+```
 
-Method Used: 
-- Sequential Hybrid Approach: Classifier filters candidates → GP optimizes 
-  within filtered set
-- Model Testing: 	
-	- Test 9 models per function with 3-fold cross-validation
-	- Threshold: CV ≥60% = reliable, ≥70% = excellent
-	- Select best model or fall back to Pure GP if all fail
-- Three-Way Comparison: 
-	-Pure GP vs Pure Models vs GP+Models to validate 
-         recommendations
-Key Findings:
-- Model Performance Varies by Dimension:
-  - F1 (2D): Decision Tree 83.3% CV > Linear SVM 67%
-  - F2 (2D): Decision Tree 75% > Linear SVM 67% > RBF SVM 58%
-  - F4 (4D): Linear SVM 68.8% (n/p=8.0, best ratio)
-  - F7 (6D): All models failed (<60% CV) → Pure GP fallback
+---
 
-- Pattern: Decision Trees excel on low-D, SVMs reliable on mid-D, 
-    both struggle on high-D with sparse data
+## Contributors
+Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
-- GP Flatness Limitation Discovered:
-  - F1 (12 samples, 2D): GP predicted μ≈-0.0003 everywhere with σ≈0.001
-  - μ/σ ratio = 0.3 (noise > signal)
-  - GP cannot distinguish between regions with sparse data
-  - Risk: False convergence signal (appears optimal when just uncertain)
+---
 
- 
-  - Exploration: (4 functions): F1, F2, F3, F7
-    - F1: Distance 0.28 (far from W2 rank 1) - testing model hypothesis
-    - F2: Distance 0.31 (boundary [1.0, 1.0]) - escape poor performance
-    - F3: Return to W1 region (W2 declined) - adaptive optimization
-    - F7: X1=0.0 boundary - Pure GP edge testing
-  
-  - Exploitation: (4 functions): F4, F5, F6, F8
-    - F4: Distance 0.08 (tight local refinement of rank 1)
-    - F5: Boundary HIGH (X3≈1.0, X4≈1.0) - continue W2 success
-    - F6: Conditional strategy (SVM CV 68.5% → use sequential)
-    - F8: Boundary LOW (X1≈0.01, X3≈0.002) - minimize strategy
-
-What I Learned:
-1. Model Selection is Important:
-   - Testing 9 models revealed dramatically different recommendations
-   - Decision Trees often outperform SVMs on low-dimensional data
-   - No single model dominates—must test and validate
-
-2. Sequential Filtering Changes Outcomes:
-   - Pure GP (no filtering) → conservative recommendations
-   - Model filtering → introduces different candidate regions
-   - GP+high σ in filtered regions → aggressive exploration
-   - The approach itself (not just hyperparameters) determines strategy
-
-
-Proposed strategy for Week 4:
-If hybrid models outperformed Pure GP for week 3 I will;
-- Expand model testing to include further Kernel tunning, Increase use of Decision Trees 
-    - Continue exploring new regions on F1-F3
-    - Test other far regions suggested by models
-    - If boundary strategies worked on F5, F7, F8 I'll continue on the same path. 
-  
-
-Week 4: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 5:
-
-Week 5: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 6:
-
-Week 6: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 7:
-
-Week 7: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 8:
-
-Week 8: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 9:
-
-Week 9: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 10:
-
-Week 10: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 11:
-
-Week 11: TBA 
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-Proposed strategy for Week 12:
-
-Week 12: TBA
-My Objectives:
-Method Used: 
-Key Findings:
-Exploration vs Exploitation:
-What I Learned:
-
-MyCodeStructure
-Each notebook follows this structure:
-1.	Import libraries: Load required packages
-2.	Load data:  Import .npy files with inputs/outputs
-3.	Exploratory analysis: Testing Models, statistics, best points, coverage
-4.	Gaussian Process model:  Fit GP with optimized hyperparameters
-5.	Acquisition function: Compute and Compare  EI & UCB
-6.	Optimization: Find point that maximizes acquisition
-7.	Visualization: Plot GP predictions and acquisition function
-8.	Recommendation: Make submission recommendation query point with justification
-
-My Repository Structure: 
-Repository Structure Section:
-
-capstone_project/
-├── notebooks/
-│   ├── Capstone_F1_W3.ipynb          # F1: GP+Models aggressive exploration
-│   ├── Capstone_F2_W3.ipynb          # F2: Model testing + boundary
-│   ├── Capstone_F3_W3.ipynb          # F3: Week 1 focus + exploration
-│   ├── Capstone_F4_W3.ipynb          # F4: Local exploitation
-│   ├── Capstone_F5_W3.ipynb          # F5: Sequential SVM→GP boundary HIGH
-│   ├── Capstone_F6_W3.ipynb          # F6: Conditional strategy
-│   ├── Capstone_F7_W3.ipynb          # F7: Pure GP (SVM failed)
-│   └── Capstone_F8_W3.ipynb          # F8: Sequential SVM→GP boundary LOW
-│
-├── data/
-│   ├── f1_w3_inputs.npy              # Input data (12 samples, 2D)
-│   ├── f1_w3_outputs.npy             # Output data
-│   ├── f2_w3_inputs.npy              # ...
-│   └── ...
-│
-├── outputs/
-│   ├── Week3_Submissions.txt         		  # All submission strings
-│   ├── Week3_Observations_and_Strategy.md  # Strategy documentation
-│   ├── Capstone_F1_W3_acquisition.png      # Acquisition curves
-│   ├── Capstone_F1_W3_results.png          # Results dashboard
-│   └── ...
-│
-│
-└── README.md                         # This file
-
-End
+*BBO Capstone | Active through Week 12*

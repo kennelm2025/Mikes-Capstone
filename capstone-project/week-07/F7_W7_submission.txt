@@ -1,0 +1,5 @@
+# F7 Week 7 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Linear SVM CV=77.1% | GP R2=1.0000
+# mu=2.127867 sigma=0.045315 EI=0.378667
+# best=1.739200 delta=+0.388667
+0.063229-0.395308-0.348389-0.246482-0.367699-0.688446

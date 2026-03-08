@@ -1,0 +1,113 @@
+======================================================================
+  BBO RUN REPORT — F2  Week 7
+  Generated : 2026-03-06 11:22:34
+======================================================================
+
+── DATA ────────────────────────────────────────────────────────────
+  Function    : F2
+  Week        : 7
+  Samples     : 16  |  Dims: 2D  |  n/p: 8.00
+  Y range     : [-0.065624, 0.649651]
+  All-time best: 0.64970000  @ index 15
+  Best point  : [0.710068 0.16163 ]
+  Last week   : 0.64965100
+
+── HYPERPARAMETERS ─────────────────────────────────────────────────
+  TOP_PERCENTILE    = 30%
+  N_CANDIDATES      = 10,000
+  EXPLOIT_RATIO     = 0.85  (85% near best, 15% random)
+  EXPLOIT_SIGMA     = 0.0175
+  UCB_KAPPA         = 2.5  (UCB = mu + 2.5*sigma)
+  EI_XI             = 0.01
+  GP_RESTARTS       = 5
+  FILTER_PERCENTILE = 50%  (keep top 50%)
+  RANDOM_SEED       = 42
+  NN_SMALL          = (16, 8)
+  NN_MEDIUM         = (64, 32)
+  NN_LARGE          = (128, 64, 32)
+
+── GP KERNEL ───────────────────────────────────────────────────────
+  Type            : ConstantKernel * Matern(nu=2.5)
+  Initial spec    : 1**2 * Matern(length_scale=1, nu=2.5)
+  Fitted spec     : 0.974**2 * Matern(length_scale=0.228, nu=2.5)
+  normalize_y     : True
+  alpha (nugget)  : 1e-6
+  n_restarts      : 5
+  Training R²     : 1.000000
+  Training RMSE   : 0.00000028
+  Fitted params   :
+    k1: 0.974**2
+    k2: Matern(length_scale=0.228, nu=2.5)
+    k1__constant_value: 0.9481750263773551
+    k1__constant_value_bounds: (0.001, 1000.0)
+    k2__length_scale: 0.22808532888744276
+    k2__length_scale_bounds: (0.01, 100.0)
+    k2__nu: 2.5
+
+── CLASSIFICATION ──────────────────────────────────────────────────
+  Label threshold : 0.53180764  (top 30%)
+  Class 1 (HIGH)  : 5 samples
+  Class 0 (LOW)   : 11 samples
+  CV folds        : 2
+
+  All model results (2-fold CV):
+  Model                             CV Mean    CV Std  Selected
+  ----------------------------------------------------------
+  CNN-1D (learning)                  0.8125    0.0625  ★ SELECTED
+  Decision Tree                      0.7500    0.1250  
+  Random Forest                      0.7500    0.0000  
+  Logistic Regression                0.7500    0.1250  
+  NN-Large (128, 64, 32)             0.6875    0.0625  
+  Linear SVM                         0.6250    0.0000  
+  NN-Medium (64, 32)                 0.5625    0.0625  
+  NN-Small (16, 8)                   0.5000    0.1250  
+
+── ACQUISITION ─────────────────────────────────────────────────────
+  Method    : EI (primary) + UCB (reference)
+  EI formula: (mu - y_best - xi)*Phi(Z) + sigma*phi(Z)
+  UCB formula: mu + 2.5*sigma
+  Direction : MAXIMIZE — argmax
+  EI max    : 0.02287953
+  UCB max   : 0.98022153
+  % EI > 0  : 100.0%
+
+── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
+  Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
+  ------------------------------------------------------------------
+  X1       0.7101   0.7387      0.657291    0.7387    0.7588 YES
+  X2       0.1616   0.1775      0.696536    0.2211    0.2613 YES
+
+── SUBMISSION ──────────────────────────────────────────────────────
+  Point     : [0.73874981 0.1775204 ]
+  GP mu     : 0.55605502
+  GP sigma  : 0.15353798
+  EI        : 0.02287953
+  UCB       : 0.93989996
+  EI driver : exploration
+  Delta vs best: -0.09364498
+  Prediction: EXPLORATION
+
+  FORMATTED STRING:
+  0.738750-0.177520
+
+── VISUALISATIONS PRODUCED ─────────────────────────────────────────
+  ✅  F2_W7_Step3_History.png
+       Historical performance: all evaluations, running best, value distribution
+  ✅  F2_W7_Step6_ModelPredictions.png
+       All 7 model P(class=1) prediction distributions + agreement correlation matrix
+  ✅  F2_W7_Step7_ModelComparison.png
+       CV accuracy bar chart + per-fold accuracy lines for all 7 models
+  ✅  F2_W7_Step11a_GlobalAcquisition.png
+       Global EI acquisition curve (log) and UCB acquisition curve (sorted)
+  ✅  F2_W7_Step11b_EI_PerDimension.png
+       EI acquisition curve per dimension — sweeping each dim 0→1
+  ✅  F2_W7_Step11c_UCB_PerDimension.png
+       UCB acquisition curve per dimension — sweeping each dim 0→1
+  ⚠️ (not yet saved)  F2_W7_Step12_AcquisitionSurface.png
+       GP mean, EI, UCB contour surfaces on top-2 sensitive dimensions
+  ✅  F2_W7_Step13_Dashboard.png
+       Full submission dashboard: history, coordinates, EI decomp, summary table
+
+======================================================================
+  END OF REPORT — F2 Week 7
+======================================================================

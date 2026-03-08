@@ -1,0 +1,5 @@
+# F2 Week 7 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: CNN-1D (learning) CV=81.2% | GP R2=1.0000
+# mu=0.556055 sigma=0.153538 EI=0.022880
+# best=0.649700 delta=-0.093645
+0.738750-0.177520

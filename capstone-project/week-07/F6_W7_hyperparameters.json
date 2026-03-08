@@ -1,0 +1,327 @@
+{
+  "meta": {
+    "function_id": "F6",
+    "week": 7,
+    "timestamp": "2026-03-06 08:50:47",
+    "input_file": "f6_w7_inputs.npy",
+    "output_file": "f6_w7_outputs.npy",
+    "objective": "MAXIMIZE"
+  },
+  "data": {
+    "n_samples": 25,
+    "n_dims": 5,
+    "np_ratio": 5.0,
+    "y_min": -2.57116963,
+    "y_max": -0.17267684,
+    "y_mean": -1.35486222,
+    "y_std": 0.5412548,
+    "best_value": -0.2372,
+    "best_idx": 24,
+    "best_point": [
+      0.427085,
+      0.325768,
+      0.598116,
+      0.780155,
+      0.143939
+    ],
+    "latest_value": -0.17267684
+  },
+  "hyperparameters": {
+    "TOP_PERCENTILE": {
+      "value": 30,
+      "purpose": "Fraction of samples labelled class 1. Top X% = HIGH values = GOOD.",
+      "rationale": "Top 30% gives 8 positive samples. Balances selectivity vs having enough training signal."
+    },
+    "N_CANDIDATES": {
+      "value": 10000,
+      "purpose": "Total candidate pool size evaluated by classifier+GP before selecting 1 to submit.",
+      "rationale": "10,000 provides dense coverage in 5D space. Larger = better coverage but slower GP."
+    },
+    "EXPLOIT_RATIO": {
+      "value": 0.85,
+      "purpose": "Fraction of candidates sampled near best-known point (exploitation) vs random (exploration).",
+      "rationale": "85% exploitation justified at Week 7 \u2014 strong best point established. Early weeks: 0.6-0.7. Later weeks: 0.8-0.9."
+    },
+    "EXPLOIT_SIGMA": {
+      "value": 0.042,
+      "purpose": "Gaussian std dev for exploitation sampling around best point.",
+      "rationale": "sigma=0.042 in [0,1]^5 creates \u00b10.08 search radius. Tight enough to stay near best, loose enough to find local improvements."
+    },
+    "UCB_KAPPA": {
+      "value": 2.5,
+      "purpose": "Exploration weight in UCB = mu + kappa*sigma. Higher = more exploratory.",
+      "rationale": "kappa=2.5 ~ 95% CI. Standard choice for Week 7. Use 3-5 early in search, 1-2 when exploiting known best region."
+    },
+    "EI_XI": {
+      "value": 0.01,
+      "purpose": "Exploration jitter in EI. EI = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z).",
+      "rationale": "xi=0.01 prevents EI from over-committing to tiny improvements near best. Small value: slight nudge toward exploration."
+    },
+    "GP_RESTARTS": {
+      "value": 8,
+      "purpose": "Random restarts for GP kernel hyperparameter optimisation.",
+      "rationale": "8 restarts balances fit quality vs runtime. Use 10+ for final weeks when GP quality is critical."
+    },
+    "FILTER_PERCENTILE": {
+      "value": 50,
+      "purpose": "Discard bottom X% of candidates by classifier P(class=1) before GP.",
+      "rationale": "Keeps 5,000 of 10,000 for GP. Removes clearly bad regions efficiently."
+    },
+    "NN_ARCHITECTURES": {
+      "small": [
+        16,
+        8
+      ],
+      "medium": [
+        64,
+        32
+      ],
+      "large": [
+        128,
+        64,
+        32
+      ],
+      "purpose": "Three NN sizes tested to match function landscape complexity.",
+      "rationale": "Small=simple/linear landscapes. Medium=general purpose. Large=highly non-linear. Early stopping prevents overfitting."
+    }
+  },
+  "gp_kernel": {
+    "type": "ConstantKernel * Matern(nu=2.5)",
+    "nu": 2.5,
+    "initial_spec": "1**2 * Matern(length_scale=1, nu=2.5)",
+    "fitted_spec": "0.94**2 * Matern(length_scale=1.52, nu=2.5)",
+    "fitted_params": {
+      "k1": "0.94**2",
+      "k2": "Matern(length_scale=1.52, nu=2.5)",
+      "k1__constant_value": 0.8840385991357429,
+      "k1__constant_value_bounds": "(0.001, 1000.0)",
+      "k2__length_scale": 1.5178975938070132,
+      "k2__length_scale_bounds": "(0.01, 100.0)",
+      "k2__nu": 2.5
+    },
+    "normalize_y": true,
+    "alpha_nugget": 1e-06,
+    "n_restarts": 8,
+    "train_r2": 1.0,
+    "train_rmse": 1.07e-06,
+    "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
+  },
+  "classification": {
+    "n_cv_folds": 4,
+    "label_threshold": -1.21472147,
+    "n_positive_class1": 8,
+    "n_negative_class0": 17,
+    "selected_model": "CNN-1D (learning)",
+    "selected_cv_mean": 0.791667,
+    "selected_cv_std": 0.181621,
+    "all_model_results": {
+      "Linear SVM": {
+        "cv_mean": 0.642857,
+        "cv_std": 0.124858,
+        "cv_folds": [
+          0.571429,
+          0.833333,
+          0.666667,
+          0.5
+        ],
+        "selected": false,
+        "type": "classical"
+      },
+      "Decision Tree": {
+        "cv_mean": 0.642857,
+        "cv_std": 0.041239,
+        "cv_folds": [
+          0.571429,
+          0.666667,
+          0.666667,
+          0.666667
+        ],
+        "selected": false,
+        "type": "classical"
+      },
+      "Random Forest": {
+        "cv_mean": 0.720238,
+        "cv_std": 0.068128,
+        "cv_folds": [
+          0.714286,
+          0.833333,
+          0.666667,
+          0.666667
+        ],
+        "selected": false,
+        "type": "classical"
+      },
+      "Logistic Regression": {
+        "cv_mean": 0.684524,
+        "cv_std": 0.191497,
+        "cv_folds": [
+          0.571429,
+          1.0,
+          0.666667,
+          0.5
+        ],
+        "selected": false,
+        "type": "classical"
+      },
+      "NN-Small (16, 8)": {
+        "cv_mean": 0.529762,
+        "cv_std": 0.195887,
+        "cv_folds": [
+          0.285714,
+          0.5,
+          0.5,
+          0.833333
+        ],
+        "selected": false,
+        "type": "neural_network"
+      },
+      "NN-Medium (64, 32)": {
+        "cv_mean": 0.583333,
+        "cv_std": 0.276385,
+        "cv_folds": [
+          1.0,
+          0.666667,
+          0.333333,
+          0.333333
+        ],
+        "selected": false,
+        "type": "neural_network"
+      },
+      "NN-Large (128, 64, 32)": {
+        "cv_mean": 0.636905,
+        "cv_std": 0.081398,
+        "cv_folds": [
+          0.714286,
+          0.5,
+          0.666667,
+          0.666667
+        ],
+        "selected": false,
+        "type": "neural_network"
+      },
+      "CNN-1D (learning)": {
+        "cv_mean": 0.791667,
+        "cv_std": 0.181621,
+        "cv_folds": [
+          1.0,
+          0.833333,
+          0.833333,
+          0.5
+        ],
+        "selected": true,
+        "type": "neural_network"
+      }
+    }
+  },
+  "candidates": {
+    "total_generated": 10000,
+    "n_exploit": 8500,
+    "n_explore": 1500,
+    "after_filter": 5000,
+    "filter_model": "CNN-1D (learning)"
+  },
+  "acquisition": {
+    "method": "Expected Improvement (primary) + UCB (reference)",
+    "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
+    "ucb_formula": "UCB(x) = mu + 2.5*sigma",
+    "direction": "MAXIMIZE \u2014 argmax EI",
+    "ei_max": 0.08903447,
+    "ucb_max": 0.23657515,
+    "pct_positive_ei": 100.0
+  },
+  "submission": {
+    "point": [
+      0.46466381,
+      0.30738113,
+      0.57547132,
+      0.71756856,
+      0.17110964
+    ],
+    "formatted_string": "0.464664-0.307381-0.575471-0.717569-0.171110",
+    "gp_mu": -0.14953722,
+    "gp_sigma": 0.09604679,
+    "ei": 0.08903447,
+    "ucb": 0.09057976,
+    "exploit_term": 0.06140216,
+    "explore_term": 0.0276323,
+    "ei_driver": "exploitation",
+    "delta_vs_best": 0.08766278,
+    "prediction": "new_best"
+  },
+  "dimensions": {
+    "X1": {
+      "best_point_value": 0.427085,
+      "submission_value": 0.464664,
+      "gp_sensitivity": 0.266927,
+      "ei_peak_at": 0.487437,
+      "ucb_peak_at": 0.150754,
+      "ei_ucb_agree": false
+    },
+    "X2": {
+      "best_point_value": 0.325768,
+      "submission_value": 0.307381,
+      "gp_sensitivity": 0.151635,
+      "ei_peak_at": 0.316583,
+      "ucb_peak_at": 0.532663,
+      "ei_ucb_agree": false
+    },
+    "X3": {
+      "best_point_value": 0.598116,
+      "submission_value": 0.575471,
+      "gp_sensitivity": 0.277342,
+      "ei_peak_at": 0.507538,
+      "ucb_peak_at": 0.864322,
+      "ei_ucb_agree": false
+    },
+    "X4": {
+      "best_point_value": 0.780155,
+      "submission_value": 0.717569,
+      "gp_sensitivity": 0.488965,
+      "ei_peak_at": 0.683417,
+      "ucb_peak_at": 0.557789,
+      "ei_ucb_agree": false
+    },
+    "X5": {
+      "best_point_value": 0.143939,
+      "submission_value": 0.17111,
+      "gp_sensitivity": 0.263904,
+      "ei_peak_at": 0.21608,
+      "ucb_peak_at": 0.351759,
+      "ei_ucb_agree": false
+    }
+  },
+  "visualisations": {
+    "F6_W7_Step3_History.png": {
+      "exists": true,
+      "description": "Historical performance: all evaluations, running best, value distribution"
+    },
+    "F6_W7_Step6_ModelPredictions.png": {
+      "exists": true,
+      "description": "All 7 model P(class=1) prediction distributions + agreement correlation matrix"
+    },
+    "F6_W7_Step7_ModelComparison.png": {
+      "exists": true,
+      "description": "CV accuracy bar chart + per-fold accuracy lines for all 7 models"
+    },
+    "F6_W7_Step11a_GlobalAcquisition.png": {
+      "exists": true,
+      "description": "Global EI acquisition curve (log) and UCB acquisition curve (sorted)"
+    },
+    "F6_W7_Step11b_EI_PerDimension.png": {
+      "exists": true,
+      "description": "EI acquisition curve per dimension \u2014 sweeping each dim 0\u21921"
+    },
+    "F6_W7_Step11c_UCB_PerDimension.png": {
+      "exists": true,
+      "description": "UCB acquisition curve per dimension \u2014 sweeping each dim 0\u21921"
+    },
+    "F6_W7_Step12_AcquisitionSurface.png": {
+      "exists": false,
+      "description": "GP mean, EI, UCB contour surfaces on top-2 sensitive dimensions"
+    },
+    "F6_W7_Step13_Dashboard.png": {
+      "exists": true,
+      "description": "Full submission dashboard: history, coordinates, EI decomp, summary table"
+    }
+  }
+}

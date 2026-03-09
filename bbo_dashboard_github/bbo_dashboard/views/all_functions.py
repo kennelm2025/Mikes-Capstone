@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from data import FUNCTIONS, SCORES, W7_PRED, STRATEGY, CLASSIFIERS, running_best, get_all_time_best
+from data import FUNCTIONS, SCORES, W7_PRED, STRATEGY, CLASSIFIERS, W7_GLANCE, TURBO_SUMMARY, running_best, get_all_time_best, get_sigma_display
 
 def fmt(v):
     if v is None: return "—"
@@ -141,3 +141,53 @@ def render():
 
     df = pd.DataFrame(lb_rows).set_index("Fn")
     st.dataframe(df, use_container_width=True, height=330)
+
+    st.divider()
+
+    # ── W7 At-a-Glance Table ──────────────────────────────────────────────────
+    st.markdown("### 🎯 W7 Strategy At a Glance")
+    st.caption("All 8 functions — confirmed W7 submission strings and strategies.")
+
+    glance_rows = []
+    for fid in FUNCTIONS:
+        g = W7_GLANCE[fid]
+        strat = STRATEGY[fid]
+        sigma_disp = get_sigma_display(fid)
+        sigma_type = strat.get("sigma_type","isotropic")
+        override_flag = "⚠️ inject" if g["override"] else "—"
+        glance_rows.append({
+            "Fn": fid,
+            "Dims": f"{FUNCTIONS[fid]['dims']}D",
+            "Strategy": g["strategy"],
+            "True Best": g["true_best"],
+            "Best Wk": g["best_wk"],
+            "W6 Score": g["w6_score"],
+            "Override": override_flag,
+            "σ (W7)": sigma_disp + (" ★" if sigma_type == "anisotropic" else ""),
+            "TuRBO": TURBO_SUMMARY[fid]["direction"],
+            "W7 Submission": strat.get("w7_submission","—"),
+        })
+
+    df_g = pd.DataFrame(glance_rows).set_index("Fn")
+    st.dataframe(df_g, use_container_width=True, height=340)
+    st.caption("★ = anisotropic sigma (per-dimension array) — F7 motivated by CNN filter map analysis.")
+
+    st.divider()
+
+    # ── TuRBO Sigma Adaptation Table ─────────────────────────────────────────
+    st.markdown("### 🔄 TuRBO Sigma Adaptation — W6 → W7")
+    st.caption("SHRINK = tighter precision around confirmed best. EXPAND = wider search. ANISOTROPIC = per-dimension sigma array.")
+
+    turbo_rows = []
+    for fid in FUNCTIONS:
+        t = TURBO_SUMMARY[fid]
+        sigma_w7_disp = get_sigma_display(fid)
+        turbo_rows.append({
+            "Fn": fid,
+            "σ W6": t["sigma_w6"],
+            "σ W7": sigma_w7_disp,
+            "Direction": t["direction"],
+            "Rationale": t["note"],
+        })
+    df_t = pd.DataFrame(turbo_rows).set_index("Fn")
+    st.dataframe(df_t, use_container_width=True, height=340)

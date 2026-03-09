@@ -2,32 +2,32 @@
   "meta": {
     "function_id": "F8",
     "week": 7,
-    "timestamp": "2026-03-06 08:37:14",
-    "input_file": "f8_w7_inputs.npy",
-    "output_file": "f8_w7_outputs.npy",
+    "timestamp": "2026-03-09 11:51:57",
+    "input_file": ".\\f8_w7_inputs.npy",
+    "output_file": ".\\f8_w7_outputs.npy",
     "objective": "MAXIMIZE"
   },
   "data": {
-    "n_samples": 46,
+    "n_samples": 45,
     "n_dims": 8,
-    "np_ratio": 5.75,
+    "np_ratio": 5.625,
     "y_min": 5.5,
-    "y_max": 9.83196,
-    "y_mean": 7.93630407,
-    "y_std": 1.092712,
-    "best_value": 9.83196,
-    "best_idx": 45,
+    "y_max": 9.818813,
+    "y_mean": 7.89417838,
+    "y_std": 1.06720331,
+    "best_value": 9.818813,
+    "best_idx": 42,
     "best_point": [
-      0.0,
-      0.179297,
-      0.0,
-      0.071406,
-      0.92927,
-      0.459981,
-      0.0,
-      0.541212
+      0.012005,
+      0.365808,
+      0.002051,
+      0.165458,
+      0.44785,
+      0.535087,
+      0.152929,
+      0.745216
     ],
-    "latest_value": 9.83196
+    "latest_value": 9.77413657
   },
   "hyperparameters": {
     "TOP_PERCENTILE": {
@@ -92,13 +92,13 @@
     "type": "ConstantKernel * Matern(nu=2.5)",
     "nu": 2.5,
     "initial_spec": "1**2 * Matern(length_scale=1, nu=2.5)",
-    "fitted_spec": "0.988**2 * Matern(length_scale=1.14, nu=2.5)",
+    "fitted_spec": "0.965**2 * Matern(length_scale=1.56, nu=2.5)",
     "fitted_params": {
-      "k1": "0.988**2",
-      "k2": "Matern(length_scale=1.14, nu=2.5)",
-      "k1__constant_value": 0.9759267411575434,
+      "k1": "0.965**2",
+      "k2": "Matern(length_scale=1.56, nu=2.5)",
+      "k1__constant_value": 0.9304291268175922,
       "k1__constant_value_bounds": "(0.001, 1000.0)",
-      "k2__length_scale": 1.1436051266156024,
+      "k2__length_scale": 1.5621576739027068,
       "k2__length_scale_bounds": "(0.01, 100.0)",
       "k2__nu": 2.5
     },
@@ -106,63 +106,63 @@
     "alpha_nugget": 1e-06,
     "n_restarts": 10,
     "train_r2": 1.0,
-    "train_rmse": 1.47e-06,
+    "train_rmse": 1.42e-06,
     "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
   },
   "classification": {
     "n_cv_folds": 5,
-    "label_threshold": 8.50734212,
+    "label_threshold": 8.47024538,
     "n_positive_class1": 14,
-    "n_negative_class0": 32,
-    "selected_model": "Linear SVM",
-    "selected_cv_mean": 0.851111,
-    "selected_cv_std": 0.103184,
+    "n_negative_class0": 31,
+    "selected_model": "Decision Tree",
+    "selected_cv_mean": 0.866667,
+    "selected_cv_std": 0.083148,
     "all_model_results": {
       "Linear SVM": {
-        "cv_mean": 0.851111,
-        "cv_std": 0.103184,
+        "cv_mean": 0.822222,
+        "cv_std": 0.133333,
         "cv_folds": [
-          0.7,
-          0.777778,
+          0.666667,
+          0.666667,
           1.0,
           0.888889,
-          0.888889
-        ],
-        "selected": true,
-        "type": "classical"
-      },
-      "Decision Tree": {
-        "cv_mean": 0.806667,
-        "cv_std": 0.072894,
-        "cv_folds": [
-          0.7,
-          0.777778,
-          0.888889,
-          0.777778,
           0.888889
         ],
         "selected": false,
         "type": "classical"
       },
-      "Random Forest": {
-        "cv_mean": 0.806667,
-        "cv_std": 0.072894,
+      "Decision Tree": {
+        "cv_mean": 0.866667,
+        "cv_std": 0.083148,
         "cv_folds": [
-          0.7,
-          0.777778,
           0.888889,
           0.777778,
+          0.777778,
+          1.0,
+          0.888889
+        ],
+        "selected": true,
+        "type": "classical"
+      },
+      "Random Forest": {
+        "cv_mean": 0.844444,
+        "cv_std": 0.113312,
+        "cv_folds": [
+          0.666667,
+          0.888889,
+          0.777778,
+          1.0,
           0.888889
         ],
         "selected": false,
         "type": "classical"
       },
       "Logistic Regression": {
-        "cv_mean": 0.851111,
-        "cv_std": 0.103184,
+        "cv_mean": 0.822222,
+        "cv_std": 0.133333,
         "cv_folds": [
-          0.7,
-          0.777778,
+          0.666667,
+          0.666667,
           1.0,
           0.888889,
           0.888889
@@ -171,38 +171,38 @@
         "type": "classical"
       },
       "NN-Small (16, 8)": {
-        "cv_mean": 0.824444,
-        "cv_std": 0.057263,
+        "cv_mean": 0.777778,
+        "cv_std": 0.070273,
         "cv_folds": [
-          0.9,
+          0.888889,
           0.777778,
+          0.666667,
           0.777778,
-          0.777778,
-          0.888889
+          0.777778
         ],
         "selected": false,
         "type": "neural_network"
       },
       "NN-Medium (64, 32)": {
-        "cv_mean": 0.604444,
-        "cv_std": 0.120411,
+        "cv_mean": 0.644444,
+        "cv_std": 0.129577,
         "cv_folds": [
-          0.8,
+          0.777778,
+          0.777778,
           0.555556,
           0.444444,
-          0.555556,
           0.666667
         ],
         "selected": false,
         "type": "neural_network"
       },
       "NN-Large (128, 64, 32)": {
-        "cv_mean": 0.762222,
-        "cv_std": 0.125629,
+        "cv_mean": 0.755556,
+        "cv_std": 0.108866,
         "cv_folds": [
-          0.7,
-          0.555556,
-          0.777778,
+          0.666667,
+          0.666667,
+          0.666667,
           0.888889,
           0.888889
         ],
@@ -210,13 +210,13 @@
         "type": "neural_network"
       },
       "CNN-1D (learning)": {
-        "cv_mean": 0.828889,
-        "cv_std": 0.077492,
+        "cv_mean": 0.777778,
+        "cv_std": 0.099381,
         "cv_folds": [
-          0.7,
+          0.666667,
+          0.666667,
+          0.888889,
           0.777778,
-          0.888889,
-          0.888889,
           0.888889
         ],
         "selected": false,
@@ -228,103 +228,103 @@
     "total_generated": 10000,
     "n_exploit": 8500,
     "n_explore": 1500,
-    "after_filter": 5000,
-    "filter_model": "Linear SVM"
+    "after_filter": 8807,
+    "filter_model": "Decision Tree"
   },
   "acquisition": {
     "method": "Expected Improvement (primary) + UCB (reference)",
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
     "ucb_formula": "UCB(x) = mu + 2.0*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
-    "ei_max": 0.25422552,
-    "ucb_max": 10.65414482,
+    "ei_max": 0.11832011,
+    "ucb_max": 10.85533054,
     "pct_positive_ei": 100.0
   },
   "submission": {
     "point": [
-      0.03356234,
-      0.1770381,
-      0.0,
-      0.06667588,
-      0.98346217,
-      0.43251726,
-      0.0,
-      0.5164899
+      0.04042227,
+      0.33166724,
+      0.00366768,
+      0.15846331,
+      0.39689343,
+      0.50980578,
+      0.16649038,
+      0.78055199
     ],
-    "formatted_string": "0.033562-0.177038-0.000000-0.066676-0.983462-0.432517-0.000000-0.516490",
-    "gp_mu": 10.06464504,
-    "gp_sigma": 0.27167641,
-    "ei": 0.25422552,
-    "ucb": 10.60799787,
-    "exploit_term": 0.17676692,
-    "explore_term": 0.0774586,
-    "ei_driver": "exploitation",
-    "delta_vs_best": 0.23268504,
+    "formatted_string": "0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552",
+    "gp_mu": 9.87780258,
+    "gp_sigma": 0.2299872,
+    "ei": 0.11832011,
+    "ucb": 10.33777698,
+    "exploit_term": 0.02862659,
+    "explore_term": 0.08969352,
+    "ei_driver": "exploration",
+    "delta_vs_best": 0.05898958,
     "prediction": "new_best"
   },
   "dimensions": {
     "X1": {
-      "best_point_value": 0.0,
-      "submission_value": 0.033562,
-      "gp_sensitivity": 0.002444,
-      "ei_peak_at": 0.18593,
-      "ucb_peak_at": 0.301508,
+      "best_point_value": 0.012005,
+      "submission_value": 0.040422,
+      "gp_sensitivity": 0.134624,
+      "ei_peak_at": 0.251256,
+      "ucb_peak_at": 0.371859,
       "ei_ucb_agree": false
     },
     "X2": {
-      "best_point_value": 0.179297,
-      "submission_value": 0.177038,
-      "gp_sensitivity": 0.256525,
-      "ei_peak_at": 0.020101,
-      "ucb_peak_at": 0.492462,
+      "best_point_value": 0.365808,
+      "submission_value": 0.331667,
+      "gp_sensitivity": 0.348955,
+      "ei_peak_at": 0.61809,
+      "ucb_peak_at": 0.753769,
       "ei_ucb_agree": false
     },
     "X3": {
-      "best_point_value": 0.0,
-      "submission_value": 0.0,
-      "gp_sensitivity": 0.022229,
-      "ei_peak_at": 0.175879,
-      "ucb_peak_at": 0.286432,
+      "best_point_value": 0.002051,
+      "submission_value": 0.003668,
+      "gp_sensitivity": 0.153126,
+      "ei_peak_at": 0.241206,
+      "ucb_peak_at": 0.361809,
       "ei_ucb_agree": false
     },
     "X4": {
-      "best_point_value": 0.071406,
-      "submission_value": 0.066676,
-      "gp_sensitivity": 1.039785,
-      "ei_peak_at": 0.0,
-      "ucb_peak_at": 0.346734,
+      "best_point_value": 0.165458,
+      "submission_value": 0.158463,
+      "gp_sensitivity": 0.173735,
+      "ei_peak_at": 0.40201,
+      "ucb_peak_at": 0.517588,
       "ei_ucb_agree": false
     },
     "X5": {
-      "best_point_value": 0.92927,
-      "submission_value": 0.983462,
-      "gp_sensitivity": 4.703937,
-      "ei_peak_at": 1.0,
-      "ucb_peak_at": 0.20603,
+      "best_point_value": 0.44785,
+      "submission_value": 0.396893,
+      "gp_sensitivity": 1.643353,
+      "ei_peak_at": 0.221106,
+      "ucb_peak_at": 0.080402,
       "ei_ucb_agree": false
     },
     "X6": {
-      "best_point_value": 0.459981,
-      "submission_value": 0.432517,
-      "gp_sensitivity": 1.866176,
-      "ei_peak_at": 0.321608,
-      "ucb_peak_at": 0.231156,
-      "ei_ucb_agree": true
+      "best_point_value": 0.535087,
+      "submission_value": 0.509806,
+      "gp_sensitivity": 0.132015,
+      "ei_peak_at": 0.286432,
+      "ucb_peak_at": 0.160804,
+      "ei_ucb_agree": false
     },
     "X7": {
-      "best_point_value": 0.0,
-      "submission_value": 0.0,
-      "gp_sensitivity": 2.144335,
-      "ei_peak_at": 0.763819,
-      "ucb_peak_at": 0.763819,
-      "ei_ucb_agree": true
+      "best_point_value": 0.152929,
+      "submission_value": 0.16649,
+      "gp_sensitivity": 0.751328,
+      "ei_peak_at": 0.442211,
+      "ucb_peak_at": 0.61809,
+      "ei_ucb_agree": false
     },
     "X8": {
-      "best_point_value": 0.541212,
-      "submission_value": 0.51649,
-      "gp_sensitivity": 2.529678,
-      "ei_peak_at": 0.396985,
-      "ucb_peak_at": 0.301508,
+      "best_point_value": 0.745216,
+      "submission_value": 0.780552,
+      "gp_sensitivity": 0.574408,
+      "ei_peak_at": 0.969849,
+      "ucb_peak_at": 1.0,
       "ei_ucb_agree": true
     }
   },

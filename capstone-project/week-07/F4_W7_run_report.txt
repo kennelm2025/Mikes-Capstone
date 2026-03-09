@@ -1,16 +1,16 @@
 ======================================================================
   BBO RUN REPORT — F4  Week 7
-  Generated : 2026-03-06 09:04:45
+  Generated : 2026-03-09 12:03:46
 ======================================================================
 
 ── DATA ────────────────────────────────────────────────────────────
   Function    : F4
   Week        : 7
-  Samples     : 36  |  Dims: 4D  |  n/p: 9.00
-  Y range     : [-32.625660, 0.237591]
-  All-time best: 0.23760000  @ index 35
-  Best point  : [0.439249 0.414994 0.384687 0.397917]
-  Last week   : 0.23759100
+  Samples     : 35  |  Dims: 4D  |  n/p: 8.75
+  Y range     : [-32.625660, -0.129412]
+  All-time best: 0.23760000  @ index 34
+  Best point  : [0.4392 0.415  0.3847 0.3979]
+  Last week   : -0.12941169
 
 ── HYPERPARAMETERS ─────────────────────────────────────────────────
   TOP_PERCENTILE    = 30%
@@ -29,68 +29,68 @@
 ── GP KERNEL ───────────────────────────────────────────────────────
   Type            : ConstantKernel * Matern(nu=2.5)
   Initial spec    : 1**2 * Matern(length_scale=1, nu=2.5)
-  Fitted spec     : 0.896**2 * Matern(length_scale=0.61, nu=2.5)
+  Fitted spec     : 0.926**2 * Matern(length_scale=0.596, nu=2.5)
   normalize_y     : True
   alpha (nugget)  : 1e-6
   n_restarts      : 8
   Training R²     : 1.000000
-  Training RMSE   : 0.00001647
+  Training RMSE   : 0.00001465
   Fitted params   :
-    k1: 0.896**2
-    k2: Matern(length_scale=0.61, nu=2.5)
-    k1__constant_value: 0.8034203110176455
+    k1: 0.926**2
+    k2: Matern(length_scale=0.596, nu=2.5)
+    k1__constant_value: 0.858012923154031
     k1__constant_value_bounds: (0.001, 1000.0)
-    k2__length_scale: 0.6100934502482437
+    k2__length_scale: 0.5960649447231995
     k2__length_scale_bounds: (0.01, 100.0)
     k2__nu: 2.5
 
 ── CLASSIFICATION ──────────────────────────────────────────────────
-  Label threshold : -12.19080872  (top 30%)
+  Label threshold : -12.69370118  (top 30%)
   Class 1 (HIGH)  : 11 samples
-  Class 0 (LOW)   : 25 samples
+  Class 0 (LOW)   : 24 samples
   CV folds        : 5
 
   All model results (5-fold CV):
   Model                             CV Mean    CV Std  Selected
   ----------------------------------------------------------
-  CNN-1D (learning)                  0.8036    0.0732  ★ SELECTED
-  NN-Large (128, 64, 32)             0.7750    0.0746  
-  Decision Tree                      0.7500    0.1660  
-  Logistic Regression                0.6964    0.1842  
-  NN-Small (16, 8)                   0.6964    0.0357  
-  Random Forest                      0.6929    0.1421  
-  Linear SVM                         0.6143    0.1245  
-  NN-Medium (64, 32)                 0.5500    0.2162  
+  CNN-1D (learning)                  0.8571    0.0904  ★ SELECTED
+  Random Forest                      0.8286    0.1666  
+  Decision Tree                      0.8000    0.1938  
+  NN-Large (128, 64, 32)             0.7714    0.1938  
+  Linear SVM                         0.7429    0.1666  
+  NN-Small (16, 8)                   0.6857    0.0571  
+  NN-Medium (64, 32)                 0.6857    0.1895  
+  Logistic Regression                0.6571    0.1457  
 
 ── ACQUISITION ─────────────────────────────────────────────────────
   Method    : EI (primary) + UCB (reference)
   EI formula: (mu - y_best - xi)*Phi(Z) + sigma*phi(Z)
   UCB formula: mu + 2.0*sigma
   Direction : MAXIMIZE — argmax
-  EI max    : 1.60053839
-  UCB max   : 6.86210278
+  EI max    : 2.64409058
+  UCB max   : 10.02268192
   % EI > 0  : 100.0%
 
 ── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
   Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
   ------------------------------------------------------------------
-  X1       0.4392   0.4613      1.034040    0.3417    0.2965 YES
-  X2       0.4150   0.4577     16.698540    0.4975    0.5377 YES
-  X3       0.3847   0.4143     29.233885    0.4422    0.2613 NO
-  X4       0.3979   0.3770     17.896234    0.3266    0.2312 YES
+  X1       0.4392   0.4518      2.634920    0.4573    0.4824 YES
+  X2       0.4150   0.4386     15.665775    0.4422    0.4874 YES
+  X3       0.3847   0.4002     22.815391    0.4020    0.3719 YES
+  X4       0.3979   0.3951     10.450646    0.3970    0.4271 YES
 
 ── SUBMISSION ──────────────────────────────────────────────────────
-  Point     : [0.46132456 0.45768235 0.41429088 0.37697059]
-  GP mu     : 1.45004383
-  GP sigma  : 2.18169017
-  EI        : 1.60053839
-  UCB       : 5.81342417
+  Point     : [0.45176231 0.43864239 0.40016343 0.39509149]
+  GP mu     : 2.31840727
+  GP sigma  : 3.42470584
+  EI        : 2.64409058
+  UCB       : 9.16781894
   EI driver : exploitation
-  Delta vs best: +1.21244383
+  Delta vs best: +2.08080727
   Prediction: NEW BEST
 
   FORMATTED STRING:
-  0.461325-0.457682-0.414291-0.376971
+  0.451762-0.438642-0.400163-0.395091
 
 ── VISUALISATIONS PRODUCED ─────────────────────────────────────────
   ✅  F4_W7_Step3_History.png

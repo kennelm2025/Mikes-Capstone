@@ -2,9 +2,9 @@
   "meta": {
     "function_id": "F3",
     "week": 7,
-    "timestamp": "2026-03-06 11:21:40",
-    "input_file": "f3_w7_inputs.npy",
-    "output_file": "f3_w7_outputs.npy",
+    "timestamp": "2026-03-09 12:04:38",
+    "input_file": ".\\f3_w7_inputs.npy",
+    "output_file": ".\\f3_w7_outputs.npy",
     "objective": "MAXIMIZE"
   },
   "data": {

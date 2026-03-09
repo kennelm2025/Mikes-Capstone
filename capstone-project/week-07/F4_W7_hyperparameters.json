@@ -2,28 +2,28 @@
   "meta": {
     "function_id": "F4",
     "week": 7,
-    "timestamp": "2026-03-06 09:04:45",
-    "input_file": "f4_w7_inputs.npy",
-    "output_file": "f4_w7_outputs.npy",
+    "timestamp": "2026-03-09 12:03:46",
+    "input_file": ".\\f4_w7_inputs.npy",
+    "output_file": ".\\f4_w7_outputs.npy",
     "objective": "MAXIMIZE"
   },
   "data": {
-    "n_samples": 36,
+    "n_samples": 35,
     "n_dims": 4,
-    "np_ratio": 9.0,
+    "np_ratio": 8.75,
     "y_min": -32.62566022,
-    "y_max": 0.237591,
-    "y_mean": -14.996288,
-    "y_std": 8.45626207,
+    "y_max": -0.12941169,
+    "y_mean": -15.43154168,
+    "y_std": 8.16892996,
     "best_value": 0.2376,
-    "best_idx": 35,
+    "best_idx": 34,
     "best_point": [
-      0.439249,
-      0.414994,
-      0.384687,
-      0.397917
+      0.4392,
+      0.415,
+      0.3847,
+      0.3979
     ],
-    "latest_value": 0.237591
+    "latest_value": -0.12941169
   },
   "hyperparameters": {
     "TOP_PERCENTILE": {
@@ -88,13 +88,13 @@
     "type": "ConstantKernel * Matern(nu=2.5)",
     "nu": 2.5,
     "initial_spec": "1**2 * Matern(length_scale=1, nu=2.5)",
-    "fitted_spec": "0.896**2 * Matern(length_scale=0.61, nu=2.5)",
+    "fitted_spec": "0.926**2 * Matern(length_scale=0.596, nu=2.5)",
     "fitted_params": {
-      "k1": "0.896**2",
-      "k2": "Matern(length_scale=0.61, nu=2.5)",
-      "k1__constant_value": 0.8034203110176455,
+      "k1": "0.926**2",
+      "k2": "Matern(length_scale=0.596, nu=2.5)",
+      "k1__constant_value": 0.858012923154031,
       "k1__constant_value_bounds": "(0.001, 1000.0)",
-      "k2__length_scale": 0.6100934502482437,
+      "k2__length_scale": 0.5960649447231995,
       "k2__length_scale_bounds": "(0.01, 100.0)",
       "k2__nu": 2.5
     },
@@ -102,64 +102,64 @@
     "alpha_nugget": 1e-06,
     "n_restarts": 8,
     "train_r2": 1.0,
-    "train_rmse": 1.647e-05,
+    "train_rmse": 1.465e-05,
     "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
   },
   "classification": {
     "n_cv_folds": 5,
-    "label_threshold": -12.19080872,
+    "label_threshold": -12.69370118,
     "n_positive_class1": 11,
-    "n_negative_class0": 25,
+    "n_negative_class0": 24,
     "selected_model": "CNN-1D (learning)",
-    "selected_cv_mean": 0.803571,
-    "selected_cv_std": 0.073193,
+    "selected_cv_mean": 0.857143,
+    "selected_cv_std": 0.090351,
     "all_model_results": {
       "Linear SVM": {
-        "cv_mean": 0.614286,
-        "cv_std": 0.12454,
+        "cv_mean": 0.742857,
+        "cv_std": 0.166599,
         "cv_folds": [
-          0.5,
+          0.571429,
+          0.857143,
+          1.0,
           0.714286,
-          0.428571,
-          0.714286,
-          0.714286
+          0.571429
         ],
         "selected": false,
         "type": "classical"
       },
       "Decision Tree": {
-        "cv_mean": 0.75,
-        "cv_std": 0.165985,
+        "cv_mean": 0.8,
+        "cv_std": 0.193781,
         "cv_folds": [
-          0.75,
+          0.571429,
+          0.571429,
+          1.0,
           0.857143,
-          0.428571,
-          0.857143,
-          0.857143
+          1.0
         ],
         "selected": false,
         "type": "classical"
       },
       "Random Forest": {
-        "cv_mean": 0.692857,
-        "cv_std": 0.142141,
+        "cv_mean": 0.828571,
+        "cv_std": 0.166599,
         "cv_folds": [
-          0.75,
+          0.571429,
           0.714286,
-          0.428571,
+          1.0,
           0.857143,
-          0.714286
+          1.0
         ],
         "selected": false,
         "type": "classical"
       },
       "Logistic Regression": {
-        "cv_mean": 0.696429,
-        "cv_std": 0.184197,
+        "cv_mean": 0.657143,
+        "cv_std": 0.145686,
         "cv_folds": [
-          0.625,
-          1.0,
+          0.571429,
           0.428571,
+          0.857143,
           0.714286,
           0.714286
         ],
@@ -167,53 +167,53 @@
         "type": "classical"
       },
       "NN-Small (16, 8)": {
-        "cv_mean": 0.696429,
-        "cv_std": 0.035714,
+        "cv_mean": 0.685714,
+        "cv_std": 0.057143,
         "cv_folds": [
-          0.625,
           0.714286,
           0.714286,
           0.714286,
-          0.714286
-        ],
-        "selected": false,
-        "type": "neural_network"
-      },
-      "NN-Medium (64, 32)": {
-        "cv_mean": 0.55,
-        "cv_std": 0.216182,
-        "cv_folds": [
-          0.75,
-          0.142857,
-          0.571429,
           0.714286,
           0.571429
         ],
         "selected": false,
         "type": "neural_network"
       },
-      "NN-Large (128, 64, 32)": {
-        "cv_mean": 0.775,
-        "cv_std": 0.074574,
+      "NN-Medium (64, 32)": {
+        "cv_mean": 0.685714,
+        "cv_std": 0.189521,
         "cv_folds": [
-          0.875,
           0.714286,
+          0.428571,
+          0.571429,
           0.714286,
+          1.0
+        ],
+        "selected": false,
+        "type": "neural_network"
+      },
+      "NN-Large (128, 64, 32)": {
+        "cv_mean": 0.771429,
+        "cv_std": 0.193781,
+        "cv_folds": [
+          0.428571,
           0.857143,
-          0.714286
+          0.857143,
+          0.714286,
+          1.0
         ],
         "selected": false,
         "type": "neural_network"
       },
       "CNN-1D (learning)": {
-        "cv_mean": 0.803571,
-        "cv_std": 0.073193,
+        "cv_mean": 0.857143,
+        "cv_std": 0.090351,
         "cv_folds": [
-          0.875,
           0.857143,
           0.714286,
+          1.0,
           0.857143,
-          0.714286
+          0.857143
         ],
         "selected": true,
         "type": "neural_network"
@@ -232,59 +232,59 @@
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
     "ucb_formula": "UCB(x) = mu + 2.0*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
-    "ei_max": 1.60053839,
-    "ucb_max": 6.86210278,
+    "ei_max": 2.64409058,
+    "ucb_max": 10.02268192,
     "pct_positive_ei": 100.0
   },
   "submission": {
     "point": [
-      0.46132456,
-      0.45768235,
-      0.41429088,
-      0.37697059
+      0.45176231,
+      0.43864239,
+      0.40016343,
+      0.39509149
     ],
-    "formatted_string": "0.461325-0.457682-0.414291-0.376971",
-    "gp_mu": 1.45004383,
-    "gp_sigma": 2.18169017,
-    "ei": 1.60053839,
-    "ucb": 5.81342417,
-    "exploit_term": 0.85281573,
-    "explore_term": 0.74772266,
+    "formatted_string": "0.451762-0.438642-0.400163-0.395091",
+    "gp_mu": 2.31840727,
+    "gp_sigma": 3.42470584,
+    "ei": 2.64409058,
+    "ucb": 9.16781894,
+    "exploit_term": 1.50609797,
+    "explore_term": 1.13799261,
     "ei_driver": "exploitation",
-    "delta_vs_best": 1.21244383,
+    "delta_vs_best": 2.08080727,
     "prediction": "new_best"
   },
   "dimensions": {
     "X1": {
-      "best_point_value": 0.439249,
-      "submission_value": 0.461325,
-      "gp_sensitivity": 1.03404,
-      "ei_peak_at": 0.341709,
-      "ucb_peak_at": 0.296482,
+      "best_point_value": 0.4392,
+      "submission_value": 0.451762,
+      "gp_sensitivity": 2.63492,
+      "ei_peak_at": 0.457286,
+      "ucb_peak_at": 0.482412,
       "ei_ucb_agree": true
     },
     "X2": {
-      "best_point_value": 0.414994,
-      "submission_value": 0.457682,
-      "gp_sensitivity": 16.69854,
-      "ei_peak_at": 0.497487,
-      "ucb_peak_at": 0.537688,
+      "best_point_value": 0.415,
+      "submission_value": 0.438642,
+      "gp_sensitivity": 15.665775,
+      "ei_peak_at": 0.442211,
+      "ucb_peak_at": 0.487437,
       "ei_ucb_agree": true
     },
     "X3": {
-      "best_point_value": 0.384687,
-      "submission_value": 0.414291,
-      "gp_sensitivity": 29.233885,
-      "ei_peak_at": 0.442211,
-      "ucb_peak_at": 0.261307,
-      "ei_ucb_agree": false
+      "best_point_value": 0.3847,
+      "submission_value": 0.400163,
+      "gp_sensitivity": 22.815391,
+      "ei_peak_at": 0.40201,
+      "ucb_peak_at": 0.371859,
+      "ei_ucb_agree": true
     },
     "X4": {
-      "best_point_value": 0.397917,
-      "submission_value": 0.376971,
-      "gp_sensitivity": 17.896234,
-      "ei_peak_at": 0.326633,
-      "ucb_peak_at": 0.231156,
+      "best_point_value": 0.3979,
+      "submission_value": 0.395091,
+      "gp_sensitivity": 10.450646,
+      "ei_peak_at": 0.396985,
+      "ucb_peak_at": 0.427136,
       "ei_ucb_agree": true
     }
   },

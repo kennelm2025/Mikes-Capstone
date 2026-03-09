@@ -2,9 +2,9 @@
   "meta": {
     "function_id": "F7",
     "week": 7,
-    "timestamp": "2026-03-06 08:49:12",
-    "input_file": "f7_w7_inputs.npy",
-    "output_file": "f7_w7_outputs.npy",
+    "timestamp": "2026-03-09 13:17:27",
+    "input_file": ".\\f7_w7_inputs.npy",
+    "output_file": ".\\f7_w7_outputs.npy",
     "objective": "MAXIMIZE"
   },
   "data": {
@@ -15,7 +15,7 @@
     "y_max": 2.11902138,
     "y_mean": 0.34179107,
     "y_std": 0.47973417,
-    "best_value": 1.7392,
+    "best_value": 2.11902138,
     "best_idx": 34,
     "best_point": [
       0.055152,
@@ -234,76 +234,76 @@
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
     "ucb_formula": "UCB(x) = mu + 2.5*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
-    "ei_max": 0.3786673,
+    "ei_max": 0.03162392,
     "ucb_max": 2.46855042,
     "pct_positive_ei": 100.0
   },
   "submission": {
     "point": [
-      0.06322899,
-      0.3953085,
-      0.34838851,
-      0.24648152,
-      0.36769908,
-      0.68844587
+      0.08056816,
+      0.39692158,
+      0.3713476,
+      0.26588289,
+      0.35478756,
+      0.69440585
     ],
-    "formatted_string": "0.063229-0.395308-0.348389-0.246482-0.367699-0.688446",
-    "gp_mu": 2.1278673,
-    "gp_sigma": 0.04531499,
-    "ei": 0.3786673,
-    "ucb": 2.24115478,
-    "exploit_term": 0.3786673,
-    "explore_term": 0.0,
-    "ei_driver": "exploitation",
-    "delta_vs_best": 0.3886673,
-    "prediction": "new_best"
+    "formatted_string": "0.080568-0.396922-0.371348-0.265883-0.354788-0.694406",
+    "gp_mu": 2.09128859,
+    "gp_sigma": 0.12071058,
+    "ei": 0.03162392,
+    "ucb": 2.39306504,
+    "exploit_term": -0.01423645,
+    "explore_term": 0.04586037,
+    "ei_driver": "exploration",
+    "delta_vs_best": -0.02773279,
+    "prediction": "exploration"
   },
   "dimensions": {
     "X1": {
       "best_point_value": 0.055152,
-      "submission_value": 0.063229,
+      "submission_value": 0.080568,
       "gp_sensitivity": 0.611803,
-      "ei_peak_at": 0.065327,
+      "ei_peak_at": 0.120603,
       "ucb_peak_at": 0.175879,
-      "ei_ucb_agree": false
+      "ei_ucb_agree": true
     },
     "X2": {
       "best_point_value": 0.406993,
-      "submission_value": 0.395308,
+      "submission_value": 0.396922,
       "gp_sensitivity": 0.912347,
-      "ei_peak_at": 0.396985,
+      "ei_peak_at": 0.366834,
       "ucb_peak_at": 0.326633,
       "ei_ucb_agree": true
     },
     "X3": {
       "best_point_value": 0.341295,
-      "submission_value": 0.348389,
+      "submission_value": 0.371348,
       "gp_sensitivity": 0.631582,
-      "ei_peak_at": 0.351759,
+      "ei_peak_at": 0.396985,
       "ucb_peak_at": 0.447236,
       "ei_ucb_agree": true
     },
     "X4": {
       "best_point_value": 0.241517,
-      "submission_value": 0.246482,
+      "submission_value": 0.265883,
       "gp_sensitivity": 0.53375,
-      "ei_peak_at": 0.251256,
+      "ei_peak_at": 0.296482,
       "ucb_peak_at": 0.341709,
       "ei_ucb_agree": true
     },
     "X5": {
       "best_point_value": 0.375251,
-      "submission_value": 0.367699,
+      "submission_value": 0.354788,
       "gp_sensitivity": 0.282608,
-      "ei_peak_at": 0.371859,
+      "ei_peak_at": 0.321608,
       "ucb_peak_at": 0.276382,
       "ei_ucb_agree": true
     },
     "X6": {
       "best_point_value": 0.684958,
-      "submission_value": 0.688446,
+      "submission_value": 0.694406,
       "gp_sensitivity": 0.514837,
-      "ei_peak_at": 0.678392,
+      "ei_peak_at": 0.638191,
       "ucb_peak_at": 0.59799,
       "ei_ucb_agree": true
     }

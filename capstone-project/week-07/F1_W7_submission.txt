@@ -1,5 +1,5 @@
 # F1 Week 7 | Method: Adaptive+GP/EI | MAXIMIZE
 # Model: NN-Medium (64, 32) CV=79.5% | GP R2=1.0000
-# mu=-0.000228 sigma=0.000909 EI=0.000000
-# best=0.000000 delta=-0.000228
-0.634642-0.933965
+# mu=-0.000229 sigma=0.000910 EI=0.000000
+# best=0.000000 delta=-0.000229
+0.582827-0.482269

@@ -1,6 +1,6 @@
 ======================================================================
   BBO RUN REPORT — F1  Week 7
-  Generated : 2026-03-06 11:23:17
+  Generated : 2026-03-09 14:51:48
 ======================================================================
 
 ── DATA ────────────────────────────────────────────────────────────
@@ -29,7 +29,7 @@
 ── GP KERNEL ───────────────────────────────────────────────────────
   Type            : ConstantKernel * Matern(nu=2.5)
   Initial spec    : 1**2 * Matern(length_scale=1, nu=2.5)
-  Fitted spec     : 1.01**2 * Matern(length_scale=0.0921, nu=2.5)
+  Fitted spec     : 1.01**2 * Matern(length_scale=0.107, nu=2.5)
   normalize_y     : True
   alpha (nugget)  : 1e-6
   n_restarts      : 5
@@ -37,10 +37,10 @@
   Training RMSE   : 0.00000000
   Fitted params   :
     k1: 1.01**2
-    k2: Matern(length_scale=0.0921, nu=2.5)
-    k1__constant_value: 1.0231446875243886
+    k2: Matern(length_scale=0.107, nu=2.5)
+    k1__constant_value: 1.0254322536649132
     k1__constant_value_bounds: (0.001, 1000.0)
-    k2__length_scale: 0.09211882021613785
+    k2__length_scale: 0.10697950760451884
     k2__length_scale_bounds: (0.01, 100.0)
     k2__nu: 2.5
 
@@ -54,12 +54,12 @@
   Model                             CV Mean    CV Std  Selected
   ----------------------------------------------------------
   NN-Medium (64, 32)                 0.7946    0.0804  ★ SELECTED
+  CNN-1D (learning)                  0.7857    0.2143  
   Random Forest                      0.7411    0.1161  
-  NN-Large (128, 64, 32)             0.7411    0.1161  
-  CNN-1D (learning)                  0.7232    0.1518  
-  Logistic Regression                0.6696    0.0446  
   Decision Tree                      0.6071    0.1071  
   Linear SVM                         0.5982    0.0268  
+  Logistic Regression                0.5982    0.0268  
+  NN-Large (128, 64, 32)             0.5982    0.0268  
   NN-Small (16, 8)                   0.2679    0.0179  
 
 ── ACQUISITION ─────────────────────────────────────────────────────
@@ -68,27 +68,27 @@
   UCB formula: mu + 3.0*sigma
   Direction : MAXIMIZE — argmax
   EI max    : 0.00000000
-  UCB max   : 0.00254543
+  UCB max   : 0.00254438
   % EI > 0  : 99.5%
 
 ── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
   Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
   ------------------------------------------------------------------
-  X1       0.6884   0.6346      0.021850    0.2513    0.3668 NO
-  X2       0.7241   0.9340      0.013097    0.9598    0.7839 NO
+  X1       0.6884   0.5828      0.017475    0.3970    0.3719 YES
+  X2       0.7241   0.4823      0.018042    0.9497    0.7789 NO
 
 ── SUBMISSION ──────────────────────────────────────────────────────
-  Point     : [0.63464174 0.93396533]
-  GP mu     : -0.00022822
-  GP sigma  : 0.00090927
+  Point     : [0.58282652 0.48226863]
+  GP mu     : -0.00022901
+  GP sigma  : 0.00091036
   EI        : 0.00000000
-  UCB       : 0.00249959
+  UCB       : 0.00250206
   EI driver : exploration
-  Delta vs best: -0.00022822
+  Delta vs best: -0.00022901
   Prediction: EXPLORATION
 
   FORMATTED STRING:
-  0.634642-0.933965
+  0.582827-0.482269
 
 ── VISUALISATIONS PRODUCED ─────────────────────────────────────────
   ✅  F1_W7_Step3_History.png

@@ -1,0 +1,70 @@
+BBO CAPSTONE — WEEK 7 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.582827-0.482269
+Function 2:  0.688952-0.168811
+Function 3:  1.000000-0.571651-0.503999
+Function 4:  0.451762-0.438642-0.400163-0.395091
+Function 5:  0.937682-1.000000-1.000000-1.000000
+Function 6:  0.497320-0.294798-0.563080-0.684981-0.129206
+Function 7:  0.078067-0.385415-0.381193-0.266170-0.353901-0.693102
+Function 8:  0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  Strategy        : EXPLORE
+  True best used  : 8.84e-7 (W2)
+  EXPLOIT_RATIO   : 0.40  |  EXPLOIT_SIGMA : 0.216  |  TuRBO: EXPAND
+  Submission      : 0.582827-0.482269
+
+F2 (2D)
+  Strategy        : EXPLOIT W5 BEST
+  True best used  : 0.6497 (W5) — inject override [0.710068, 0.16163]
+  EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.0175  |  TuRBO: SHRINK
+  Submission      : 0.688952-0.168811
+
+F3 (3D)
+  Strategy        : EXPLOIT W6 NEW BEST
+  True best used  : -0.000707 (W6)
+  EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.024  |  TuRBO: SHRINK
+  Submission      : 1.000000-0.571651-0.503999
+
+F4 (4D)
+  Strategy        : RECOVER W2 BEST
+  True best used  : +0.2376 (W2) — inject override [0.439249, 0.414994, 0.384687, 0.397917]
+  EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.0175  |  TuRBO: SHRINK
+  Submission      : 0.451762-0.438642-0.400163-0.395091
+
+F5 (4D)
+  Strategy        : EXPLOIT W6 NEW BEST
+  True best used  : 5875.15 (W6)
+  EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.048  |  TuRBO: EXPAND
+  Submission      : 0.937682-1.000000-1.000000-1.000000
+
+F6 (5D)
+  Strategy        : EXPLOIT W6 NEW BEST
+  True best used  : -0.1727 (W6)
+  EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.042  |  TuRBO: EXPAND
+  Submission      : 0.497320-0.294798-0.563080-0.684981-0.129206
+
+F7 (6D)
+  Strategy        : EXPLOIT W6 NEW BEST
+  True best used  : 2.119 (W6)
+  EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.030  |  TuRBO: SHRINK
+  Submission      : 0.078067-0.385415-0.381193-0.266170-0.353901-0.693102
+
+F8 (8D)
+  Strategy        : EXPLOIT W2 BEST
+  True best used  : 9.832 (W2) — inject override [0.0, 0.179297, 0.0, 0.071406, 0.92927, 0.459981, 0.0, 0.541212]
+  EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.0175  |  TuRBO: SHRINK
+  Classifier      : Decision Tree (CV=86.7%)
+  GP prediction   : 9.8778 ± 0.2300
+  Submission      : 0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552
+
+=======================================================

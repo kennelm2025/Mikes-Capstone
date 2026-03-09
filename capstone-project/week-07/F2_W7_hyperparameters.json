@@ -2,26 +2,26 @@
   "meta": {
     "function_id": "F2",
     "week": 7,
-    "timestamp": "2026-03-06 11:22:34",
-    "input_file": "f2_w7_inputs.npy",
-    "output_file": "f2_w7_outputs.npy",
+    "timestamp": "2026-03-09 12:05:44",
+    "input_file": ".\\f2_w7_inputs.npy",
+    "output_file": ".\\f2_w7_outputs.npy",
     "objective": "MAXIMIZE"
   },
   "data": {
-    "n_samples": 16,
+    "n_samples": 15,
     "n_dims": 2,
-    "np_ratio": 8.0,
+    "np_ratio": 7.5,
     "y_min": -0.06562362,
-    "y_max": 0.649651,
-    "y_mean": 0.30400229,
-    "y_std": 0.24441555,
+    "y_max": 0.61120522,
+    "y_mean": 0.28095905,
+    "y_std": 0.23500149,
     "best_value": 0.6497,
-    "best_idx": 15,
+    "best_idx": 9,
     "best_point": [
-      0.710068,
-      0.16163
+      0.7101,
+      0.1616
     ],
-    "latest_value": 0.649651
+    "latest_value": 0.58436645
   },
   "hyperparameters": {
     "TOP_PERCENTILE": {
@@ -86,13 +86,13 @@
     "type": "ConstantKernel * Matern(nu=2.5)",
     "nu": 2.5,
     "initial_spec": "1**2 * Matern(length_scale=1, nu=2.5)",
-    "fitted_spec": "0.974**2 * Matern(length_scale=0.228, nu=2.5)",
+    "fitted_spec": "0.972**2 * Matern(length_scale=0.229, nu=2.5)",
     "fitted_params": {
-      "k1": "0.974**2",
-      "k2": "Matern(length_scale=0.228, nu=2.5)",
-      "k1__constant_value": 0.9481750263773551,
+      "k1": "0.972**2",
+      "k2": "Matern(length_scale=0.229, nu=2.5)",
+      "k1__constant_value": 0.9452139068269632,
       "k1__constant_value_bounds": "(0.001, 1000.0)",
-      "k2__length_scale": 0.22808532888744276,
+      "k2__length_scale": 0.2290264203523797,
       "k2__length_scale_bounds": "(0.01, 100.0)",
       "k2__nu": 2.5
     },
@@ -100,96 +100,96 @@
     "alpha_nugget": 1e-06,
     "n_restarts": 5,
     "train_r2": 1.0,
-    "train_rmse": 2.8e-07,
+    "train_rmse": 2.4e-07,
     "rationale": "Matern 5/2 is robust for BBO: allows sharp transitions, assumes twice-differentiable function. ConstantKernel scales amplitude. normalize_y stabilises fitting when y range is large."
   },
   "classification": {
     "n_cv_folds": 2,
-    "label_threshold": 0.53180764,
+    "label_threshold": 0.50381258,
     "n_positive_class1": 5,
-    "n_negative_class0": 11,
-    "selected_model": "CNN-1D (learning)",
-    "selected_cv_mean": 0.8125,
+    "n_negative_class0": 10,
+    "selected_model": "Random Forest",
+    "selected_cv_mean": 0.9375,
     "selected_cv_std": 0.0625,
     "all_model_results": {
       "Linear SVM": {
-        "cv_mean": 0.625,
-        "cv_std": 0.0,
+        "cv_mean": 0.732143,
+        "cv_std": 0.017857,
         "cv_folds": [
-          0.625,
-          0.625
+          0.75,
+          0.714286
         ],
         "selected": false,
         "type": "classical"
       },
       "Decision Tree": {
-        "cv_mean": 0.75,
-        "cv_std": 0.125,
+        "cv_mean": 0.678571,
+        "cv_std": 0.178571,
         "cv_folds": [
-          0.625,
-          0.875
+          0.5,
+          0.857143
         ],
         "selected": false,
         "type": "classical"
       },
       "Random Forest": {
-        "cv_mean": 0.75,
-        "cv_std": 0.0,
+        "cv_mean": 0.9375,
+        "cv_std": 0.0625,
         "cv_folds": [
-          0.75,
-          0.75
+          0.875,
+          1.0
         ],
-        "selected": false,
+        "selected": true,
         "type": "classical"
       },
       "Logistic Regression": {
-        "cv_mean": 0.75,
-        "cv_std": 0.125,
+        "cv_mean": 0.544643,
+        "cv_std": 0.169643,
         "cv_folds": [
-          0.625,
-          0.875
+          0.375,
+          0.714286
         ],
         "selected": false,
         "type": "classical"
       },
       "NN-Small (16, 8)": {
-        "cv_mean": 0.5,
-        "cv_std": 0.125,
+        "cv_mean": 0.392857,
+        "cv_std": 0.107143,
         "cv_folds": [
-          0.625,
-          0.375
+          0.5,
+          0.285714
         ],
         "selected": false,
         "type": "neural_network"
       },
       "NN-Medium (64, 32)": {
-        "cv_mean": 0.5625,
-        "cv_std": 0.0625,
+        "cv_mean": 0.598214,
+        "cv_std": 0.026786,
         "cv_folds": [
-          0.5,
-          0.625
+          0.625,
+          0.571429
         ],
         "selected": false,
         "type": "neural_network"
       },
       "NN-Large (128, 64, 32)": {
-        "cv_mean": 0.6875,
-        "cv_std": 0.0625,
+        "cv_mean": 0.669643,
+        "cv_std": 0.044643,
         "cv_folds": [
           0.625,
-          0.75
+          0.714286
         ],
         "selected": false,
         "type": "neural_network"
       },
       "CNN-1D (learning)": {
-        "cv_mean": 0.8125,
-        "cv_std": 0.0625,
+        "cv_mean": 0.669643,
+        "cv_std": 0.044643,
         "cv_folds": [
-          0.75,
-          0.875
+          0.625,
+          0.714286
         ],
-        "selected": true,
+        "selected": false,
         "type": "neural_network"
       }
     }
@@ -198,49 +198,49 @@
     "total_generated": 10000,
     "n_exploit": 8500,
     "n_explore": 1500,
-    "after_filter": 5000,
-    "filter_model": "CNN-1D (learning)"
+    "after_filter": 5398,
+    "filter_model": "Random Forest"
   },
   "acquisition": {
     "method": "Expected Improvement (primary) + UCB (reference)",
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
     "ucb_formula": "UCB(x) = mu + 2.5*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
-    "ei_max": 0.02287953,
-    "ucb_max": 0.98022153,
+    "ei_max": 0.01332523,
+    "ucb_max": 0.90380451,
     "pct_positive_ei": 100.0
   },
   "submission": {
     "point": [
-      0.73874981,
-      0.1775204
+      0.68895156,
+      0.16881146
     ],
-    "formatted_string": "0.738750-0.177520",
-    "gp_mu": 0.55605502,
-    "gp_sigma": 0.15353798,
-    "ei": 0.02287953,
-    "ucb": 0.93989996,
-    "exploit_term": -0.02589297,
-    "explore_term": 0.04877251,
+    "formatted_string": "0.688952-0.168811",
+    "gp_mu": 0.5228249,
+    "gp_sigma": 0.1446055,
+    "ei": 0.01332523,
+    "ucb": 0.88433865,
+    "exploit_term": -0.02353379,
+    "explore_term": 0.03685902,
     "ei_driver": "exploration",
-    "delta_vs_best": -0.09364498,
+    "delta_vs_best": -0.1268751,
     "prediction": "exploration"
   },
   "dimensions": {
     "X1": {
-      "best_point_value": 0.710068,
-      "submission_value": 0.73875,
-      "gp_sensitivity": 0.657291,
-      "ei_peak_at": 0.738693,
-      "ucb_peak_at": 0.758794,
+      "best_point_value": 0.7101,
+      "submission_value": 0.688952,
+      "gp_sensitivity": 2.156216,
+      "ei_peak_at": 0.688442,
+      "ucb_peak_at": 0.753769,
       "ei_ucb_agree": true
     },
     "X2": {
-      "best_point_value": 0.16163,
-      "submission_value": 0.17752,
-      "gp_sensitivity": 0.696536,
-      "ei_peak_at": 0.221106,
-      "ucb_peak_at": 0.261307,
+      "best_point_value": 0.1616,
+      "submission_value": 0.168811,
+      "gp_sensitivity": 2.060928,
+      "ei_peak_at": 0.065327,
+      "ucb_peak_at": 0.045226,
       "ei_ucb_agree": true
     }
   },

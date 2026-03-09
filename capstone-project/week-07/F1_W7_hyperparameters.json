@@ -2,9 +2,9 @@
   "meta": {
     "function_id": "F1",
     "week": 7,
-    "timestamp": "2026-03-06 11:23:17",
-    "input_file": "f1_w7_inputs.npy",
-    "output_file": "f1_w7_outputs.npy",
+    "timestamp": "2026-03-09 14:51:48",
+    "input_file": ".\\f1_w7_inputs.npy",
+    "output_file": ".\\f1_w7_outputs.npy",
     "objective": "MAXIMIZE"
   },
   "data": {
@@ -86,13 +86,13 @@
     "type": "ConstantKernel * Matern(nu=2.5)",
     "nu": 2.5,
     "initial_spec": "1**2 * Matern(length_scale=1, nu=2.5)",
-    "fitted_spec": "1.01**2 * Matern(length_scale=0.0921, nu=2.5)",
+    "fitted_spec": "1.01**2 * Matern(length_scale=0.107, nu=2.5)",
     "fitted_params": {
       "k1": "1.01**2",
-      "k2": "Matern(length_scale=0.0921, nu=2.5)",
-      "k1__constant_value": 1.0231446875243886,
+      "k2": "Matern(length_scale=0.107, nu=2.5)",
+      "k1__constant_value": 1.0254322536649132,
       "k1__constant_value_bounds": "(0.001, 1000.0)",
-      "k2__length_scale": 0.09211882021613785,
+      "k2__length_scale": 0.10697950760451884,
       "k2__length_scale_bounds": "(0.01, 100.0)",
       "k2__nu": 2.5
     },
@@ -143,11 +143,11 @@
         "type": "classical"
       },
       "Logistic Regression": {
-        "cv_mean": 0.669643,
-        "cv_std": 0.044643,
+        "cv_mean": 0.598214,
+        "cv_std": 0.026786,
         "cv_folds": [
           0.625,
-          0.714286
+          0.571429
         ],
         "selected": false,
         "type": "classical"
@@ -173,20 +173,20 @@
         "type": "neural_network"
       },
       "NN-Large (128, 64, 32)": {
-        "cv_mean": 0.741071,
-        "cv_std": 0.116071,
+        "cv_mean": 0.598214,
+        "cv_std": 0.026786,
         "cv_folds": [
           0.625,
-          0.857143
+          0.571429
         ],
         "selected": false,
         "type": "neural_network"
       },
       "CNN-1D (learning)": {
-        "cv_mean": 0.723214,
-        "cv_std": 0.151786,
+        "cv_mean": 0.785714,
+        "cv_std": 0.214286,
         "cv_folds": [
-          0.875,
+          1.0,
           0.571429
         ],
         "selected": false,
@@ -207,40 +207,40 @@
     "ucb_formula": "UCB(x) = mu + 3.0*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
     "ei_max": 0.0,
-    "ucb_max": 0.00254543,
-    "pct_positive_ei": 99.54
+    "ucb_max": 0.00254438,
+    "pct_positive_ei": 99.52
   },
   "submission": {
     "point": [
-      0.63464174,
-      0.93396533
+      0.58282652,
+      0.48226863
     ],
-    "formatted_string": "0.634642-0.933965",
-    "gp_mu": -0.00022822,
-    "gp_sigma": 0.00090927,
+    "formatted_string": "0.582827-0.482269",
+    "gp_mu": -0.00022901,
+    "gp_sigma": 0.00091036,
     "ei": 0.0,
-    "ucb": 0.00249959,
+    "ucb": 0.00250206,
     "exploit_term": -0.0,
     "explore_term": 0.0,
     "ei_driver": "exploration",
-    "delta_vs_best": -0.00022822,
+    "delta_vs_best": -0.00022901,
     "prediction": "exploration"
   },
   "dimensions": {
     "X1": {
       "best_point_value": 0.688418,
-      "submission_value": 0.634642,
-      "gp_sensitivity": 0.02185,
-      "ei_peak_at": 0.251256,
-      "ucb_peak_at": 0.366834,
-      "ei_ucb_agree": false
+      "submission_value": 0.582827,
+      "gp_sensitivity": 0.017475,
+      "ei_peak_at": 0.396985,
+      "ucb_peak_at": 0.371859,
+      "ei_ucb_agree": true
     },
     "X2": {
       "best_point_value": 0.724106,
-      "submission_value": 0.933965,
-      "gp_sensitivity": 0.013097,
-      "ei_peak_at": 0.959799,
-      "ucb_peak_at": 0.78392,
+      "submission_value": 0.482269,
+      "gp_sensitivity": 0.018042,
+      "ei_peak_at": 0.949749,
+      "ucb_peak_at": 0.778894,
       "ei_ucb_agree": false
     }
   },

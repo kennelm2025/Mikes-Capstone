@@ -48,21 +48,22 @@ BBO_W7_Reflection.docx  # Written reflection
 
 ## W7 Strategy At a Glance
 
-| Fn | Dims | n  | Strategy | True Best | W6 Score | Key Insight |
-|----|------|----|----------|-----------|----------|-------------|
-| F1 | 2D   | 15 | EXPLORE | W2 ≈ 0 | ≈ 0 | All 6 weeks near-zero — massive σ increase to find any structure |
-| F2 | 2D   | 15 | EXPLOIT W5 BEST | W5 = 0.6497 | 0.584 | W6 slight regression — precision tighten on confirmed W5 region |
-| F3 | 3D   | 20 | EXPLOIT W6 NEW BEST | W6 = -0.000707 | -0.000707 | New best W6 — X1=0.998 near boundary 1.0, tight exploit |
-| F4 | 4D   | 35 | RECOVER W2 BEST | W2 = +0.2376 | -0.129 | Only positive value ever — inject W2 coords, precision exploit |
-| F5 | 4D   | 25 | EXPLOIT W6 NEW BEST | W6 = 5,875 | 5,875 | New best W6 — X2-X4 at boundary 1.0, slight sigma expand |
-| F6 | 5D   | 25 | EXPLOIT W6 NEW BEST | W6 = -0.1727 | -0.1727 | New best W6 — slight sigma expand around W6 coords |
-| F7 | 6D   | 35 | EXPLOIT W6 NEW BEST | W6 = 2.119 | 2.119 | Massive new best W6 (+0.38 jump) — X1=0.055 boundary, tight exploit |
-| F8 | 8D   | 45 | EXPLOIT W2 BEST | W2 = 9.832 | 9.774 | Inject W2 boundary pattern (X1,X3,X7~0) — precision exploit |
+| Fn | Dims | n  | Strategy | True Best | W6 Score | σ W7 | TuRBO | W7 Submission |
+|----|------|----|----------|-----------|----------|------|-------|---------------|
+| F1 | 2D   | 15 | EXPLORE | W2 ≈ 0 | ≈ 0 | 0.216 | EXPAND | `0.582827-0.482269` |
+| F2 | 2D   | 15 | EXPLOIT W5 BEST | W5 = 0.6497 | 0.584 | 0.0175 | SHRINK | `0.688952-0.168811` |
+| F3 | 3D   | 20 | EXPLOIT W6 NEW BEST | W6 = -0.000707 | -0.000707 | 0.024 | SHRINK | `1.000000-0.571651-0.503999` |
+| F4 | 4D   | 35 | RECOVER W2 BEST ⚠️ | W2 = +0.2376 | -0.129 | 0.0175 | SHRINK | `0.451762-0.438642-0.400163-0.395091` |
+| F5 | 4D   | 25 | EXPLOIT W6 NEW BEST | W6 = 5,875 | 5,875 | 0.048 | EXPAND | `0.937682-1.000000-1.000000-1.000000` |
+| F6 | 5D   | 25 | EXPLOIT W6 NEW BEST | W6 = -0.1727 | -0.1727 | 0.042 | EXPAND | `0.497320-0.294798-0.563080-0.684981-0.129206` |
+| F7 | 6D   | 35 | EXPLOIT W6 NEW BEST | W6 = 2.119 | 2.119 | [0.015,0.035×5] ★ | SHRINK | `0.078067-0.385415-0.381193-0.266170-0.353901-0.693102` |
+| F8 | 8D   | 45 | EXPLOIT W2 BEST ⚠️ | W2 = 9.832 | 9.774 | 0.0175 | SHRINK | `0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552` |
 
 **Key W7 decisions:**
 - F3, F5, F6, F7 all set new all-time bests in W6 — exploit these discoveries
 - F2 W6 regressed slightly from W5 best — hold tight on W5 region, tighten sigma
-- F4 and F8 use week log overrides (best points missing from npy files)
+- F4 and F8 use week log overrides ⚠️ — best points missing from npy files, injected from email confirmations
+- F7 ★ uses **anisotropic sigma** `[0.015, 0.035, 0.035, 0.035, 0.035, 0.035]` — motivated by CNN filter map analysis (Step 5B) which showed filters 3 & 4 peaking on coord pair [0,1], confirming X1 is the dominant structural dimension
 
 ---
 

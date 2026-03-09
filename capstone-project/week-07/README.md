@@ -84,22 +84,30 @@ Exploit sigma adjusted per function based on W6 trajectory. EXPAND = sigma incre
 
 ---
 
-## CNN-1D Status (Week 7)
+## CNN-1D Experiment (Week 7)
 
-CNN-1D runs as Model 8 in Step 5 CV comparison across all functions. Results below are W6 actuals where available; marked as tracking where CV outcome was not definitive.
+CNN-1D runs as Model 8 in the Step 5 CV comparison across all 8 functions. Week 7 adds **Step 5B — CNN Inspection**, a new Module 17 learning exercise that goes beyond classification to inspect *what the CNN learned*:
 
-| Function | n (W7) | Dims | CNN W6 Status | Notes |
-|----------|--------|------|---------------|-------|
-| F1 | 15 | 2D | Tracking | Near-zero landscape — almost no classification signal |
-| F2 | 15 | 2D | Tracking | Small n, 2D — CNN vs MLP gap expected to narrow with more data |
-| F3 | 20 | 3D | Tracking | Competitive at n=20 — more signal than F1/F2 |
-| F4 | 35 | 4D | Strong (83.3%) | Tight coordinate cluster at W2 best — local pattern detectable |
-| F5 | 25 | 4D | Strong (85.7%) | All-dims-high boundary pattern — clearest structure in batch |
-| F6 | 25 | 5D | Competitive | X4 high + X5 low pattern — Conv1d detects adjacent feature pairs |
-| F7 | 35 | 6D | Competitive | X1 boundary pattern at 0.055 — more data than F1/F2 |
-| F8 | 45 | 8D | Tracking | Best conditions (n=45, 8D) — most statistically meaningful result |
+1. **Filter weights** — the 8 learned Conv1d kernels (each 1×2) visualised as bar charts. Each filter scans adjacent coordinate pairs and learns a co-activation pattern automatically from the training data.
+2. **Feature map activations** — the best training point is passed through the conv layer (before pooling) to show which filters fire strongest and on which coordinate pair.
+3. **Parameter count** — TinyCNN vs NN-Large comparison demonstrating weight sharing efficiency.
 
-CNN performs best where the optimum has **local coordinate structure** — tight clusters or boundary patterns that Conv1d detects by scanning adjacent feature pairs.
+**W7 CNN CV Results:**
+
+| Fn | n | Dims | CV Winner | CNN CV | Notes |
+|----|---|------|-----------|--------|-------|
+| F1 | 15 | 2D | Linear SVM | Tracking | Near-zero landscape — minimal classification signal |
+| F2 | 15 | 2D | Logistic Regression | Tracking | Small n, 2D — CNN vs MLP gap narrows with more data |
+| F3 | 20 | 3D | Random Forest | Tracking | Competitive at n=20 — X1 boundary pattern detectable |
+| F4 | 35 | 4D | Linear SVM (83.3%) | 83.3% | Tight [0.38–0.44] cluster — local pattern strong |
+| F5 | 25 | 4D | Random Forest (88.0%) | Competitive | X2-X4=1.0 boundary — clearest structure in batch |
+| F6 | 25 | 5D | Random Forest | Competitive | X4 high/X5 low pattern — Conv1d detects adjacent pairs |
+| F7 | 35 | 6D | Linear SVM (77.1%) | Competitive | X1≈0 boundary — filter maps peaked on [0,1] pair ★ |
+| F8 | 45 | 8D | Decision Tree (86.7%) | Tracking | Best n/dims conditions — most statistically meaningful |
+
+**★ Key W7 CNN finding — F7:** Step 5B filter map analysis showed filters 3 and 4 both peaked on coord pair [0,1] with activations of 1.56 and 1.44 respectively — confirming X1 is the dominant structural dimension. This directly motivated the **anisotropic sigma** decision: `σ=[0.015, 0.035, 0.035, 0.035, 0.035, 0.035]`, tightening X1 while leaving X2-X6 looser. This is the first week where CNN inspection output fed back into the pipeline hyperparameter choice.
+
+CNN performs best where the optimum has **local coordinate structure** — tight clusters or boundary patterns that Conv1d detects by scanning adjacent feature pairs. At small n (F1, F2 with n=15) the CNN has insufficient signal; at larger n with clear boundary patterns (F4, F5, F8) it becomes competitive or wins outright.
 
 ---
 

@@ -111,10 +111,8 @@ def render():
         <div class="hero-eyebrow">Capstone Project · Imperial College London · Data Oct 2025 – May 2026 Cohort</div>
         <div class="hero-title">Black-Box Optimisation<br><span style='color:#2563eb'>Capstone</span></div>
         <div class="hero-subtitle-row">
-            <div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:0.58rem;color:#2d3a52;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:4px">Presented by</div>
-                <div class="hero-name">Mike Kennelly</div>
-                <div class="hero-name-sub">Professional Certificate in ML & AI</div>
+            <div style="font-family:Syne,sans-serif;font-size:1.05rem;font-weight:700;color:#e8eeff">
+                Presented by Mike Kennelly · Professional Certificate in ML & AI
             </div>
         </div>
         <div class="hero-desc">

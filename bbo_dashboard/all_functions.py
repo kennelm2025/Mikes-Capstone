@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
-from data import FUNCTIONS, SCORES, W7_PRED, STRATEGY, CLASSIFIERS, W7_GLANCE, TURBO_SUMMARY, COORDS, WEEKLY, running_best, get_all_time_best, get_sigma_display
+from data import FUNCTIONS, SCORES, W7_PRED, STRATEGY, CLASSIFIERS, W7_GLANCE, TURBO_SUMMARY, COORDS, WEEKLY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
 def fmt(v):
     if v is None: return "—"
@@ -11,13 +11,15 @@ def fmt(v):
     if abs(v) < 0.0001 and v != 0: return f"{v:.2e}"
     return f"{v:.4f}"
 
-def render(wk_idx=6):
+def render(wk_idx=None):
+    if wk_idx is None:
+        wk_idx = CURRENT_WEEK - 1
     week_label = f"W{wk_idx+1}"
     st.markdown(f"""
     <div class='page-hero'>
       <div class='page-eyebrow'>All Functions · All Weeks · {week_label} Selected</div>
       <div class='page-title'>All 8 Functions</div>
-      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · All data W1–W7</div>
+      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · All data W1–W{CURRENT_WEEK}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -103,18 +105,19 @@ def render(wk_idx=6):
 
     st.markdown('<div class="sec-head">Improvement Heatmap — Week-on-Week</div>', unsafe_allow_html=True)
     fns_list = list(FUNCTIONS.keys())
-    weeks    = ["W1→W2", "W2→W3", "W3→W4", "W4→W5", "W5→W6"]
+    n_transitions = CURRENT_WEEK - 1
+    weeks    = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"
         sc = [s for s in SCORES[fid] if s is not None]
         row_vals, text_vals = [], []
-        for i in range(min(5, len(sc)-1)):
+        for i in range(min(n_transitions, len(sc)-1)):
             delta = sc[i+1] - sc[i]
             if not maximize: delta = -delta
             row_vals.append(delta)
             text_vals.append(fmt(sc[i+1] - sc[i]))
-        while len(row_vals) < 5: row_vals.append(0); text_vals.append("—")
+        while len(row_vals) < n_transitions: row_vals.append(0); text_vals.append("—")
         z_matrix.append(row_vals); text_matrix.append(text_vals)
 
     z_arr = np.array(z_matrix, dtype=float)
@@ -143,7 +146,7 @@ def render(wk_idx=6):
     rows_html = ""
     for fn in FUNCTIONS:
         maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
-        for wi in range(7):
+        for wi in range(CURRENT_WEEK):
             score = SCORES[fn][wi] if wi < len(SCORES[fn]) else None
             sub   = WEEKLY[fn][wi].get("submission","—") if wi < len(WEEKLY[fn]) else "—"
             wl    = f"W{wi+1}"

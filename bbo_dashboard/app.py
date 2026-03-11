@@ -130,7 +130,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, PIPELINE_STEPS, COORDS, WEEKS, WEEKLY, W7_GLANCE, TURBO_SUMMARY, running_best, get_all_time_best, get_sigma_display
+from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, PIPELINE_STEPS, COORDS, WEEKS, WEEKLY, W7_GLANCE, TURBO_SUMMARY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -152,7 +152,7 @@ with st.sidebar:
 
     if "All Functions" in page:
         fn = "ALL"
-        wk_idx = st.selectbox("Week", list(range(7)), index=6, format_func=lambda i: f"W{i+1} — Week {i+1}")
+        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1} — Week {i+1}")
         st.markdown(f"""
         <div style='background:#0a1020;border-radius:8px;padding:10px 12px;margin-top:8px;
                     font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#2563eb'>
@@ -161,7 +161,7 @@ with st.sidebar:
     else:
         fn_list = list(FUNCTIONS.keys())
         fn = st.selectbox("Function", fn_list, index=4, format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D")
-        wk_idx = st.selectbox("Week", list(range(7)), index=6, format_func=lambda i: f"W{i+1}")
+        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1}")
 
         maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
         scores   = SCORES[fn]
@@ -193,7 +193,7 @@ with st.sidebar:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("<div style='font-size:0.63rem;color:#2d3a52;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W7 · BBO Optimisation</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='font-size:0.63rem;color:#2d3a52;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W{CURRENT_WEEK} · BBO Optimisation</div>", unsafe_allow_html=True)
 
 # ── Route ──────────────────────────────────────────────────────────────────────
 if "Home" in page:

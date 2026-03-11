@@ -2,7 +2,20 @@
 BBO Capstone — all historical data baked in.
 No external files needed — works standalone on GitHub / Streamlit Cloud.
 Updated: W7 actuals added, F7 anisotropic sigma, CNN filter map rationale.
+
+HOW TO UPDATE EACH WEEK:
+  1. Increment CURRENT_WEEK below.
+  2. Append the new score to each SCORES[fn] list (replace the trailing None).
+  3. Append new coords to COORDS[fn].
+  4. Append a new weekly dict to WEEKLY[fn].
+  5. Update STRATEGY[fn] with the new week's strategy.
+  6. Update CLASSIFIERS[fn] if the winning model changed.
+  7. Update W7_GLANCE / TURBO_SUMMARY keys to reflect the latest week.
+  Nothing else needs touching — all views derive from CURRENT_WEEK.
 """
+
+# ── Single source-of-truth: change this every week ───────────────────────────
+CURRENT_WEEK = 7   # ← update to 8, 9, … after each portal result
 
 # ── Function metadata ─────────────────────────────────────────────────────────
 FUNCTIONS = {
@@ -356,7 +369,7 @@ PIPELINE_STEPS = [
      "desc": "Full dashboard: trajectory, submission coords, EI decomposition, dimension sensitivity. Prints final submission string."},
 ]
 
-WEEKS = ["W1", "W2", "W3", "W4", "W5", "W6", "W7"]
+WEEKS = [f"W{i+1}" for i in range(CURRENT_WEEK)]
 
 def running_best(scores, maximize):
     result, rb = [], None

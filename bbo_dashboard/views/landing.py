@@ -112,16 +112,9 @@ def render():
         <div class="hero-title">Black-Box Optimisation<br><span style='color:#2563eb'>Capstone</span></div>
         <div class="hero-subtitle-row">
             <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:0.58rem;color:#2d3a52;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:4px">Presented by</div>
                 <div class="hero-name">Mike Kennelly</div>
                 <div class="hero-name-sub">Professional Certificate in ML & AI</div>
-            </div>
-            <div class="hero-divider"></div>
-            <div class="imperial-logo">
-                <div class="imperial-crest">🏛️</div>
-                <div class="imperial-text-block">
-                    <div class="imperial-name">Imperial College London</div>
-                    <div class="imperial-sub">DATA 2026 · Module 17 · BBO Capstone</div>
-                </div>
             </div>
         </div>
         <div class="hero-desc">

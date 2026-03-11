@@ -1,0 +1,93 @@
+BBO CAPSTONE — WEEK 8 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  [PENDING — paste from notebook Step 14]
+Function 2:  [PENDING — paste from notebook Step 14]
+Function 3:  [PENDING — paste from notebook Step 14]
+Function 4:  [PENDING — paste from notebook Step 14]
+Function 5:  [PENDING — paste from notebook Step 14]
+Function 6:  [PENDING — paste from notebook Step 14]
+Function 7:  [PENDING — paste from notebook Step 14]
+Function 8:  [PENDING — paste from notebook Step 14]
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  Strategy        : EXPLORE — EXTREME WIDENING
+  W7 Result       : ≈0 (-2.22e-17) — 7th consecutive near-zero
+  True best used  : 8.84e-7 (W2) @ [0.684, 0.704]
+  EXPLOIT_RATIO   : 0.20  |  EXPLOIT_SIGMA : 0.40  |  TuRBO: EXPAND
+  UCB_KAPPA       : 4.0 (EI unreliable near zero — elevated κ)
+  Override        : Not required
+  Submission      : [PENDING]
+
+F2 (2D)
+  Strategy        : EXPLOIT W5 BEST — PRECISION TIGHTEN
+  W7 Result       : 0.5338 (below ATB 0.6497)
+  True best used  : 0.6497 (W5) @ [0.710068, 0.16163]
+  EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.010  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Override        : Not required — W5 best in npy
+  Submission      : [PENDING]
+
+F3 (3D)
+  Strategy        : EXPLOIT W7 NEW BEST — TIGHTEN
+  W7 Result       : -0.00534 ★ NEW ALL-TIME BEST
+  True best used  : -0.00534 (W7) @ [1.000, 0.572, 0.504]
+  EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.018  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Override        : Not required — W7 best in npy
+  Submission      : [PENDING]
+
+F4 (4D)
+  Strategy        : ABANDON INJECT — EXPLORE NEW REGIONS
+  W7 Result       : -0.2651 — inject conclusively failed
+  True best used  : npy best (inject override REMOVED)
+  EXPLOIT_RATIO   : 0.35  |  EXPLOIT_SIGMA : 0.12  |  TuRBO: EXPAND
+  UCB_KAPPA       : 3.5
+  Override        : REMOVED — W2 coords [0.439,0.415,0.385,0.398] not reproducible
+  Submission      : [PENDING]
+
+F5 (4D)
+  Strategy        : EXPLOIT W7 NEW BEST — PUSH X1 HIGHER
+  W7 Result       : 7596.79 ★ NEW ALL-TIME BEST (+1722 vs W6)
+  True best used  : 7596.79 (W7) @ [0.938, 1.0, 1.0, 1.0]
+  EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.035  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Override        : Not required — W7 best in npy
+  Submission      : [PENDING]
+
+F6 (5D)
+  Strategy        : EXPLOIT W6 BEST — RETURN AND TIGHTEN
+  W7 Result       : -0.3422 — W7 expand failed; regressed from ATB -0.1727
+  True best used  : -0.1727 (W6) @ [0.427, 0.326, 0.598, 0.780, 0.144]
+  EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.025  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Override        : Not required — W6 best in npy
+  Submission      : [PENDING]
+
+F7 (6D)
+  Strategy        : EXPLOIT W7 NEW BEST — ANISOTROPIC σ CONFIRMED
+  W7 Result       : 2.4134 ★ NEW ALL-TIME BEST (+0.294 vs W6)
+  True best used  : 2.4134 (W7) @ [0.078, 0.385, 0.381, 0.267, 0.354, 0.693]
+  EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : [0.012, 0.028, 0.028, 0.028, 0.028, 0.028]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.5
+  Anisotropic     : X1 σ tightened 0.015→0.012; X2-X6 σ tightened 0.035→0.028
+  Override        : Not required — W7 best in npy
+  Submission      : [PENDING]
+
+F8 (8D)
+  Strategy        : EXPLOIT W2 BEST — PRECISION INJECT
+  W7 Result       : 9.8251 — 0.007 from ATB (W2=9.832)
+  True best used  : 9.832 (W2) — inject override ACTIVE
+  EXPLOIT_RATIO   : 0.92  |  EXPLOIT_SIGMA : 0.012  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0  |  GP_RESTARTS : 10
+  Override        : ✅ [0.0, 0.179297, 0.0, 0.071406, 0.92927, 0.459981, 0.0, 0.541212] y=9.83196
+  Submission      : [PENDING]
+
+=======================================================

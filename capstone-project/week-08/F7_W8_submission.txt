@@ -1,0 +1,5 @@
+# F7 Week 8 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Logistic Regression CV=78.2% | GP R2=1.0000
+# mu=2.481794 sigma=0.067176 EI=0.065561
+# best=2.413361 delta=+0.068433
+0.096399-0.368153-0.413112-0.285892-0.336821-0.699617

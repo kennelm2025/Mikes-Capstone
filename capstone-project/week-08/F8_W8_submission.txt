@@ -1,0 +1,5 @@
+# F8 Week 8 | Method: Adaptive+GP/EI | MAXIMIZE
+# Classifier: Linear SVM CV=85.1% | Surrogate: GP Matern5/2 | R2=1.0000
+# mu=9.855602 sigma=0.124601 EI=0.060632
+# best=9.825098 delta=+0.030505
+0.008368-0.331528-0.000000-0.160107-0.374002-0.541189-0.166880-0.765946

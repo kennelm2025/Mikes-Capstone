@@ -153,13 +153,14 @@ with st.sidebar:
         "page",
         ["🏠  Home", "📊  All Functions", "🔬  Weekly Analysis", "📋  Source Code", "🏗️  Pipeline"],
         label_visibility="collapsed",
+        key="nav_page",
     )
 
     st.markdown('<div class="nav-section">Select Data</div>', unsafe_allow_html=True)
 
     if "All Functions" in page:
         fn = "ALL"
-        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1} — Week {i+1}")
+        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1} — Week {i+1}", key="wk_all")
         st.markdown(f"""
         <div style='background:#0a1020;border-radius:8px;padding:10px 12px;margin-top:8px;
                     font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#2563eb'>
@@ -167,8 +168,8 @@ with st.sidebar:
         </div>""", unsafe_allow_html=True)
     else:
         fn_list = list(FUNCTIONS.keys())
-        fn = st.selectbox("Function", fn_list, index=4, format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D")
-        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1}")
+        fn = st.selectbox("Function", fn_list, index=4, format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D", key="fn_sel")
+        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1}", key="wk_sel")
 
         maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
         scores   = SCORES[fn]
@@ -203,13 +204,14 @@ with st.sidebar:
     st.markdown(f"<div style='font-size:0.63rem;color:#2d3a52;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W{CURRENT_WEEK} · BBO Optimisation</div>", unsafe_allow_html=True)
 
 # ── Route ──────────────────────────────────────────────────────────────────────
-if "Home" in page:
+_page = page.strip()
+if "Home" in _page:
     render_landing()
-elif "All Functions" in page:
+elif "All Functions" in _page:
     render_all(wk_idx)
-elif "Weekly Analysis" in page:
+elif "Weekly Analysis" in _page:
     render_weekly(fn, wk_idx)
-elif "Source Code" in page:
+elif "Source Code" in _page:
     render_source(fn, wk_idx)
-elif "Pipeline" in page:
+elif "Pipeline" in _page:
     render_pipeline(fn)

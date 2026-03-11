@@ -126,7 +126,7 @@ def render():
         </div>
         <div class="hero-desc">
             The Capstone is a 13-week Black-Box Optimisation challenge. Each week we receive
-            an additional data point across 8 unknown functions — our goal is to predict the
+            an additional data point across 8 unknown functions, our goal is to predict the
             global maximum of each. Weekly learnings, strategies and notebooks are published
             to our GitHub repo, with predictions submitted to the Capstone console where
             results are scored and new data points unlocked for the following week.

@@ -132,14 +132,22 @@ st.markdown("""
 
 from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, PIPELINE_STEPS, COORDS, WEEKS, WEEKLY, W7_GLANCE, TURBO_SUMMARY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
-# ── Import views at module level — avoids Streamlit import-cache routing bug ──
-import views.landing as _v_landing
+# ── Import all views at module level (avoids Streamlit import-cache routing bug)
+import views.landing      as _v_landing
 import views.all_functions as _v_all
-import views.weekly as _v_weekly
-import views.source_view as _v_source
-import views.pipeline as _v_pipeline
+import views.weekly        as _v_weekly
+import views.source_view   as _v_source
+import views.pipeline      as _v_pipeline
 
-# ── Sidebar ────────────────────────────────────────────────────────────────────
+# ── Session state defaults ──────────────────────────────────────────────────────
+if "page" not in st.session_state:
+    st.session_state["page"] = "🏠  Home"
+if "fn" not in st.session_state:
+    st.session_state["fn"] = list(FUNCTIONS.keys())[4]
+if "wk_idx" not in st.session_state:
+    st.session_state["wk_idx"] = CURRENT_WEEK - 1
+
+# ── Sidebar ─────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
     <div style='padding: 0.5rem 0 1rem'>
@@ -149,17 +157,29 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="nav-section">Navigate</div>', unsafe_allow_html=True)
+
+    PAGE_OPTIONS = ["🏠  Home", "📊  All Functions", "🔬  Weekly Analysis", "📋  Source Code", "🏗️  Pipeline"]
     page = st.radio(
         "page",
-        ["🏠  Home", "📊  All Functions", "🔬  Weekly Analysis", "📋  Source Code", "🏗️  Pipeline"],
+        PAGE_OPTIONS,
+        index=PAGE_OPTIONS.index(st.session_state["page"]),
         label_visibility="collapsed",
+        key="page_radio",
     )
+    st.session_state["page"] = page
 
     st.markdown('<div class="nav-section">Select Data</div>', unsafe_allow_html=True)
 
     if "All Functions" in page:
         fn = "ALL"
-        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1} — Week {i+1}")
+        wk_idx = st.selectbox(
+            "Week",
+            list(range(CURRENT_WEEK)),
+            index=CURRENT_WEEK - 1,
+            format_func=lambda i: f"W{i+1} — Week {i+1}",
+            key="wk_all",
+        )
+        st.session_state["wk_idx"] = wk_idx
         st.markdown(f"""
         <div style='background:#0a1020;border-radius:8px;padding:10px 12px;margin-top:8px;
                     font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#2563eb'>
@@ -167,14 +187,29 @@ with st.sidebar:
         </div>""", unsafe_allow_html=True)
     else:
         fn_list = list(FUNCTIONS.keys())
-        fn = st.selectbox("Function", fn_list, index=4, format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D")
-        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1}")
+        fn = st.selectbox(
+            "Function",
+            fn_list,
+            index=fn_list.index(st.session_state["fn"]) if st.session_state["fn"] in fn_list else 4,
+            format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D",
+            key="fn_select",
+        )
+        st.session_state["fn"] = fn
+
+        wk_idx = st.selectbox(
+            "Week",
+            list(range(CURRENT_WEEK)),
+            index=min(st.session_state["wk_idx"], CURRENT_WEEK - 1),
+            format_func=lambda i: f"W{i+1}",
+            key="wk_select",
+        )
 
         maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
         scores   = SCORES[fn]
         actuals  = [s for s in scores if s is not None]
         n_actual = len(actuals)
-        wk_idx   = min(wk_idx, n_actual - 1)  # clamp to available data
+        wk_idx   = min(wk_idx, n_actual - 1)
+        st.session_state["wk_idx"] = wk_idx
 
         score_this_wk = scores[wk_idx] if wk_idx < len(scores) else None
         def fmt_s(v):
@@ -202,7 +237,11 @@ with st.sidebar:
     st.markdown("---")
     st.markdown(f"<div style='font-size:0.63rem;color:#2d3a52;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W{CURRENT_WEEK} · BBO Optimisation</div>", unsafe_allow_html=True)
 
-# ── Route ──────────────────────────────────────────────────────────────────────
+# ── Route ────────────────────────────────────────────────────────────────────────
+page = st.session_state["page"]
+fn     = st.session_state["fn"]
+wk_idx = st.session_state["wk_idx"]
+
 if "Home" in page:
     _v_landing.render()
 elif "All Functions" in page:

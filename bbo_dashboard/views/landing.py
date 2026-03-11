@@ -112,7 +112,7 @@ def render():
         <div class="hero-subtitle-row">
             <div>
                 <div class="hero-name">Mike Kennelly</div>
-                <div class="hero-name-sub">MSc Data Science · Candidate</div>
+                <div class="hero-name-sub">Professional Certificate in ML & AI</div>
             </div>
             <div class="hero-divider"></div>
             <div class="imperial-logo">

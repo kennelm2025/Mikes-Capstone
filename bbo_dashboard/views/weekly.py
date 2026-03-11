@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, COORDS, WEEKLY, TURBO_SUMMARY, running_best, get_all_time_best, get_sigma_display
+from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, COORDS, WEEKLY, TURBO_SUMMARY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
 def fmt(v):
     if v is None: return "—"
@@ -38,8 +38,8 @@ def render(fn, wk_idx):
     # ── Week selector pills ───────────────────────────────────────────────────
     n_actual = len(actuals)
     tabs_html = '<div class="week-tabs">'
-    for i in range(7):
-        available = i < n_actual or i == 6
+    for i in range(CURRENT_WEEK):
+        available = i < n_actual or i == CURRENT_WEEK - 1
         label = f"W{i+1}"
         active = "wtab-active" if i == wk_idx else ""
         dim = "" if available else " style='opacity:0.35'"
@@ -84,7 +84,7 @@ def render(fn, wk_idx):
         <div class='kpi-sub'>{strat["best_week"]}</div>
       </div>
       <div class='kpi-card' style='--accent:{acolor}'>
-        <div class='kpi-label'>W7 Strategy</div>
+        <div class='kpi-label'>W{CURRENT_WEEK} Strategy</div>
         <div class='kpi-value' style='font-size:0.85rem;color:{acolor}'>{action.split()[0]}</div>
         <div class='kpi-sub'>{action}</div>
       </div>
@@ -187,7 +187,7 @@ def render(fn, wk_idx):
             ("UCB κ", str(hp.get("ucb_kappa", "—"))),
             ("GP Restarts", str(hp.get("gp_restarts", "—"))),
         ]
-        if wk_idx == 6:  # W7 — add TuRBO
+        if wk_idx == CURRENT_WEEK - 1:  # latest week — show TuRBO
             turbo = TURBO_SUMMARY[fn]
             params.append(("TuRBO", turbo["direction"]))
 
@@ -233,7 +233,7 @@ def render(fn, wk_idx):
         """, unsafe_allow_html=True)
         st.markdown(f"""
         <div class='info-card'>
-          <div class='info-card-title'>🧭 W7 Strategy Rationale</div>
+          <div class='info-card-title'>🧭 W{CURRENT_WEEK} Strategy Rationale</div>
           <div class='info-card-body'>{strat["rationale"]}</div>
         </div>
         """, unsafe_allow_html=True)
@@ -241,7 +241,7 @@ def render(fn, wk_idx):
     # ── Score history table ───────────────────────────────────────────────────
     st.markdown('<div class="sec-head">Full Score History — {fn}</div>'.format(fn=fn), unsafe_allow_html=True)
     rows = ""
-    for i, (wl, sc) in enumerate(zip([f"W{j+1}" for j in range(7)], scores)):
+    for i, (wl, sc) in enumerate(zip([f"W{j+1}" for j in range(CURRENT_WEEK)], scores)):
         if sc is None:
             sc_str, row_col = "Pending", "#2d3a52"
         else:

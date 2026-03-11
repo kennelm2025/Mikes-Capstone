@@ -42,13 +42,14 @@ def render():
     }
     .hero-title {
         font-family: Syne, sans-serif;
-        font-size: clamp(2rem, 3.8vw, 3.4rem);
+        font-size: clamp(2.2rem, 4vw, 3.6rem);
         font-weight: 800;
         color: #e8eeff;
         line-height: 1.05;
-        white-space: nowrap;
+        white-space: normal;
         margin-bottom: 20px;
         letter-spacing: -0.01em;
+        max-width: 100%;
     }
     .hero-title span { color: #2563eb; }
     .hero-subtitle-row {
@@ -108,7 +109,7 @@ def render():
 
     <div class="hero-wrap">
         <div class="hero-eyebrow">Imperial College London · DATA 2026 Cohort · W1–W7</div>
-        <div class="hero-title">Black-Box Optimisation <span>Capstone</span></div>
+        <div class="hero-title">Black-Box Optimisation<br><span style='color:#2563eb'>Capstone</span></div>
         <div class="hero-subtitle-row">
             <div>
                 <div class="hero-name">Mike Kennelly</div>

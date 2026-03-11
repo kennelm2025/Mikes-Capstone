@@ -106,7 +106,7 @@ def render(wk_idx=None):
     st.markdown('<div class="sec-head">Improvement Heatmap — Week-on-Week</div>', unsafe_allow_html=True)
     fns_list = list(FUNCTIONS.keys())
     n_transitions = CURRENT_WEEK - 1
-    weeks    = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
+    weeks    = [f"W{i+1}\u2192W{i+2}" for i in range(n_transitions)]
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"

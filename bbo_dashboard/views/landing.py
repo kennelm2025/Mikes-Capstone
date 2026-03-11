@@ -42,10 +42,10 @@ def render():
     }
     .hero-title {
         font-family: Syne, sans-serif;
-        font-size: clamp(2.8rem, 6vw, 5.2rem);
+        font-size: clamp(2rem, 3.8vw, 3.4rem);
         font-weight: 800;
         color: #e8eeff;
-        line-height: 1.0;
+        line-height: 1.05;
         white-space: nowrap;
         margin-bottom: 20px;
         letter-spacing: -0.01em;
@@ -99,10 +99,10 @@ def render():
         margin-top: 1px;
     }
     .hero-desc {
-        color: #4a5a7a;
-        font-size: 0.92rem;
-        max-width: 720px;
-        line-height: 1.75;
+        color: #8a9abf;
+        font-size: 1.05rem;
+        max-width: 780px;
+        line-height: 1.8;
     }
     </style>
 
@@ -130,42 +130,6 @@ def render():
         </div>
     </div>
     """, unsafe_allow_html=True)
-
-    # ── Info cards row ─────────────────────────────────────────────────────
-    col1, col2, col3 = st.columns([1, 1, 2])
-    with col1:
-        st.markdown("""
-        <div style='background:linear-gradient(135deg,#0d1320,#111827);border:1px solid #1a2540;
-                    border-radius:12px;padding:20px 22px;border-top:2px solid #2563eb'>
-          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;
-                      text-transform:uppercase;letter-spacing:0.2em;margin-bottom:8px'>Presented by</div>
-          <div style='font-family:Syne,sans-serif;font-size:1.3rem;font-weight:700;color:#e8eeff'>Mike Kennelly</div>
-          <div style='font-size:0.78rem;color:#4a5a7a;margin-top:4px'>MSc Data Science</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col2:
-        st.markdown("""
-        <div style='background:linear-gradient(135deg,#0d1320,#111827);border:1px solid #1a2540;
-                    border-radius:12px;padding:20px 22px;border-top:2px solid #6366f1'>
-          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;
-                      text-transform:uppercase;letter-spacing:0.2em;margin-bottom:8px'>Facilitated by</div>
-          <div style='font-family:Syne,sans-serif;font-size:1.1rem;font-weight:700;color:#e8eeff'>Imperial College<br>London</div>
-          <div style='font-size:0.78rem;color:#4a5a7a;margin-top:4px'>DATA 2026 · Module 17</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col3:
-        st.markdown("""
-        <div style='background:linear-gradient(135deg,#0d1320,#111827);border:1px solid #1a2540;
-                    border-radius:12px;padding:20px 22px;border-top:2px solid #10b981'>
-          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;
-                      text-transform:uppercase;letter-spacing:0.2em;margin-bottom:8px'>The Challenge</div>
-          <div style='color:#8a9abf;font-size:0.88rem;line-height:1.7'>
-            8 unknown functions · 2D to 8D search spaces · Up to 5 evaluations per week ·
-            Gaussian Process surrogate model · Bayesian acquisition (EI + UCB) ·
-            Adaptive classifier pipeline · CNN-1D filter inspection
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
 
     # ── Function graphs — 2 per row, enlarged ─────────────────────────────────
     st.markdown('<div class="sec-head">Function Overview — All 8 Functions · W1–W7 Trajectories</div>', unsafe_allow_html=True)
@@ -225,7 +189,7 @@ def render():
                       {action.split()[0]}
                     </div>
                   </div>
-                  <div style='font-size:0.80rem;color:#4a5a7a;margin-bottom:10px;line-height:1.5'>{info["desc"]}</div>
+                  <div style='font-size:0.88rem;color:#4a5a7a;margin-bottom:10px;line-height:1.5'>{info["desc"]}</div>
                   <div style='display:flex;gap:24px;margin-bottom:12px'>
                     <div>
                       <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;margin-bottom:2px'>ALL-TIME BEST</div>
@@ -318,7 +282,7 @@ def render():
                         padding:20px;border-top:2px solid {color}'>
               <div style='font-family:Syne,sans-serif;font-size:1rem;font-weight:700;
                           color:{color};margin-bottom:10px'>{title}</div>
-              <div style='color:#4a5a7a;font-size:0.86rem;line-height:1.7'>{body}</div>
+              <div style='color:#8a9abf;font-size:0.95rem;line-height:1.75'>{body}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -338,6 +302,6 @@ def render():
                         padding:16px;border-left:3px solid {color}'>
               <div style='font-family:Syne,sans-serif;font-weight:700;color:{color};
                           margin-bottom:6px;font-size:0.95rem'>{title}</div>
-              <div style='color:#4a5a7a;font-size:0.80rem;line-height:1.6'>{desc}</div>
+              <div style='color:#8a9abf;font-size:0.88rem;line-height:1.6'>{desc}</div>
             </div>
             """, unsafe_allow_html=True)

@@ -125,9 +125,11 @@ def render():
             </div>
         </div>
         <div class="hero-desc">
-            A 7-week machine learning experiment in which an unknown black-box function
-            must be maximised using only a small number of costly evaluations per week.
-            No gradient information. No closed-form expression. Only the score returned after each submission.
+            The Capstone is a 13-week Black-Box Optimisation challenge. Each week we receive
+            an additional data point across 8 unknown functions — our goal is to predict the
+            global maximum of each. Weekly learnings, strategies and notebooks are published
+            to our GitHub repo, with predictions submitted to the Capstone console where
+            results are scored and new data points unlocked for the following week.
         </div>
     </div>
     """, unsafe_allow_html=True)

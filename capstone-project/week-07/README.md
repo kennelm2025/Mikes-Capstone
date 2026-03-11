@@ -1,4 +1,4 @@
-# #Black-Box Optimisation Capstone
+# Black-Box Optimisation Capstone
 ### Mike Kennelly — ML & AI Professional Certificate | Imperial College London
 
 Adaptive Bayesian Optimisation pipeline for maximising 8 unknown black-box functions simultaneously over a 13-week challenge. One submission per function per week. No access to gradients, source code, or function form.

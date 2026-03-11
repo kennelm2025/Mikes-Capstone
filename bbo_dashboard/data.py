@@ -1,21 +1,19 @@
 """
 BBO Capstone — all historical data baked in.
 No external files needed — works standalone on GitHub / Streamlit Cloud.
-Updated: W7 actuals added, F7 anisotropic sigma, CNN filter map rationale.
+Updated: W8 — W7 actuals filled in, W8 submissions pending.
 
 HOW TO UPDATE EACH WEEK:
-  1. Increment CURRENT_WEEK below.
-  2. Append the new score to each SCORES[fn] list (replace the trailing None).
+  1. Increment CURRENT_WEEK.
+  2. Replace trailing None in each SCORES[fn] with the new actual score.
   3. Append new coords to COORDS[fn].
-  4. Append a new weekly dict to WEEKLY[fn].
-  5. Update STRATEGY[fn] with the new week's strategy.
-  6. Update CLASSIFIERS[fn] if the winning model changed.
-  7. Update W7_GLANCE / TURBO_SUMMARY keys to reflect the latest week.
+  4. Append new weekly dict to WEEKLY[fn].
+  5. Update STRATEGY[fn] for the new week.
   Nothing else needs touching — all views derive from CURRENT_WEEK.
 """
 
-# ── Single source-of-truth: change this every week ───────────────────────────
-CURRENT_WEEK = 8   # ← update to 9, 10, … after each portal result
+# ── Single source-of-truth: update this every week ───────────────────────────
+CURRENT_WEEK = 8   # ← increment after each portal result
 
 # ── Function metadata ─────────────────────────────────────────────────────────
 FUNCTIONS = {
@@ -71,7 +69,7 @@ W7_PRED = {
     "F8": {"mu": 9.878,     "sigma": 0.019,    "ucb": 9.916},
 }
 
-# ── Submitted coordinates per week (W1–W8) ───────────────────────────────────
+# ── Submitted coordinates per week (W1–W7) ───────────────────────────────────
 COORDS = {
     "F1": [
         [0.0825, 1.5395],
@@ -81,7 +79,7 @@ COORDS = {
         [0.5323, 0.6306],
         [0.0739, 0.4071],
         [0.582827, 0.482269],
-        None,  # W8 — pending notebook output
+        None,  # W8 — pending
     ],
     "F2": [
         [0.5, 0.5],
@@ -158,7 +156,7 @@ COORDS = {
 # ── W8 Strategy per function ──────────────────────────────────────────────────
 STRATEGY = {
     "F1": {
-        "action": "EXPLORE — EXTREME WIDENING",
+        "action": "EXPLORE",
         "exploit_ratio": 0.20,
         "sigma": 0.40,
         "sigma_type": "isotropic",
@@ -166,14 +164,13 @@ STRATEGY = {
         "gp_restarts": 5,
         "turbo": "EXPAND",
         "rationale": (
-            "W7 returned -2.22e-17 — 7 consecutive near-zero weeks. W8 escalates to "
-            "extreme explore: σ=0.40 (near-random width), only 20% exploit, κ=4.0. "
-            "EI is unreliable near zero so UCB kappa elevated to force wide exploration. "
-            "Hypothesis: F1 may be adversarial — any structure must be found via brute coverage."
+            "W7 = -2.22e-17 — 7th consecutive near-zero. Dramatic explore: ratio=0.20, "
+            "σ=0.40 (near-random width), κ=4.0 (EI unreliable near zero). "
+            "If still near-zero after W8, F1 may be an adversarial flat function."
         ),
         "best_week": "W2 (8.84e-7)",
-        "pattern": "Flat — no dominant region identified across 7 weeks",
-        "w7_submission": "0.582827-0.482269",
+        "pattern": "Flat — no dominant region identified",
+        "w8_submission": "[PENDING]",
     },
     "F2": {
         "action": "EXPLOIT W5 BEST — PRECISION TIGHTEN",
@@ -184,13 +181,13 @@ STRATEGY = {
         "gp_restarts": 5,
         "turbo": "SHRINK",
         "rationale": (
-            "W7 returned 0.5338 — still below ATB 0.6497 (W5). W8 tightens further: "
-            "σ=0.010 (halved from W7's 0.0175), ratio 90/10. W5 best coords [0.710, 0.162] "
-            "confirmed in npy — inject not needed. Targeting X2≈0.16 precision cluster."
+            "W7 = 0.5338 — still below ATB 0.6497. W5 best in npy. "
+            "Tightest F2 sigma ever (0.010) — 90/10 exploit/explore. "
+            "Target: exceed 0.6497 at [0.710, 0.162]."
         ),
         "best_week": "W5 (0.6497)",
         "pattern": "Strong peak at X2≈0.16, X1≈0.71",
-        "w7_submission": "0.688952-0.168811",
+        "w8_submission": "[PENDING]",
     },
     "F3": {
         "action": "EXPLOIT W7 NEW BEST — TIGHTEN",
@@ -201,13 +198,13 @@ STRATEGY = {
         "gp_restarts": 8,
         "turbo": "SHRINK",
         "rationale": (
-            "W7 delivered -0.00534 — new all-time best at [1.000, 0.572, 0.504]. "
-            "X1=1.000 boundary locked. W8 tightens: σ=0.018 (from 0.024), 90/10 split. "
-            "W7 best in npy — no inject needed. Goal: push X2/X3 refinement while holding X1=1.0."
+            "W7 = -0.00534 — new all-time best! X1=1.000 exactly. "
+            "W8 tightens further: σ=0.018 (vs 0.024 in W7), ratio=0.90. "
+            "X1 pinned at boundary; refine X2/X3 around [0.572, 0.504]."
         ),
         "best_week": "W7 (-0.00534)",
-        "pattern": "X1=1.0 boundary locked; X2≈0.57, X3≈0.50",
-        "w7_submission": "1.000000-0.571651-0.503999",
+        "pattern": "X1 → 1.0 boundary dominates; X2/X3 near [0.57, 0.50]",
+        "w8_submission": "[PENDING]",
     },
     "F4": {
         "action": "ABANDON INJECT — EXPLORE NEW REGIONS",
@@ -218,14 +215,13 @@ STRATEGY = {
         "gp_restarts": 8,
         "turbo": "EXPAND",
         "rationale": (
-            "W7 returned -0.2651 — W2 inject conclusively failed (3rd attempt). "
-            "W2 coords [0.439, 0.415, 0.385, 0.398] are not reproducible in the portal. "
-            "W8 ABANDONS inject: ratio=0.35, σ=0.12, κ=3.5 to explore new 4D regions. "
-            "GP will now build a fresh picture without the W2 anchor."
+            "W7 = -0.2651 — inject conclusively failed. W2 coords [0.439,0.415,0.385,0.398] "
+            "not reproducible. Override REMOVED. W8 abandons inject, explores new regions "
+            "with ratio=0.35, σ=0.12, κ=3.5. Fresh GP-guided search."
         ),
         "best_week": "W2 (+0.2376)",
-        "pattern": "Near-centre region unreproducible — exploring fresh",
-        "w7_submission": "0.451762-0.438642-0.400163-0.395091",
+        "pattern": "W2 near-centre region not reproducible — exploring alternatives",
+        "w8_submission": "[PENDING]",
     },
     "F5": {
         "action": "EXPLOIT W7 NEW BEST — PUSH X1 HIGHER",
@@ -236,13 +232,13 @@ STRATEGY = {
         "gp_restarts": 8,
         "turbo": "SHRINK",
         "rationale": (
-            "W7 exploded to 7596.79 (+1722 vs W6) — new ATB at [0.938, 1.0, 1.0, 1.0]. "
-            "X2/X3/X4 fully saturated at 1.0. W8 exploits with σ=0.035, 90/10 ratio "
-            "to push X1 beyond 0.938 toward 1.0. W7 best in npy — no inject needed."
+            "W7 = 7596.79 — massive new best (+1722 vs W6). X1 jumped to 0.938. "
+            "X2/X3/X4 = 1.0 locked. W8 exploits tightly (ratio=0.90, σ=0.035) "
+            "to probe whether X1 can push toward 1.0 for further gains."
         ),
         "best_week": "W7 (7596.79)",
-        "pattern": "X2=X3=X4=1.0 boundary; X1 pushing toward 1.0",
-        "w7_submission": "0.937682-1.000000-1.000000-1.000000",
+        "pattern": "X2=X3=X4=1.0 boundary; X1 increasing (0.78→0.94)",
+        "w8_submission": "[PENDING]",
     },
     "F6": {
         "action": "EXPLOIT W6 BEST — RETURN AND TIGHTEN",
@@ -253,16 +249,16 @@ STRATEGY = {
         "gp_restarts": 8,
         "turbo": "SHRINK",
         "rationale": (
-            "W7 returned -0.3422 — W7 expand failed badly; regressed from ATB -0.1727 (W6). "
-            "W8 returns to W6 coords [0.427, 0.326, 0.598, 0.780, 0.144] with inject active. "
-            "σ=0.025 (tighter than W6's 0.040), 85/15 ratio. X4-high/X5-low pattern must hold."
+            "W7 = -0.3422 — expand failed badly, regressed from ATB -0.1727. "
+            "W6 best [0.427, 0.326, 0.598, 0.780, 0.144] injected back. "
+            "W8 tightens: σ=0.025 (vs 0.042 in W7), ratio=0.85."
         ),
         "best_week": "W6 (-0.1727)",
         "pattern": "X4 high (~0.78), X5 low (~0.14)",
-        "w7_submission": "0.497320-0.294798-0.563080-0.684981-0.129206",
+        "w8_submission": "[PENDING]",
     },
     "F7": {
-        "action": "EXPLOIT W7 NEW BEST — ANISOTROPIC σ CONFIRMED ✓",
+        "action": "EXPLOIT W7 NEW BEST — ANISOTROPIC σ CONFIRMED",
         "exploit_ratio": 0.90,
         "sigma": [0.012, 0.028, 0.028, 0.028, 0.028, 0.028],
         "sigma_type": "anisotropic",
@@ -270,13 +266,13 @@ STRATEGY = {
         "gp_restarts": 8,
         "turbo": "SHRINK",
         "rationale": (
-            "W7 delivered 2.4134 (+0.294 vs W6) — anisotropic σ confirmed. W7 best "
-            "[0.078, 0.385, 0.381, 0.267, 0.354, 0.693] in npy. W8 tightens both axes: "
-            "X1 σ 0.015→0.012; X2-X6 σ 0.035→0.028. X1=0.078 near-zero anchor holds."
+            "W7 = 2.4134 — new best (+0.294). Anisotropic σ confirmed working. "
+            "W8 tightens further: X1 σ 0.015→0.012, X2-X6 σ 0.035→0.028. "
+            "X1=0.078 → near-zero anchor maintained."
         ),
         "best_week": "W7 (2.4134)",
-        "pattern": "X1 near-zero (~0.078); anisotropic σ validated",
-        "w7_submission": "0.078067-0.385415-0.381193-0.266170-0.353901-0.693102",
+        "pattern": "X1 near-zero (~0.078), X6 elevated (~0.693)",
+        "w8_submission": "[PENDING]",
     },
     "F8": {
         "action": "EXPLOIT W2 BEST — PRECISION INJECT",
@@ -287,42 +283,42 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "SHRINK",
         "rationale": (
-            "W7 returned 9.8251 — only 0.007 from ATB W2=9.832. W8 is the tightest ever: "
-            "σ=0.012, ratio=0.92, inject ACTIVE with exact W2 coords. "
-            "2σ=±0.024 in 8D. GP restarts=10. Targeting that final 0.007 gap."
+            "W7 = 9.8251 — only 0.007 from ATB W2=9.832. Inject override ACTIVE: "
+            "W2 coords [0.0, 0.179, 0.0, 0.071, 0.929, 0.460, 0.0, 0.541]. "
+            "W8 tightest ever: ratio=0.92, σ=0.012. Target: beat 9.832."
         ),
-        "best_week": "W2 (9.832)",
+        "best_week": "W2 (9.8320)",
         "pattern": "X1≈0, X3≈0, X7≈0 near-zero; X5≈0.93 elevated",
-        "w7_submission": "0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552",
+        "w8_submission": "[PENDING]",
     },
 }
 
 # ── W8 Summary at a glance ────────────────────────────────────────────────────
 W7_GLANCE = {
-    "F1": {"true_best": "8.84e-7",  "best_wk": "W2", "w7_score": "≈ 0",       "strategy": "EXPLORE — EXTREME WIDENING",          "override": False},
-    "F2": {"true_best": "0.6497",   "best_wk": "W5", "w7_score": "0.5338",     "strategy": "EXPLOIT W5 BEST — PRECISION TIGHTEN", "override": False},
-    "F3": {"true_best": "-0.00534", "best_wk": "W7", "w7_score": "-0.00534",   "strategy": "EXPLOIT W7 NEW BEST — TIGHTEN",       "override": False},
-    "F4": {"true_best": "+0.2376",  "best_wk": "W2", "w7_score": "-0.2651",    "strategy": "ABANDON INJECT — EXPLORE NEW REGIONS", "override": False},
-    "F5": {"true_best": "7,596.8",  "best_wk": "W7", "w7_score": "7,596.8",   "strategy": "EXPLOIT W7 NEW BEST — PUSH X1 HIGHER", "override": False},
-    "F6": {"true_best": "-0.1727",  "best_wk": "W6", "w7_score": "-0.3422",    "strategy": "EXPLOIT W6 BEST — RETURN AND TIGHTEN", "override": True},
-    "F7": {"true_best": "2.4134",   "best_wk": "W7", "w7_score": "2.4134",     "strategy": "EXPLOIT W7 NEW BEST — ANISOTROPIC ✓",  "override": False},
-    "F8": {"true_best": "9.832",    "best_wk": "W2", "w7_score": "9.8251",     "strategy": "EXPLOIT W2 BEST — PRECISION INJECT",   "override": True},
+    "F1": {"true_best": "8.84e-7",   "best_wk": "W2", "w7_score": "-2.22e-17", "strategy": "EXPLORE",                          "override": False},
+    "F2": {"true_best": "0.6497",    "best_wk": "W5", "w7_score": "0.5338",    "strategy": "EXPLOIT W5 BEST — PRECISION TIGHTEN","override": False},
+    "F3": {"true_best": "-0.00534",  "best_wk": "W7", "w7_score": "-0.00534",  "strategy": "EXPLOIT W7 NEW BEST — TIGHTEN",     "override": False},
+    "F4": {"true_best": "+0.2376",   "best_wk": "W2", "w7_score": "-0.2651",   "strategy": "ABANDON INJECT — EXPLORE NEW REGIONS","override": False},
+    "F5": {"true_best": "7,596",     "best_wk": "W7", "w7_score": "7,596",     "strategy": "EXPLOIT W7 NEW BEST — PUSH X1 HIGHER","override": False},
+    "F6": {"true_best": "-0.1727",   "best_wk": "W6", "w7_score": "-0.3422",   "strategy": "EXPLOIT W6 BEST — RETURN AND TIGHTEN","override": False},
+    "F7": {"true_best": "2.4134",    "best_wk": "W7", "w7_score": "2.4134",    "strategy": "EXPLOIT W7 NEW BEST — ANISOTROPIC σ", "override": False},
+    "F8": {"true_best": "9.8320",    "best_wk": "W2", "w7_score": "9.8251",    "strategy": "EXPLOIT W2 BEST — PRECISION INJECT",  "override": True},
 }
 
 # ── TuRBO sigma adaptation summary (W7→W8) ───────────────────────────────────
 TURBO_SUMMARY = {
-    "F1": {"sigma_prev": 0.216, "sigma_cur": 0.40,   "direction": "EXPAND",  "note": "7 near-zero weeks — escalated to near-random σ=0.40"},
-    "F2": {"sigma_prev": 0.0175,"sigma_cur": 0.010,  "direction": "SHRINK",  "note": "W7 below ATB — tighten further around X2≈0.16"},
-    "F3": {"sigma_prev": 0.024, "sigma_cur": 0.018,  "direction": "SHRINK",  "note": "W7 new best — tighten X2/X3 while X1=1.0 locked"},
-    "F4": {"sigma_prev": 0.0175,"sigma_cur": 0.12,   "direction": "EXPAND",  "note": "Inject abandoned — major expand to explore fresh regions"},
-    "F5": {"sigma_prev": 0.048, "sigma_cur": 0.035,  "direction": "SHRINK",  "note": "W7 new best — tighten around X1≈0.94 boundary"},
-    "F6": {"sigma_prev": 0.042, "sigma_cur": 0.025,  "direction": "SHRINK",  "note": "W7 expanded and regressed — return and tighten to W6 best"},
-    "F7": {"sigma_prev": "[0.015,0.035×5]", "sigma_cur": "[0.012,0.028×5]", "direction": "SHRINK",
-           "note": "Anisotropic confirmed — both axes tightened after W7 new best"},
-    "F8": {"sigma_prev": 0.0175,"sigma_cur": 0.012,  "direction": "SHRINK",  "note": "0.007 from ATB — tightest ever σ=0.012 with inject"},
+    "F1": {"sigma_prev": 0.216,  "sigma_cur": 0.40,   "direction": "EXPAND",  "note": "7 weeks near-zero — extreme widen to σ=0.40, ratio=0.20"},
+    "F2": {"sigma_prev": 0.0175, "sigma_cur": 0.010,  "direction": "SHRINK",  "note": "W7 below ATB — tightest ever σ=0.010, ratio=0.90"},
+    "F3": {"sigma_prev": 0.024,  "sigma_cur": 0.018,  "direction": "SHRINK",  "note": "W7 new best — tighten further around X1=1.0"},
+    "F4": {"sigma_prev": 0.0175, "sigma_cur": 0.12,   "direction": "EXPAND",  "note": "Inject abandoned — wide explore σ=0.12, ratio=0.35"},
+    "F5": {"sigma_prev": 0.048,  "sigma_cur": 0.035,  "direction": "SHRINK",  "note": "W7 new best — tighten to push X1 toward 1.0"},
+    "F6": {"sigma_prev": 0.042,  "sigma_cur": 0.025,  "direction": "SHRINK",  "note": "W7 expand failed — return to W6 best, tighten"},
+    "F7": {"sigma_prev": "aniso [0.015,0.035×5]", "sigma_cur": "aniso [0.012,0.028×5]", "direction": "SHRINK",
+           "note": "Anisotropic confirmed — tighten both X1 and X2-X6"},
+    "F8": {"sigma_prev": 0.0175, "sigma_cur": 0.012,  "direction": "SHRINK",  "note": "0.007 from ATB — tightest ever, ratio=0.92"},
 }
 
-# ── Winning classifiers per function (W7 — update after W8 notebooks run) ────
+# ── Winning classifiers per function (W7) ────────────────────────────────────
 CLASSIFIERS = {
     "F1": {"name": "Linear SVM",         "cv": 0.750, "std": 0.14, "family": "SVM"},
     "F2": {"name": "Logistic Regression", "cv": 0.833, "std": 0.10, "family": "LogReg"},
@@ -443,16 +439,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.40, "sigma": 0.216, "ucb_kappa": 3.0, "gp_restarts": 5},
             "hp_rationale": "σ tripled to 0.216 — near-random width. With 6 zero-weeks, any precision is wasted. Massive explore to find any structure at all.",
-            "learned": "Score -2.22e-17 — 7th consecutive near-zero. F1 confirmed adversarial flat landscape.",
+            "learned": "Score -2.22e-17 — 7th consecutive near-zero. F1 confirmed as adversarial flat function. No structure detectable in [0,1]².",
             "experiment": "Step 5B CNN inspection: filters learned near-uniform weights — confirms absence of local coordinate structure.",
             "submission": "0.582827-0.482269",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.20, "sigma": 0.40, "ucb_kappa": 4.0, "gp_restarts": 5},
-            "hp_rationale": "EXTREME explore: σ=0.40 near-random, only 20% exploit, κ=4.0. EI unreliable near zero — UCB kappa elevated. 7 near-zero weeks justify abandoning any precision.",
-            "learned": "W8 result pending. Strategy: if still near-zero, F1 is likely an adversarial function with no exploitable structure in [0,1]².",
-            "experiment": "Full-width Sobol coverage with near-random Gaussian perturbation. Testing whether any region outside visited space has structure.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Extreme explore: ratio=0.20 (80% random), σ=0.40 (near-random width), κ=4.0. EI unreliable near zero — UCB dominates. Final attempt to find any signal before accepting F1 is fundamentally flat.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Maximum entropy explore. If W8 also near-zero, F1 is confirmed adversarial — will hold coordinates for remaining weeks.",
+            "submission": "[PENDING]",
         },
     ],
     "F2": [
@@ -501,16 +497,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.85, "sigma": 0.0175, "ucb_kappa": 2.5, "gp_restarts": 5},
             "hp_rationale": "Inject W5 best [0.710, 0.162] directly into training data. Ultra-tight σ=0.0175 (2σ=±0.035 in [0,1]) to pin around the confirmed peak.",
-            "learned": "Score 0.5338 — still below ATB 0.6497 (W5). W7 coords [0.689, 0.169] close to W5 but GP couldn't fully recover. Precision tighten needed.",
+            "learned": "Score 0.5338 — still below ATB 0.6497. GP didn't fully converge to W5 peak. W8 needs tighter precision.",
             "experiment": "Week log override: W5 coords injected to correct npy gap. Tests whether GP can improve on W5 with denser sampling around peak.",
             "submission": "0.688952-0.168811",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.90, "sigma": 0.010, "ucb_kappa": 2.0, "gp_restarts": 5},
-            "hp_rationale": "σ halved to 0.010 (2σ=±0.020) — tightest ever for F2. 90% exploit around W5 best. W5 coords in npy — no inject needed.",
-            "learned": "W8 result pending. Target: exceed W5 ATB 0.6497 with tighter σ around X2≈0.162.",
-            "experiment": "Ultra-precision exploit around W5 peak. Testing whether F2 has a sharper optimum than W5 coords.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Tightest F2 sigma ever: σ=0.010 (2σ=±0.020). Ratio=0.90. W5 best [0.710, 0.162] in npy — no override needed. Target: exceed ATB 0.6497.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Precision tighten. W7 showed 0.5338 — still possible to beat W5 with better GP fit and tighter sampling.",
+            "submission": "[PENDING]",
         },
     ],
     "F3": [
@@ -559,16 +555,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.90, "sigma": 0.024, "ucb_kappa": 2.0, "gp_restarts": 8},
             "hp_rationale": "σ=0.024 (2σ=±0.048) — very tight. X1=1.0 hit exactly. X2/X3 allowed small refinement.",
-            "learned": "Score -0.00534 — new all-time best! X1=1.000 hit exactly. +0.00466 improvement vs W6. X2=0.572, X3=0.504 refinement successful.",
+            "learned": "Score -0.00534 — NEW ALL-TIME BEST! X1=1.000 exactly on boundary. X2/X3 shifted to [0.572, 0.504]. Monotonic improvement confirmed.",
             "experiment": "Step 5B: CNN filters showed moderate activation on X1 pair — consistent with boundary dominance hypothesis.",
             "submission": "1.000000-0.571651-0.503999",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.90, "sigma": 0.018, "ucb_kappa": 2.0, "gp_restarts": 8},
-            "hp_rationale": "σ tightened to 0.018 (from 0.024). X1=1.0 locked — all energy on X2/X3 refinement. W7 best in npy, no inject needed.",
-            "learned": "W8 result pending. Target: push X2/X3 tighter around [0.572, 0.504] with X1 pinned to 1.0.",
-            "experiment": "X2/X3 precision refinement with X1 boundary locked. Testing whether further improvement is achievable near -0.005.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Tighten further: σ=0.018 (vs W7's 0.024). X1 pinned at 1.0. Refine X2/X3 around [0.572, 0.504]. W7 new best in npy — no override needed.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Post-new-best precision tighten. X2/X3 still have room to optimise within the 3D landscape.",
+            "submission": "[PENDING]",
         },
     ],
     "F4": [
@@ -617,16 +613,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.85, "sigma": 0.0175, "ucb_kappa": 2.0, "gp_restarts": 8},
             "hp_rationale": "Ultra-tight σ=0.0175 with W2 coords injected. Target: land within ±0.01 of [0.439, 0.415, 0.385, 0.398].",
-            "learned": "Score -0.2651 — inject failed again. W7 coords [0.452, 0.439, 0.400, 0.395] all within ±0.015 of W2 but still -0.265. W2 result is not reproducible.",
+            "learned": "Score -0.2651 — inject failed conclusively. Despite landing within ±0.015 of W2, score is deeply negative. W2 is not reproducible.",
             "experiment": "Step 5B: CNN detected tight cluster at W2 best coords. Linear SVM won — confirms linear separability of the near-centre peak.",
             "submission": "0.451762-0.438642-0.400163-0.395091",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.35, "sigma": 0.12, "ucb_kappa": 3.5, "gp_restarts": 8},
-            "hp_rationale": "INJECT ABANDONED. W2 result conclusively not reproducible after 3 attempts. W8 explores fresh regions: ratio=0.35, σ=0.12, κ=3.5. No override.",
-            "learned": "W8 result pending. GP will now build a fresh picture without the unreliable W2 anchor.",
-            "experiment": "Fresh 4D exploration after inject failure. Testing whether F4 has a reproducible optimum outside the near-centre region.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Inject ABANDONED. W2 coords confirmed not reproducible. W8 explores new regions: ratio=0.35 (65% random), σ=0.12, κ=3.5. Let GP find a fresh region.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Fresh GP-guided search with no override. F4 may have a different attractor — explore without prior bias.",
+            "submission": "[PENDING]",
         },
     ],
     "F5": [
@@ -675,16 +671,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.85, "sigma": 0.048, "ucb_kappa": 2.0, "gp_restarts": 8},
             "hp_rationale": "σ=0.048 slightly wider than W6 — allows X1 to probe above 0.78 while X2-X4 stay near 1.0. Anisotropic considered but rejected — pulled X1 to 0.718 (below W6).",
-            "learned": "Score 7,596.79 — NEW ALL-TIME BEST! X1=0.938 confirmed huge positive. +1722 vs W6 (5875). X1 trend: 0.781→0.938 is clearly positive. X1→1.0 is the W8 target.",
+            "learned": "Score 7596.79 — NEW ALL-TIME BEST! +1722 vs W6. X1=0.938 — highest ever. X2/X3/X4=1.0 locked. Confirms X1 → 1.0 is the target.",
             "experiment": "Step 5B: CNN feature maps confirmed X2-X4 boundary lock. Anisotropic sigma [0.090, 0.018×3] tested but reverted — wider X1 unexpectedly hurt.",
             "submission": "0.937682-1.000000-1.000000-1.000000",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.90, "sigma": 0.035, "ucb_kappa": 2.0, "gp_restarts": 8},
-            "hp_rationale": "σ tightened to 0.035 (from 0.048). X1 heading toward 1.0 — W7 best in npy, 90% exploit. X2-X4=1.0 boundary locked.",
-            "learned": "W8 result pending. Target: push X1 beyond 0.938 toward 1.0 for further gains.",
-            "experiment": "X1 final boundary push. Testing whether F5 score continues to increase monotonically toward X1=1.0.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Tighten to σ=0.035 around W7 best. Ratio=0.90. X2-X4 locked at 1.0. Probe X1 ∈ [0.93, 1.0] — can X1=1.0 give further gain?",
+            "learned": "Awaiting W8 result.",
+            "experiment": "X1 push toward saturation. W7 showed X1=0.938 — W8 explores X1 ∈ [0.93, 1.0] with tight σ.",
+            "submission": "[PENDING]",
         },
     ],
     "F6": [
@@ -733,16 +729,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.85, "sigma": 0.042, "ucb_kappa": 2.5, "gp_restarts": 8},
             "hp_rationale": "σ=0.042 slight expand from W6's 0.04 — 5D space benefits from a little extra room. X4/X5 constraint maintained.",
-            "learned": "Score -0.3422 — W7 expand failed. Regressed badly from ATB -0.1727 (W6). σ expand in 5D was too risky. W8 must return to W6 coords.",
+            "learned": "Score -0.3422 — bad regression. Expand failed. W7 coords drifted: X4 dropped to 0.685 (vs W6's 0.780), X5 jumped to 0.129. Must return to W6 best.",
             "experiment": "Step 5B: CNN feature maps showed moderate X4/X5 activation. Random forest won again — consistent with W6.",
             "submission": "0.497320-0.294798-0.563080-0.684981-0.129206",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.85, "sigma": 0.025, "ucb_kappa": 2.0, "gp_restarts": 8},
-            "hp_rationale": "Return to W6 best [0.427, 0.326, 0.598, 0.780, 0.144] with inject active. σ=0.025 (tighter than W6's 0.040). W7 expand lesson: do not widen in 5D.",
-            "learned": "W8 result pending. Target: recover ATB -0.1727 and beat it with tighter X4/X5 lock.",
-            "experiment": "W6 coords inject + precision tighten. Testing whether σ=0.025 can find a better point near the W6 optimum.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Return to W6 best [0.427, 0.326, 0.598, 0.780, 0.144]. Tighten: σ=0.025 (vs W7's 0.042). W6 best in npy. X4≈0.78, X5≈0.14 hard constraints.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Post-expand correction. W7 proved σ=0.042 too loose in 5D — W8 returns to precision mode.",
+            "submission": "[PENDING]",
         },
     ],
     "F7": [
@@ -791,16 +787,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.90, "sigma": [0.015, 0.035, 0.035, 0.035, 0.035, 0.035], "ucb_kappa": 2.5, "gp_restarts": 8},
             "hp_rationale": "ANISOTROPIC sigma: X1 tight (σ=0.015, 2σ=±0.030) — CNN filter maps confirmed X1 is dominant. X2-X6 slightly looser (σ=0.035). This is the first anisotropic submission in the capstone.",
-            "learned": "Score 2.4134 — NEW ALL-TIME BEST! +0.294 vs W6. Anisotropic σ confirmed — tighter X1 produced a better result. X1=0.078 in the sweet spot.",
-            "experiment": "Step 5B CNN inspection: filters 3 & 4 activated at 1.56 and 1.44 on coord pair [0,1]. This filter map analysis directly changed the hyperparameter choice — first time CNN output fed into pipeline decision.",
+            "learned": "Score 2.4134 — NEW ALL-TIME BEST! +0.294 vs W6. Anisotropic sigma confirmed working. X1=0.078 maintained near-zero. W8 tightens further.",
+            "experiment": "Step 5B CNN inspection: filters 3 & 4 activated at 1.56 and 1.44 on coord pair [0,1]. First time CNN output directly changed hyperparameter choice.",
             "submission": "0.078067-0.385415-0.381193-0.266170-0.353901-0.693102",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.90, "sigma": [0.012, 0.028, 0.028, 0.028, 0.028, 0.028], "ucb_kappa": 2.5, "gp_restarts": 8},
-            "hp_rationale": "Both σ axes tightened: X1 0.015→0.012; X2-X6 0.035→0.028. Anisotropic approach confirmed — continue tightening. W7 best in npy, no inject needed.",
-            "learned": "W8 result pending. Target: beat W7 ATB 2.4134 with tighter anisotropic σ around [0.078, 0.385, 0.381, 0.267, 0.354, 0.693].",
-            "experiment": "Anisotropic precision tighten. Testing whether both-axis σ reduction continues to improve on F7's X1 near-zero pattern.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Anisotropic tightened further: X1 σ 0.015→0.012, X2-X6 σ 0.035→0.028. W7 new best in npy. X1 near-zero anchor maintained.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Second anisotropic submission. Testing whether further tightening improves over W7's 2.4134.",
+            "submission": "[PENDING]",
         },
     ],
     "F8": [
@@ -849,16 +845,16 @@ WEEKLY = {
         {  # W7
             "hyperparams": {"exploit_ratio": 0.85, "sigma": 0.0175, "ucb_kappa": 2.0, "gp_restarts": 10},
             "hp_rationale": "Ultra-tight σ=0.0175 in 8D — 2σ=±0.035. GP restarts increased to 10 for 8D landscape. Target: beat W2's 9.832.",
-            "learned": "Score 9.8251 — only 0.007 from ATB W2=9.832. X1=0.040, X3=0.004 near-zero confirmed. X8=0.781 elevated. Closest ever to W2 best.",
-            "experiment": "Step 5B: Decision Tree won CV (86.7%) — 8D boundary best classified by hard threshold rules. CNN-1D competitive. Parameter count: TinyCNN has 137 params vs NN-Large's 2,049 — 15× weight sharing efficiency.",
+            "learned": "Score 9.8251 — only 0.007 from ATB! X1=0.040, X3=0.004 near-zero maintained. X8=0.781 elevated. So close — W8 goes even tighter.",
+            "experiment": "Step 5B: Decision Tree won CV (86.7%) — 8D boundary best classified by hard threshold rules. TinyCNN has 137 params vs NN-Large's 2,049 — 15× efficiency.",
             "submission": "0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552",
         },
         {  # W8
             "hyperparams": {"exploit_ratio": 0.92, "sigma": 0.012, "ucb_kappa": 2.0, "gp_restarts": 10},
-            "hp_rationale": "Tightest ever: σ=0.012 (2σ=±0.024), ratio=0.92. W2 inject active — exact coords [0.0, 0.179, 0.0, 0.071, 0.929, 0.460, 0.0, 0.541]. Target: close the 0.007 gap.",
-            "learned": "W8 result pending. 0.007 from ATB — if any point can beat it, this precision inject is the best chance.",
-            "experiment": "Ultimate precision inject in 8D. Testing whether σ=0.012 around exact W2 coords can finally exceed 9.832.",
-            "submission": "[PENDING — paste from notebook Step 14]",
+            "hp_rationale": "Tightest ever: ratio=0.92, σ=0.012 (2σ=±0.024). Inject override ACTIVE: W2 coords [0.0, 0.179, 0.0, 0.071, 0.929, 0.460, 0.0, 0.541]. Target: beat 9.832 by any margin.",
+            "learned": "Awaiting W8 result.",
+            "experiment": "Maximum precision in 8D. 0.007 gap to ATB — W8 aims to close it with inject + ultra-tight sampling.",
+            "submission": "[PENDING]",
         },
     ],
 }

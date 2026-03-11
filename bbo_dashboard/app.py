@@ -132,6 +132,13 @@ st.markdown("""
 
 from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, PIPELINE_STEPS, COORDS, WEEKS, WEEKLY, W7_GLANCE, TURBO_SUMMARY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
+# Import all views at module level (avoids Streamlit import-caching routing bugs)
+from views.landing import render as render_landing
+from views.all_functions import render as render_all
+from views.weekly import render as render_weekly
+from views.source_view import render as render_source
+from views.pipeline import render as render_pipeline
+
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
@@ -197,12 +204,12 @@ with st.sidebar:
 
 # ── Route ──────────────────────────────────────────────────────────────────────
 if "Home" in page:
-    from views.landing import render; render()
+    render_landing()
 elif "All Functions" in page:
-    from views.all_functions import render; render(wk_idx)
+    render_all(wk_idx)
 elif "Weekly Analysis" in page:
-    from views.weekly import render; render(fn, wk_idx)
+    render_weekly(fn, wk_idx)
 elif "Source Code" in page:
-    from views.source_view import render; render(fn, wk_idx)
+    render_source(fn, wk_idx)
 elif "Pipeline" in page:
-    from views.pipeline import render; render(fn)
+    render_pipeline(fn)

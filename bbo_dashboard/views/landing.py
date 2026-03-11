@@ -108,7 +108,7 @@ def render():
     </style>
 
     <div class="hero-wrap">
-        <div class="hero-eyebrow">Imperial College London · DATA 2026 Cohort · W1–W7</div>
+        <div class="hero-eyebrow">Capstone Project · Imperial College London · Data Oct 2025 – May 2026 Cohort</div>
         <div class="hero-title">Black-Box Optimisation<br><span style='color:#2563eb'>Capstone</span></div>
         <div class="hero-subtitle-row">
             <div>

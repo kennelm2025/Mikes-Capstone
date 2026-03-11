@@ -132,12 +132,12 @@ st.markdown("""
 
 from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, PIPELINE_STEPS, COORDS, WEEKS, WEEKLY, W7_GLANCE, TURBO_SUMMARY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
-# Import all views at module level (avoids Streamlit import-caching routing bugs)
-from views.landing import render as render_landing
-from views.all_functions import render as render_all
-from views.weekly import render as render_weekly
-from views.source_view import render as render_source
-from views.pipeline import render as render_pipeline
+# ── Import views at module level — avoids Streamlit import-cache routing bug ──
+import views.landing as _v_landing
+import views.all_functions as _v_all
+import views.weekly as _v_weekly
+import views.source_view as _v_source
+import views.pipeline as _v_pipeline
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -153,14 +153,13 @@ with st.sidebar:
         "page",
         ["🏠  Home", "📊  All Functions", "🔬  Weekly Analysis", "📋  Source Code", "🏗️  Pipeline"],
         label_visibility="collapsed",
-        key="nav_page",
     )
 
     st.markdown('<div class="nav-section">Select Data</div>', unsafe_allow_html=True)
 
     if "All Functions" in page:
         fn = "ALL"
-        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1} — Week {i+1}", key="wk_all")
+        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1} — Week {i+1}")
         st.markdown(f"""
         <div style='background:#0a1020;border-radius:8px;padding:10px 12px;margin-top:8px;
                     font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#2563eb'>
@@ -168,8 +167,8 @@ with st.sidebar:
         </div>""", unsafe_allow_html=True)
     else:
         fn_list = list(FUNCTIONS.keys())
-        fn = st.selectbox("Function", fn_list, index=4, format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D", key="fn_sel")
-        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1}", key="wk_sel")
+        fn = st.selectbox("Function", fn_list, index=4, format_func=lambda f: f"{f} — {FUNCTIONS[f]['dims']}D")
+        wk_idx = st.selectbox("Week", list(range(CURRENT_WEEK)), index=CURRENT_WEEK-1, format_func=lambda i: f"W{i+1}")
 
         maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
         scores   = SCORES[fn]
@@ -204,14 +203,13 @@ with st.sidebar:
     st.markdown(f"<div style='font-size:0.63rem;color:#2d3a52;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W{CURRENT_WEEK} · BBO Optimisation</div>", unsafe_allow_html=True)
 
 # ── Route ──────────────────────────────────────────────────────────────────────
-_page = page.strip()
-if "Home" in _page:
-    render_landing()
-elif "All Functions" in _page:
-    render_all(wk_idx)
-elif "Weekly Analysis" in _page:
-    render_weekly(fn, wk_idx)
-elif "Source Code" in _page:
-    render_source(fn, wk_idx)
-elif "Pipeline" in _page:
-    render_pipeline(fn)
+if "Home" in page:
+    _v_landing.render()
+elif "All Functions" in page:
+    _v_all.render(wk_idx)
+elif "Weekly Analysis" in page:
+    _v_weekly.render(fn, wk_idx)
+elif "Source Code" in page:
+    _v_source.render(fn, wk_idx)
+elif "Pipeline" in page:
+    _v_pipeline.render(fn)

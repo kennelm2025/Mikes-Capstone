@@ -1,4 +1,4 @@
-# Model Card — BBO Capstone Pipeline
+# #Model Card — BBO Capstone Pipeline
 
 **Project:** Black-Box Optimisation Capstone  
 **Author:** Mike Kennelly — Imperial College London, ML & AI Professional Certificate  

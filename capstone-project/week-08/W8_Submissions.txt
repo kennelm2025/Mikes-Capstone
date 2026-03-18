@@ -4,14 +4,14 @@ Mike Kennelly
 
 COPY-PASTE READY:
 
-Function 1:  [PENDING — paste from notebook Step 14]
-Function 2:  [PENDING — paste from notebook Step 14]
-Function 3:  [PENDING — paste from notebook Step 14]
-Function 4:  [PENDING — paste from notebook Step 14]
-Function 5:  [PENDING — paste from notebook Step 14]
-Function 6:  [PENDING — paste from notebook Step 14]
-Function 7:  [PENDING — paste from notebook Step 14]
-Function 8:  [PENDING — paste from notebook Step 14]
+Function 1:  0.887104, 0.668800
+Function 2:  0.712753, 0.042543
+Function 3:  0.981542, 0.540570, 0.192008
+Function 4:  0.353438, 0.477554, 0.423301, 0.418067
+Function 5:  0.985104, 1.000000, 1.000000, 1.000000
+Function 6:  0.460210, 0.301460, 0.549552, 0.839145, 0.200664
+Function 7:  0.096399, 0.368153, 0.413112, 0.285892, 0.336821, 0.699617
+Function 8:  0.008368, 0.331528, 0.000000, 0.160107, 0.374002, 0.541189, 0.166880, 0.765946
 
 =======================================================
 DETAIL (for reference)
@@ -24,7 +24,7 @@ F1 (2D)
   EXPLOIT_RATIO   : 0.20  |  EXPLOIT_SIGMA : 0.40  |  TuRBO: EXPAND
   UCB_KAPPA       : 4.0 (EI unreliable near zero — elevated κ)
   Override        : Not required
-  Submission      : [PENDING]
+  Submission      : 0.887104, 0.668800
 
 F2 (2D)
   Strategy        : EXPLOIT W5 BEST — PRECISION TIGHTEN
@@ -33,7 +33,7 @@ F2 (2D)
   EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.010  |  TuRBO: SHRINK
   UCB_KAPPA       : 2.0
   Override        : Not required — W5 best in npy
-  Submission      : [PENDING]
+  Submission      : 0.712753, 0.042543
 
 F3 (3D)
   Strategy        : EXPLOIT W7 NEW BEST — TIGHTEN
@@ -42,7 +42,7 @@ F3 (3D)
   EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.018  |  TuRBO: SHRINK
   UCB_KAPPA       : 2.0
   Override        : Not required — W7 best in npy
-  Submission      : [PENDING]
+  Submission      : 0.981542, 0.540570, 0.192008
 
 F4 (4D)
   Strategy        : ABANDON INJECT — EXPLORE NEW REGIONS
@@ -51,7 +51,7 @@ F4 (4D)
   EXPLOIT_RATIO   : 0.35  |  EXPLOIT_SIGMA : 0.12  |  TuRBO: EXPAND
   UCB_KAPPA       : 3.5
   Override        : REMOVED — W2 coords [0.439,0.415,0.385,0.398] not reproducible
-  Submission      : [PENDING]
+  Submission      : 0.353438, 0.477554, 0.423301, 0.418067
 
 F5 (4D)
   Strategy        : EXPLOIT W7 NEW BEST — PUSH X1 HIGHER
@@ -60,7 +60,7 @@ F5 (4D)
   EXPLOIT_RATIO   : 0.90  |  EXPLOIT_SIGMA : 0.035  |  TuRBO: SHRINK
   UCB_KAPPA       : 2.0
   Override        : Not required — W7 best in npy
-  Submission      : [PENDING]
+  Submission      : 0.985104, 1.000000, 1.000000, 1.000000
 
 F6 (5D)
   Strategy        : EXPLOIT W6 BEST — RETURN AND TIGHTEN
@@ -69,7 +69,7 @@ F6 (5D)
   EXPLOIT_RATIO   : 0.85  |  EXPLOIT_SIGMA : 0.025  |  TuRBO: SHRINK
   UCB_KAPPA       : 2.0
   Override        : Not required — W6 best in npy
-  Submission      : [PENDING]
+  Submission      : 0.460210, 0.301460, 0.549552, 0.839145, 0.200664
 
 F7 (6D)
   Strategy        : EXPLOIT W7 NEW BEST — ANISOTROPIC σ CONFIRMED
@@ -79,7 +79,7 @@ F7 (6D)
   UCB_KAPPA       : 2.5
   Anisotropic     : X1 σ tightened 0.015→0.012; X2-X6 σ tightened 0.035→0.028
   Override        : Not required — W7 best in npy
-  Submission      : [PENDING]
+  Submission      : 0.096399, 0.368153, 0.413112, 0.285892, 0.336821, 0.699617
 
 F8 (8D)
   Strategy        : EXPLOIT W2 BEST — PRECISION INJECT
@@ -88,6 +88,6 @@ F8 (8D)
   EXPLOIT_RATIO   : 0.92  |  EXPLOIT_SIGMA : 0.012  |  TuRBO: SHRINK
   UCB_KAPPA       : 2.0  |  GP_RESTARTS : 10
   Override        : ✅ [0.0, 0.179297, 0.0, 0.071406, 0.92927, 0.459981, 0.0, 0.541212] y=9.83196
-  Submission      : [PENDING]
+  Submission      : 0.008368, 0.331528, 0.000000, 0.160107, 0.374002, 0.541189, 0.166880, 0.765946
 
 =======================================================

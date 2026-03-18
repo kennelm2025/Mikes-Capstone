@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F4",
     "week": 8,
-    "timestamp": "2026-03-11 13:47:42",
+    "timestamp": "2026-03-13 15:31:56",
     "input_file": ".\\f4_w8_inputs.npy",
     "output_file": ".\\f4_w8_outputs.npy",
     "objective": "MAXIMIZE"

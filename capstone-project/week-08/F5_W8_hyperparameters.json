@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F5",
     "week": 8,
-    "timestamp": "2026-03-11 13:46:26",
+    "timestamp": "2026-03-13 15:40:16",
     "input_file": ".\\f5_w8_inputs.npy",
     "output_file": ".\\f5_w8_outputs.npy",
     "objective": "MAXIMIZE"
@@ -224,32 +224,32 @@
     "ei_formula": "EI(x) = (mu - y_best - xi)*Phi(Z) + sigma*phi(Z), Z=(mu-y_best-xi)/sigma",
     "ucb_formula": "UCB(x) = mu + 2.0*sigma",
     "direction": "MAXIMIZE \u2014 argmax EI",
-    "ei_max": 550.36613244,
-    "ucb_max": 8418.05110274,
+    "ei_max": 433.16668066,
+    "ucb_max": 8213.95756718,
     "pct_positive_ei": 100.0
   },
   "submission": {
     "point": [
-      1.0,
+      0.98510424,
       1.0,
       1.0,
       1.0
     ],
-    "formatted_string": "1.000000-1.000000-1.000000-1.000000",
-    "gp_mu": 8147.16186642,
-    "gp_sigma": 127.9242969,
-    "ei": 550.36613244,
-    "ucb": 8403.01046022,
-    "exploit_term": 550.36125092,
-    "explore_term": 0.00488152,
+    "formatted_string": "0.985104-1.000000-1.000000-1.000000",
+    "gp_mu": 8029.96262161,
+    "gp_sigma": 91.99747279,
+    "ei": 433.16668066,
+    "ucb": 8213.95756718,
+    "exploit_term": 433.16611752,
+    "explore_term": 0.00056314,
     "ei_driver": "exploitation",
-    "delta_vs_best": 550.37590291,
+    "delta_vs_best": 433.1766581,
     "prediction": "new_best"
   },
   "dimensions": {
     "X1": {
       "best_point_value": 0.937682,
-      "submission_value": 1.0,
+      "submission_value": 0.985104,
       "gp_sensitivity": 9994.191809,
       "ei_peak_at": 1.0,
       "ucb_peak_at": 1.0,

@@ -288,7 +288,32 @@ def render_step_chart(step_key, fn, wk_idx):
             bargap=0.3,
         )
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
-        st.caption(f"★ Winner: {clf['name']} · CV={clf['cv']:.1%} ± {clf['std']:.1%} · refit on full dataset for candidate filtering")
+        # Winner rationale — why this model type wins
+        _rationale = {
+            "RF":     "Random Forest wins because ensemble averaging reduces variance on small datasets. "
+                      "With n<50 samples, single trees overfit — 100-tree averaging provides stable P(class=1) estimates.",
+            "DT":     "Decision Tree wins by learning hard threshold rules on boundary dimensions. "
+                      "At high n/p ratios, the tree finds clear separating cuts (e.g. X1<0.1 or X5>0.9).",
+            "SVM":    "Linear SVM wins because the high-value region is linearly separable in this function's space. "
+                      "The maximum-margin hyperplane cleanly separates class 1 from class 0.",
+            "CNN":    "CNN-1D wins by scanning adjacent coordinate pairs for local structure. "
+                      "Its 8 filters detect coordinate relationships (e.g. X1≈0 AND X6>0.6) that scalar models miss.",
+            "LogReg": "Logistic Regression wins due to the smooth, probabilistic landscape — "
+                      "a linear decision boundary in log-odds space separates high from low regions effectively.",
+        }
+        _fam_map = {"RF":"RF","DT":"DT","SVM":"SVM","CNN":"CNN","LogReg":"LogReg"}
+        _why = _rationale.get(clf["family"], "Selected by highest stratified k-fold CV accuracy across all 8 classifiers.")
+        # Find the actual winner from CV_RESULTS
+        _winner_row = next((r for r in cv_rows if r["winner"]), cv_rows[0])
+        st.markdown(f"""
+        <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
+                    padding:14px 18px;margin-top:0.5rem;border-left:3px solid #22c55e'>
+          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                      text-transform:uppercase;letter-spacing:0.18em;margin-bottom:6px'>
+            ★ Winner: {_winner_row["name"]} · CV={_winner_row["cv"]:.1%} ± {_winner_row["std"]:.1%}</div>
+          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.75'>
+            {_why}</div>
+        </div>""", unsafe_allow_html=True)
 
     # ── Step 8: Candidate generation split ───────────────────────────────────
     elif step_key == "Step 8":

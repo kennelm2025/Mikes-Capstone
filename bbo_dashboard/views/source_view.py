@@ -382,13 +382,15 @@ def render_step_chart(step_key, fn, wk_idx):
               <div style='display:grid;grid-template-columns:1fr 1fr;gap:20px;
                           font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
                 <div>
-                  <b style='color:#22c55e'>Refit on full dataset</b><br>
-                  CV in Step 5 used held-out folds to measure accuracy.
-                  Step 6 refits all 8 models on <b>all {len(sc)} training points</b> —
-                  giving each model maximum information before it scores the 10,000 candidates.<br><br>
+                  <b style='color:#22c55e'>Why refit on all data?</b><br>
+                  In Step 5, CV <i>withheld</i> data to get an honest accuracy estimate —
+                  each fold trained on ~{int(len(sc)*0.67)} points and tested on ~{int(len(sc)*0.33)}.
+                  That's fair for <i>measuring</i> the model, but not ideal for <i>using</i> it.<br><br>
+                  Step 6 refits on <b>all {len(sc)} points</b> because we no longer need
+                  to hold data back — we already know which model wins. More training data
+                  = better learned boundaries = better P(class=1) scores on the 10,000 candidates.<br><br>
                   <b style='color:#38bdf8'>Winner: {winner_name}</b><br>
-                  This model is used as the filter. It scores all 10,000 candidates
-                  and the bottom 50% by P(class=1) are discarded before the GP sees them.
+                  Only this model is used as the candidate filter — the others are discarded.
                 </div>
                 <div>
                   <b style='color:#f59e0b'>Why show P(class=1) distributions?</b><br>

@@ -19,7 +19,7 @@ def render(wk_idx=None):
     <div class='page-hero'>
       <div class='page-eyebrow'>All Functions · All Weeks · {week_label} Selected</div>
       <div class='page-title'>All 8 Functions</div>
-      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · All data W1–W{CURRENT_WEEK}</div>
+      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · All data W1–W' + str(CURRENT_WEEK) + '</div>
     </div>
     """, unsafe_allow_html=True)
 

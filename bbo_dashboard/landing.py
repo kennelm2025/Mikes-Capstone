@@ -190,7 +190,7 @@ def render():
                       <div style='font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:700;color:#f59e0b'>★ {fmt(atb)}</div>
                     </div>
                     <div>
-                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;margin-bottom:2px'>W{CURRENT_WEEK} SCORE</div>
+                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;margin-bottom:2px'>' + f'W{CURRENT_WEEK}' + ' SCORE</div>
                       <div style='font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:700;
                                   color:{"#34d399" if is_best else "#e8eeff"}'>{fmt(w7_score)}</div>
                     </div>
@@ -251,7 +251,7 @@ def render():
                     {build_sparkline(scores, maximize)}
                   </div>
                   <div style='font-family:"IBM Plex Mono",monospace;font-size:0.55rem;color:#2d3a52'>
-                    W1 → W{CURRENT_WEEK} · green=improvement · gold=all-time best
+                    W1 → ' + str(CURRENT_WEEK) + ' · green=improvement · gold=all-time best
                   </div>
                 </div>
                 """, unsafe_allow_html=True)

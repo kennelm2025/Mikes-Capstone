@@ -381,19 +381,19 @@ def render_step_chart(step_key, fn, wk_idx):
               was large enough to act on: we tightened σ for X1 to 0.012 while
               keeping X2–X6 at 0.028. W7 set a new best of 2.4134, confirming it.<br><br>
 
-              <b style='color:#f59e0b'>How do we know it's a useful signal?</b><br>
-              <span style='color:#c8d4f0'>Honestly — we don't, formally.
-              The method is a <b>heuristic, not statistically rigorous</b>:<br>
-              · No baseline for what activation level is "meaningful" vs random noise<br>
-              · 33-parameter CNN on 21–36 points is severely underfitted<br>
-              · We're not comparing activation on class-1 vs class-0 points<br>
+              How do we know it's a useful signal?<br>
+              Honestly — we don't, formally.
+              The method is a heuristic, not statistically rigorous:<br>
+              · No baseline for what activation level is meaningful vs random noise<br>
+              · 33-parameter CNN on 21-36 points is severely underfitted<br>
+              · We are not comparing activation on class-1 vs class-0 points<br>
               · The only validation is the portal score the following week<br><br>
-              A more rigorous approach would compute the ratio:<br>
-              <i>mean activation on class-1 points ÷ mean activation on class-0 points</i><br>
-              and only act when this ratio exceeds ~1.5×. For F7 the 3× magnitude
-              difference was convincing enough to act — and the portal confirmed it.
-              For {fn}, the CV winner is {winner_str} — CNN filter insights
-              are noted but treated as weak signal given the small sample size.</span>
+              A more rigorous approach would compute the ratio:
+              mean activation on class-1 points divided by mean activation on class-0 points,
+              and only act when this ratio exceeds ~1.5x. For F7 the 3x magnitude
+              difference was convincing enough to act — and the portal confirmed it.<br><br>
+              For {fn}: CV winner = {winner_str}. CNN filter insights
+              are noted but treated as weak signal given the small sample size.
             </div>
           </div>
         </div>""", unsafe_allow_html=True)

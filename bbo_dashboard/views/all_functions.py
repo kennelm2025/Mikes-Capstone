@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
-from data import FUNCTIONS, SCORES, W7_PRED, STRATEGY, CLASSIFIERS, W7_GLANCE, TURBO_SUMMARY, COORDS, WEEKLY, running_best, get_all_time_best, get_sigma_display
+from data import FUNCTIONS, SCORES, W7_PRED, STRATEGY, CLASSIFIERS, W7_GLANCE, TURBO_SUMMARY, COORDS, WEEKLY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
 
 def fmt(v):
     if v is None: return "—"
@@ -11,13 +11,15 @@ def fmt(v):
     if abs(v) < 0.0001 and v != 0: return f"{v:.2e}"
     return f"{v:.4f}"
 
-def render(wk_idx=6):
+def render(wk_idx=None):
+    if wk_idx is None:
+        wk_idx = CURRENT_WEEK - 1
     week_label = f"W{wk_idx+1}"
     st.markdown(f"""
     <div class='page-hero'>
       <div class='page-eyebrow'>All Functions · All Weeks · {week_label} Selected</div>
       <div class='page-title'>All 8 Functions</div>
-      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · All data W1–W7</div>
+      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · Showing W1–{week_label}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -55,7 +57,7 @@ def render(wk_idx=6):
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.62rem;
                           color:{acolor};margin-bottom:6px'>{action.split()[0]}</div>
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#1a2a1a;
-                          word-break:break-all;line-height:1.4'>{sub_str[:35]}…</div>
+                          word-break:break-all;line-height:1.4;font-size:0.55rem'>{sub_str[:72]}{'…' if len(sub_str)>72 else ''}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -71,18 +73,21 @@ def render(wk_idx=6):
         row, col = divmod(idx, 4); row+=1; col+=1
         maximize = info["objective"] == "MAXIMISE"
         scores   = SCORES[fid]
-        actuals  = [s for s in scores if s is not None]
-        pred     = W7_PRED[fid]
-        rb       = running_best(scores, maximize)
-        rb_vals  = [r for r in rb if r is not None]
-        week_labels = [f"W{i+1}" for i in range(len(actuals))]
+        all_actuals = [s for s in scores if s is not None]
+        pred        = W7_PRED[fid]
+        rb_all      = running_best(scores, maximize)
+        # Slice to selected week — only show data up to wk_idx
+        n_show      = min(wk_idx + 1, len(all_actuals))
+        actuals     = all_actuals[:n_show]
+        rb_vals     = [r for r in rb_all if r is not None][:n_show]
+        week_labels = [f"W{i+1}" for i in range(n_show)]
 
         bar_colors = ["#3d4f70"]
         for i in range(1, len(actuals)):
             imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
             bar_colors.append("#22c55e" if imp else "#ef4444")
-        # Highlight selected week
-        if wk_idx < len(bar_colors): bar_colors[wk_idx] = "#2563eb"
+        # Highlight selected week (last bar shown)
+        if actuals: bar_colors[-1] = "#2563eb"
 
         fig.add_trace(go.Bar(x=week_labels, y=actuals, marker_color=bar_colors,
                              marker_line_width=0, opacity=0.85, showlegend=False,
@@ -103,18 +108,23 @@ def render(wk_idx=6):
 
     st.markdown('<div class="sec-head">Improvement Heatmap — Week-on-Week</div>', unsafe_allow_html=True)
     fns_list = list(FUNCTIONS.keys())
-    weeks    = ["W1→W2", "W2→W3", "W3→W4", "W4→W5", "W5→W6"]
+    # Heatmap shows all actual transitions — CURRENT_WEEK-1 actuals, so CURRENT_WEEK-2 transitions
+    # (last week is always pending/None, so actual count = CURRENT_WEEK-1)
+    _n_actuals    = CURRENT_WEEK - 1          # 8 actual weeks at W9
+    n_transitions = _n_actuals - 1            # 7 transitions W1→W2 … W7→W8
+    weeks         = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
+    st.caption(f"🔢 Debug: CURRENT_WEEK={CURRENT_WEEK} · _n_actuals={_n_actuals} · n_transitions={n_transitions} · weeks={weeks}")
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"
-        sc = [s for s in SCORES[fid] if s is not None]
+        sc = [s for s in SCORES[fid] if s is not None][:_n_actuals]
         row_vals, text_vals = [], []
-        for i in range(min(5, len(sc)-1)):
+        for i in range(min(n_transitions, len(sc)-1)):
             delta = sc[i+1] - sc[i]
             if not maximize: delta = -delta
             row_vals.append(delta)
             text_vals.append(fmt(sc[i+1] - sc[i]))
-        while len(row_vals) < 5: row_vals.append(0); text_vals.append("—")
+        while len(row_vals) < n_transitions: row_vals.append(0); text_vals.append("—")
         z_matrix.append(row_vals); text_matrix.append(text_vals)
 
     z_arr = np.array(z_matrix, dtype=float)
@@ -126,26 +136,37 @@ def render(wk_idx=6):
     fig2 = go.Figure(go.Heatmap(
         z=z_norm, x=weeks, y=fns_list,
         text=text_matrix, texttemplate="%{text}",
-        textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+        textfont=dict(size=8, color="white", family="IBM Plex Mono"),
         colorscale=[[0,"#7f1d1d"],[0.35,"#1a2540"],[0.65,"#1a2540"],[1,"#14532d"]],
         zmid=0, showscale=False,
         hovertemplate="<b>%{y} %{x}</b><br>Δ = %{text}<extra></extra>",
+        xgap=2, ygap=2,
     ))
-    fig2.update_layout(height=260, paper_bgcolor="#060a10",
-                       font=dict(color="#4a5a7a", size=10, family="IBM Plex Mono"),
-                       margin=dict(l=10, r=10, t=10, b=40))
+    fig2.update_layout(
+        height=300,
+        paper_bgcolor="#060a10",
+        plot_bgcolor="#060a10",
+        font=dict(color="#4a5a7a", size=9, family="IBM Plex Mono"),
+        margin=dict(l=40, r=10, t=5, b=45),
+        xaxis=dict(side="bottom", tickangle=0, tickfont=dict(size=8),
+                   scaleanchor=None, constrain="domain"),
+        yaxis=dict(tickfont=dict(size=9), constrain="domain"),
+    )
     st.plotly_chart(fig2, use_container_width=True)
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
     # ── W7 submission strings table ───────────────────────────────────────────
-    st.markdown('<div class="sec-head">Submission Strings — All Functions · All Weeks Available</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">Submission Strings — All Functions · W1–W8 Actuals (64 rows · scroll)</div>', unsafe_allow_html=True)
 
     rows_html = ""
     for fn in FUNCTIONS:
         maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
-        for wi in range(7):
+        for wi in range(CURRENT_WEEK):
             score = SCORES[fn][wi] if wi < len(SCORES[fn]) else None
             sub   = WEEKLY[fn][wi].get("submission","—") if wi < len(WEEKLY[fn]) else "—"
+            # Skip pending weeks (no actual score yet)
+            if score is None and sub in ("[PENDING]", "—"):
+                continue
             wl    = f"W{wi+1}"
             is_selected = wi == wk_idx
             sc_color = "#f59e0b" if (score is not None and score == get_all_time_best(fn)) else "#8a9abf"
@@ -155,11 +176,11 @@ def render(wk_idx=6):
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:#e8eeff'>{fn}</td>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{"#2563eb" if is_selected else "#2d3a52"}'>{wl}</td>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{sc_color}'>{fmt(score)}</td>
-              <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.68rem;color:#22c55e;word-break:break-all'>{sub}</td>
+              <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.65rem;color:#22c55e;word-break:break-all;white-space:normal;min-width:400px'>{sub}</td>
             </tr>"""
 
     st.markdown(f"""
-    <div style='max-height:400px;overflow-y:auto;border:1px solid #141e30;border-radius:10px'>
+    <div style='overflow-x:auto;border:1px solid #141e30;border-radius:10px'>
     <table style='width:100%;border-collapse:collapse;background:#080e1a'>
       <thead style='position:sticky;top:0;background:#0a1020'>
         <tr>
@@ -173,4 +194,4 @@ def render(wk_idx=6):
     </table>
     </div>
     """, unsafe_allow_html=True)
-    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score for that function")
+    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score · W9 pending rows hidden")

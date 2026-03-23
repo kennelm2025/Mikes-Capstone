@@ -1,5 +1,7 @@
 import streamlit as st
-from data import FUNCTIONS, SCORES, STRATEGY, WEEKLY, PIPELINE_STEPS, get_all_time_best
+import plotly.graph_objects as go
+import numpy as np
+from data import FUNCTIONS, SCORES, STRATEGY, WEEKLY, COORDS, CLASSIFIERS, TURBO_SUMMARY, PIPELINE_STEPS, CURRENT_WEEK, running_best, get_all_time_best
 
 # Representative source code excerpts for each pipeline step
 STEP_CODE = {
@@ -182,6 +184,163 @@ print(f"Submission: {submission}")
 print(f"EI={EI[best_idx]:.4f}  UCB={UCB[best_idx]:.4f}  μ={mu[best_idx]:.4f}  σ={sigma[best_idx]:.4f}")''',
 }
 
+
+def fmt(v):
+    if v is None: return "—"
+    if abs(v) >= 1000: return f"{v:,.1f}"
+    if v != 0 and abs(v) < 0.001: return f"{v:.2e}"
+    return f"{v:.4f}"
+
+def render_step_chart(step_key, fn, wk_idx):
+    """Render a live Plotly chart for pipeline steps that have visualisable data."""
+    maximize = FUNCTIONS[fn]["objective"] == "MAXIMISE"
+    scores   = SCORES[fn]
+    actuals  = [s for s in scores if s is not None]
+    n        = min(wk_idx + 1, len(actuals))
+    week_labels = [f"W{i+1}" for i in range(n)]
+
+    DARK = "#060a10"
+    PLOT = "#0a1020"
+
+    # ── Step 3: History Plot ──────────────────────────────────────────────────
+    if step_key == "Step 3":
+        sc = actuals[:n]
+        rb = running_best(scores, maximize)[:n]
+        bar_colors = ["#4a5a7a"]
+        for i in range(1, len(sc)):
+            imp = (sc[i] > sc[i-1]) if maximize else (sc[i] < sc[i-1])
+            bar_colors.append("#22c55e" if imp else "#ef4444")
+        if sc: bar_colors[-1] = "#38bdf8"
+        fig = go.Figure()
+        fig.add_trace(go.Bar(x=week_labels, y=sc, marker_color=bar_colors,
+                             marker_line_width=0, opacity=0.9, name="Score",
+                             text=[fmt(v) for v in sc], textposition="outside",
+                             textfont=dict(size=10, color="white", family="IBM Plex Mono")))
+        fig.add_trace(go.Scatter(x=week_labels, y=[r for r in rb if r is not None],
+                                 mode="lines+markers", line=dict(color="#f59e0b", width=2, dash="dash"),
+                                 marker=dict(size=5), name="Running best"))
+        fig.update_layout(height=300, paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                          font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                          margin=dict(l=10,r=10,t=30,b=10),
+                          title=dict(text=f"{fn} — Historical Performance (W1–W{n})",
+                                     font=dict(size=12, color="#c8d4f0")),
+                          legend=dict(bgcolor="rgba(0,0,0,0)", font_size=10),
+                          xaxis=dict(gridcolor="#0d1320", showgrid=False),
+                          yaxis=dict(gridcolor="#111827", showgrid=True))
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+    # ── Step 4: Binary Labels distribution ───────────────────────────────────
+    elif step_key == "Step 4":
+        sc = actuals[:n]
+        if sc:
+            threshold = np.percentile(sc, 70)
+            colors = ["#22c55e" if (s >= threshold if maximize else s <= threshold) else "#ef4444" for s in sorted(sc)]
+            fig = go.Figure(go.Bar(
+                x=list(range(len(sc))), y=sorted(sc), marker_color=colors,
+                text=[fmt(v) for v in sorted(sc)], textposition="outside",
+                textfont=dict(size=9, color="white", family="IBM Plex Mono")))
+            fig.add_hline(y=threshold, line_dash="dot", line_color="#f59e0b",
+                          annotation_text=f"Top 30% threshold: {fmt(threshold)}",
+                          annotation_font=dict(color="#f59e0b", size=9))
+            fig.update_layout(height=280, paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                              font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                              margin=dict(l=10,r=10,t=30,b=10),
+                              title=dict(text=f"{fn} — Binary Labels (green=class 1, red=class 0)",
+                                         font=dict(size=12, color="#c8d4f0")),
+                              xaxis=dict(title="Rank (sorted)", showgrid=False),
+                              yaxis=dict(gridcolor="#111827"))
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+    # ── Step 5 / Step 7: CV Model Comparison ─────────────────────────────────
+    elif step_key in ("Step 5", "Step 7"):
+        clf = CLASSIFIERS[fn]
+        # Show classifier winner card
+        st.markdown(f"""
+        <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
+                    padding:16px 20px;border-left:4px solid #22c55e;margin-bottom:1rem'>
+          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;
+                      color:#38bdf8;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:6px'>
+            CV Winner — {fn} W{wk_idx+1}</div>
+          <div style='font-family:Syne,sans-serif;font-size:1.3rem;font-weight:700;color:#22c55e'>
+            {clf["name"]}</div>
+          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.85rem;color:#c8d4f0;margin-top:4px'>
+            CV Accuracy: {clf["cv"]:.1%} ± {clf["std"]:.1%} &nbsp;·&nbsp; Family: {clf["family"]}
+          </div>
+        </div>""", unsafe_allow_html=True)
+
+    # ── Step 8: Candidate generation split ───────────────────────────────────
+    elif step_key == "Step 8":
+        strat = STRATEGY[fn]
+        ratio = strat["exploit_ratio"]
+        n_exploit = int(10000 * ratio)
+        n_explore = 10000 - n_exploit
+        fig = go.Figure(go.Pie(
+            labels=["Exploit (Gaussian around best)", "Explore (uniform random)"],
+            values=[n_exploit, n_explore],
+            marker_colors=["#3b82f6", "#22c55e"],
+            hole=0.55,
+            textinfo="label+percent",
+            textfont=dict(size=10, color="white", family="IBM Plex Mono"),
+            hovertemplate="%{label}: %{value:,} candidates<extra></extra>"))
+        sigma = strat.get("sigma", "—")
+        sigma_str = f"{sigma}" if not isinstance(sigma, list) else f"aniso {sigma}"
+        fig.update_layout(height=280, paper_bgcolor=DARK,
+                          font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                          margin=dict(l=10,r=10,t=40,b=10),
+                          title=dict(text=f"{fn} W{wk_idx+1} — 10,000 Candidates · σ={sigma_str}",
+                                     font=dict(size=11, color="#c8d4f0")),
+                          legend=dict(bgcolor="rgba(0,0,0,0)", font_size=9, x=0.5, xanchor="center", y=-0.05))
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+    # ── Step 13: Submission dashboard ────────────────────────────────────────
+    elif step_key == "Step 13":
+        sc = actuals[:n]
+        rb = running_best(scores, maximize)[:n]
+        # Trajectory
+        bar_colors = ["#4a5a7a"]
+        for i in range(1, len(sc)):
+            imp = (sc[i] > sc[i-1]) if maximize else (sc[i] < sc[i-1])
+            bar_colors.append("#22c55e" if imp else "#ef4444")
+        if sc: bar_colors[-1] = "#38bdf8"
+        fig = go.Figure()
+        fig.add_trace(go.Bar(x=week_labels, y=sc, marker_color=bar_colors,
+                             marker_line_width=0, opacity=0.9, name="Score",
+                             text=[fmt(v) for v in sc], textposition="outside",
+                             textfont=dict(size=9, color="white", family="IBM Plex Mono")))
+        fig.add_trace(go.Scatter(x=week_labels, y=[r for r in rb if r is not None],
+                                 mode="lines+markers", line=dict(color="#f59e0b", width=2, dash="dash"),
+                                 marker=dict(size=5), name="Running best"))
+        atb = get_all_time_best(fn)
+        fig.add_hline(y=atb, line_dash="dot", line_color="#f59e0b",
+                      annotation_text=f"ATB: {fmt(atb)}",
+                      annotation_font=dict(color="#f59e0b", size=9))
+        fig.update_layout(height=300, paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                          font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                          margin=dict(l=10,r=10,t=30,b=10),
+                          title=dict(text=f"{fn} — Submission Dashboard · W{n} · ATB={fmt(atb)}",
+                                     font=dict(size=12, color="#c8d4f0")),
+                          legend=dict(bgcolor="rgba(0,0,0,0)", font_size=10),
+                          xaxis=dict(gridcolor="#0d1320", showgrid=False),
+                          yaxis=dict(gridcolor="#111827"))
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        # Submission coords bar chart
+        coords_wk = COORDS[fn][wk_idx] if wk_idx < len(COORDS[fn]) else None
+        if coords_wk:
+            dims = [f"X{i+1}" for i in range(len(coords_wk))]
+            fig2 = go.Figure(go.Bar(
+                x=dims, y=coords_wk,
+                marker_color=["#38bdf8" if abs(c)<0.1 or abs(c-1)<0.1 else "#4a6a9a" for c in coords_wk],
+                text=[f"{c:.4f}" for c in coords_wk], textposition="outside",
+                textfont=dict(size=10, color="white", family="IBM Plex Mono")))
+            fig2.update_layout(height=220, paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                               font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                               margin=dict(l=10,r=10,t=30,b=10),
+                               title=dict(text=f"Submitted Coordinates — W{wk_idx+1}",
+                                          font=dict(size=11, color="#c8d4f0")),
+                               xaxis=dict(showgrid=False),
+                               yaxis=dict(gridcolor="#111827", range=[-0.05, 1.15]))
+            st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
+
 def render(fn, wk_idx):
     info   = FUNCTIONS[fn]
     weekly = WEEKLY[fn][wk_idx]
@@ -219,6 +378,12 @@ def render(fn, wk_idx):
           <div class='info-card-body'>{step_data["desc"]}</div>
         </div>
         """, unsafe_allow_html=True)
+
+    # Live chart for this step
+    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 7", "Step 8", "Step 13"}
+    if step_key in CHART_STEPS:
+        st.markdown('<div class="sec-head">Live Chart — This Step</div>', unsafe_allow_html=True)
+        render_step_chart(step_key, fn, wk_idx)
 
     # Code block
     code = STEP_CODE.get(step_key)

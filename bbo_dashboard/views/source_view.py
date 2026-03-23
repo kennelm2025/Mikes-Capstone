@@ -374,16 +374,33 @@ def render_step_chart(step_key, fn, wk_idx):
                 inspection technique used in production computer vision.
               </div>
             </div>""", unsafe_allow_html=True)
-        # Was CNN inspection acted on for this function?
-        _cnn_used = fn in {"F7", "F8"}
+        # Was CNN inspection acted on? — both function AND week dependent
+        # F7: anisotropic σ introduced W6 → acted from wk_idx>=5
+        # F8: anisotropic σ introduced W9 → acted from wk_idx>=8
+        # All others: never acted on
+        _cnn_acted_from = {"F7": 5, "F8": 8}  # wk_idx (0-based)
+        _first_acted    = _cnn_acted_from.get(fn, None)
+        _cnn_used       = _first_acted is not None and wk_idx >= _first_acted
+
         _cnn_action = {
-            "F7": "W6 CNN filter maps showed filters 3 and 4 activated 3x stronger on [X1, X2] than other pairs. This directly led to anisotropic σ: X1 tightened to 0.012, X2-X6 kept at 0.028. W7 set new ATB 2.4134 — confirming the insight.",
-            "F8": "W7 CNN filter maps confirmed the X1=0, X3=0, X7=0 near-zero boundary pattern. This supported the anisotropic σ strategy from W9: X1/X3/X7 get σ=0.008 (tightest), free dims get σ=0.020-0.030.",
+            "F7": f"W{_first_acted+1 if _first_acted else '?'} CNN filter maps showed filters 3 and 4 activated 3x stronger on [X1, X2] than other pairs. This directly led to anisotropic σ: X1 tightened to 0.012, X2-X6 kept at 0.028. W7 set new ATB 2.4134 — confirming the insight.",
+            "F8": "W8 CNN filter maps confirmed the X1=0, X3=0, X7=0 near-zero boundary pattern. This supported the anisotropic σ strategy introduced at W9: X1/X3/X7 get σ=0.008 (tightest), free dims get σ=0.020-0.030.",
         }
         _acted_text = _cnn_action.get(fn, "")
-        _used_color = "#22c55e" if _cnn_used else "#f59e0b"
-        _used_label = f"✅ CNN Inspection WAS acted on for {fn}" if _cnn_used else f"⚠️ CNN Inspection was NOT acted on for {fn}"
-        _not_acted  = f"The CV winner ({winner_str}) was used as the filter. CNN filter maps were reviewed but no dominant coordinate pattern was clear enough to justify changing σ from isotropic to anisotropic. The method is a heuristic — a 3x+ activation difference is needed to act with confidence."
+
+        if _cnn_used:
+            _used_color = "#22c55e"
+            _used_label = f"✅ CNN Inspection WAS acted on — {fn} from W{_first_acted+1}"
+        elif _first_acted is not None and wk_idx < _first_acted:
+            _used_color = "#f59e0b"
+            _used_label = f"⏳ CNN Inspection not yet acted on — {fn} will use it from W{_first_acted+1}"
+            _acted_text = f"This week (W{wk_idx+1}) CNN inspection ran but the filter pattern was not yet clear enough to justify anisotropic σ. The 3x activation threshold was reached at W{_first_acted+1}."
+        else:
+            _used_color = "#f59e0b"
+            _used_label = f"⚠️ CNN Inspection was NOT acted on for {fn}"
+            _acted_text = ""
+
+        _not_acted = f"CNN filter maps were reviewed but no dominant coordinate pattern reached the 3x activation threshold needed to justify switching from isotropic to anisotropic σ. CV winner ({winner_str}) was used as the filter only."
 
         with _c2:
             st.markdown(f"""

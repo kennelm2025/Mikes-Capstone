@@ -268,24 +268,25 @@ def render_step_chart(step_key, fn, wk_idx):
             marker_color=colors,
             marker_line_width=0,
             error_x=dict(type="data", array=stds, color="#7a8fbb", thickness=1.5, width=4),
-            text=[f"{v:.1%}" for v in cvs],
-            textposition="outside",
+            # Score inside bar on left, ± std outside on right
+            text=[f"  {v:.1%} ± {s:.1%}" for v, s in zip(cvs, stds)],
+            textposition="inside",
+            insidetextanchor="start",
             textfont=dict(size=10, color="white", family="IBM Plex Mono"),
             hovertemplate="%{y}: <b>%{x:.1%}</b> ± %{error_x.array:.1%}<extra></extra>",
         ))
-        fig.add_vline(x=0.5, line_dash="dot", line_color="#f59e0b",
-                      annotation_text="50% baseline",
-                      annotation_font=dict(color="#f59e0b", size=9))
         fig.update_layout(
             height=320,
             paper_bgcolor=DARK, plot_bgcolor=PLOT,
             font=dict(color="#7a8fbb", family="IBM Plex Mono"),
-            margin=dict(l=10, r=60, t=40, b=10),
-            title=dict(text=f"{fn} — CV Model Comparison · green = winner · error bars = ±1 std",
+            margin=dict(l=10, r=20, t=40, b=10),
+            title=dict(text=f"{fn} — CV Model Comparison (all 8 models) · green = winner",
                        font=dict(size=11, color="#c8d4f0")),
-            xaxis=dict(tickformat=".0%", range=[0, 1.05], gridcolor="#111827"),
+            xaxis=dict(tickformat=".0%", range=[0, 1.05], gridcolor="#111827",
+                       title=dict(text="CV Accuracy", font=dict(size=10))),
             yaxis=dict(autorange="reversed", tickfont=dict(size=10)),
-            bargap=0.3,
+            bargap=0.25,
+            uniformtext=dict(minsize=9, mode="hide"),
         )
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
         # Winner rationale — why this model type wins

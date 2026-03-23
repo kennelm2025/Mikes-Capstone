@@ -374,25 +374,35 @@ def render_step_chart(step_key, fn, wk_idx):
                 inspection technique used in production computer vision.
               </div>
             </div>""", unsafe_allow_html=True)
+        # Was CNN inspection acted on for this function?
+        _cnn_used = fn in {"F7", "F8"}
+        _cnn_action = {
+            "F7": "W6 CNN filter maps showed filters 3 and 4 activated 3x stronger on [X1, X2] than other pairs. This directly led to anisotropic σ: X1 tightened to 0.012, X2-X6 kept at 0.028. W7 set new ATB 2.4134 — confirming the insight.",
+            "F8": "W7 CNN filter maps confirmed the X1=0, X3=0, X7=0 near-zero boundary pattern. This supported the anisotropic σ strategy from W9: X1/X3/X7 get σ=0.008 (tightest), free dims get σ=0.020-0.030.",
+        }
+        _acted_text = _cnn_action.get(fn, "")
+        _used_color = "#22c55e" if _cnn_used else "#f59e0b"
+        _used_label = f"✅ CNN Inspection WAS acted on for {fn}" if _cnn_used else f"⚠️ CNN Inspection was NOT acted on for {fn}"
+        _not_acted  = f"The CV winner ({winner_str}) was used as the filter. CNN filter maps were reviewed but no dominant coordinate pattern was clear enough to justify changing σ from isotropic to anisotropic. The method is a heuristic — a 3x+ activation difference is needed to act with confidence."
+
         with _c2:
             st.markdown(f"""
             <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
                           text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
-                What Did It Reveal — And Is It Reliable?</div>
+                What Did It Reveal — And Was It Used?</div>
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
-                <b style='color:#22c55e'>For F7:</b> Filters 3 and 4 activated at 1.56 and 1.44
-                on [X1, X2] — roughly <b>3x higher</b> than other filters.
-                We tightened σ for X1 to 0.012 while keeping X2-X6 at 0.028.
-                W7 set a new best of 2.4134, confirming it.<br><br>
-                <b style='color:#f59e0b'>Is it reliable?</b><br>
-                Honestly — it is a heuristic, not statistically rigorous.
-                There is no formal threshold. A more rigorous approach would compare
-                mean filter activation on class-1 vs class-0 points, and only act
-                when the ratio exceeds ~1.5x. The 3x difference for F7 was
-                convincing enough — and the portal validated it.<br><br>
-                For {fn}: CV winner = {winner_str}. CNN filter insights
-                are treated as weak signal only given the small sample size.
+                <div style='background:#050810;border-left:3px solid {_used_color};
+                            padding:8px 12px;border-radius:0 6px 6px 0;margin-bottom:12px;
+                            font-size:0.80rem;color:{_used_color};font-weight:700'>
+                  {_used_label}
+                </div>
+                {"<b style='color:#22c55e'>What it revealed:</b><br>" + _acted_text if _cnn_used else _not_acted}<br><br>
+                <b style='color:#f59e0b'>Is it statistically rigorous?</b><br>
+                No — it is a heuristic. There is no formal threshold.
+                A more rigorous approach would compare mean filter activation on
+                class-1 vs class-0 points and only act when the ratio exceeds ~1.5x.
+                For F7 the 3x difference was convincing enough — and the portal validated it.
               </div>
             </div>""", unsafe_allow_html=True)
 

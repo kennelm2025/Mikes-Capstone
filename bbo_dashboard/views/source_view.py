@@ -301,8 +301,15 @@ def render_step_chart(step_key, fn, wk_idx):
             "LogReg": "Logistic Regression wins due to the smooth, probabilistic landscape — "
                       "a linear decision boundary in log-odds space separates high from low regions effectively.",
         }
-        _fam_map = {"RF":"RF","DT":"DT","SVM":"SVM","CNN":"CNN","LogReg":"LogReg"}
-        _why = _rationale.get(clf["family"], "Selected by highest stratified k-fold CV accuracy across all 8 classifiers.")
+        # Derive family from winner name, not CLASSIFIERS dict (which may be stale)
+        _wname = _winner_row["name"]
+        if "CNN" in _wname:           _fam = "CNN"
+        elif "Forest" in _wname:      _fam = "RF"
+        elif "Tree" in _wname:        _fam = "DT"
+        elif "SVM" in _wname:         _fam = "SVM"
+        elif "Logistic" in _wname:    _fam = "LogReg"
+        else:                         _fam = clf["family"]
+        _why = _rationale.get(_fam, "Selected by highest stratified k-fold CV accuracy across all 8 classifiers.")
         # Find the actual winner from CV_RESULTS
         _winner_row = next((r for r in cv_rows if r["winner"]), cv_rows[0])
         st.markdown(f"""

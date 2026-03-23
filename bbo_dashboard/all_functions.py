@@ -113,6 +113,7 @@ def render(wk_idx=None):
     _n_actuals    = CURRENT_WEEK - 1          # 8 actual weeks at W9
     n_transitions = _n_actuals - 1            # 7 transitions W1→W2 … W7→W8
     weeks         = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
+
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"
@@ -126,20 +127,45 @@ def render(wk_idx=None):
         while len(row_vals) < n_transitions: row_vals.append(0); text_vals.append("—")
         z_matrix.append(row_vals); text_matrix.append(text_vals)
 
+    # Per-row normalise so each function's improvements are visible regardless of scale
     z_arr = np.array(z_matrix, dtype=float)
     z_norm = np.zeros_like(z_arr)
     for i, row in enumerate(z_arr):
         rng = max(abs(row.max()), abs(row.min()), 1e-12)
-        z_norm[i] = row / rng
+        z_norm[i] = row / rng  # range [-1, 1] per row
+
+    # 5-stop diverging scale:
+    # -1.0  strong red    (big regression)
+    # -0.25 amber/orange  (small regression)
+    #  0.0  dark neutral  (no change)
+    # +0.25 light green   (small improvement)
+    # +1.0  strong green  (big improvement)
+    _colorscale = [
+        [0.000, "#7f1d1d"],   # strong regression — deep red
+        [0.250, "#c2410c"],   # moderate regression — orange-red
+        [0.375, "#92400e"],   # small regression — amber
+        [0.500, "#0f172a"],   # neutral — near-zero dark
+        [0.625, "#166534"],   # small improvement — muted green
+        [0.750, "#15803d"],   # moderate improvement — mid green
+        [1.000, "#14532d"],   # strong improvement — deep green
+    ]
 
     fig2 = go.Figure(go.Heatmap(
         z=z_norm, x=weeks, y=fns_list,
         text=text_matrix, texttemplate="%{text}",
         textfont=dict(size=8, color="white", family="IBM Plex Mono"),
-        colorscale=[[0,"#7f1d1d"],[0.35,"#1a2540"],[0.65,"#1a2540"],[1,"#14532d"]],
-        zmid=0, showscale=False,
+        colorscale=_colorscale,
+        zmid=0, zmin=-1, zmax=1,
+        showscale=True,
+        colorbar=dict(
+            thickness=10, len=0.8,
+            tickvals=[-1, -0.5, 0, 0.5, 1],
+            ticktext=["Regress", "", "Neutral", "", "Improve"],
+            tickfont=dict(size=8, color="#4a5a7a", family="IBM Plex Mono"),
+            outlinewidth=0,
+        ),
         hovertemplate="<b>%{y} %{x}</b><br>Δ = %{text}<extra></extra>",
-        xgap=2, ygap=2,
+        xgap=3, ygap=3,
     ))
     fig2.update_layout(
         height=300,

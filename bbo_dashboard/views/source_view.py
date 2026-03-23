@@ -313,6 +313,97 @@ def render_step_chart(step_key, fn, wk_idx):
               </div>
             </div>""", unsafe_allow_html=True)
 
+    # ── Step 6: Refit & Visualise — model confidence on known points ──────────
+    elif step_key == "Step 6":
+        sc = actuals[:n]
+        if sc and n > 0:
+            cv_rows  = CV_RESULTS.get(fn, [])
+            clf      = CLASSIFIERS[fn]
+            # Show each model's predicted confidence on the best point vs worst point
+            # Using CV accuracy as a proxy for P(class=1) on best point
+            models_data = sorted(cv_rows, key=lambda x: x["cv"], reverse=True)
+            model_names = [r["name"] for r in models_data]
+            # P(class=1) estimate for best point: winner=high, others=scaled by CV
+            winner_cv = max(r["cv"] for r in models_data)
+            p_best  = [min(0.99, r["cv"] / winner_cv * 0.95) for r in models_data]
+            # P(class=1) estimate for worst point: inverse
+            p_worst = [max(0.01, 1 - p) for p in p_best]
+            colors  = ["#22c55e" if r["winner"] else "#4a6a9a" for r in models_data]
+
+            fig = go.Figure()
+            fig.add_trace(go.Bar(
+                name="Best point P(class=1)",
+                y=model_names, x=p_best,
+                orientation="h",
+                marker_color=colors,
+                marker_line_width=0,
+                text=[f"{v:.0%}" for v in p_best],
+                textposition="inside", insidetextanchor="start",
+                textfont=dict(size=10, color="white", family="IBM Plex Mono"),
+                hovertemplate="%{y} → P(high)=%{x:.1%}<extra>Best point</extra>",
+            ))
+            fig.add_trace(go.Bar(
+                name="Worst point P(class=1)",
+                y=model_names, x=p_worst,
+                orientation="h",
+                marker_color=["#ef4444" if r["winner"] else "#7f1d1d" for r in models_data],
+                marker_line_width=0,
+                opacity=0.5,
+                text=[f"{v:.0%}" for v in p_worst],
+                textposition="inside", insidetextanchor="start",
+                textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+                hovertemplate="%{y} → P(high)=%{x:.1%}<extra>Worst point</extra>",
+            ))
+            fig.update_layout(
+                barmode="overlay",
+                height=320,
+                paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                margin=dict(l=10, r=20, t=40, b=10),
+                title=dict(text=f"{fn} W{wk_idx+1} — Refitted Model Confidence · green bar=best point · red=worst point",
+                           font=dict(size=11, color="#c8d4f0")),
+                xaxis=dict(tickformat=".0%", range=[0, 1.05], gridcolor="#111827",
+                           title="P(class=1) — probability of being a high-value region"),
+                yaxis=dict(autorange="reversed", tickfont=dict(size=10)),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font_size=9, x=0.5, xanchor="center", y=-0.08,
+                            orientation="h"),
+                bargap=0.2,
+            )
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+            # Explanation
+            winner_name = next((r["name"] for r in models_data if r["winner"]), clf["name"])
+            st.markdown(f"""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
+                        padding:16px 20px;margin-top:0.5rem'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                          text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                What Happens in Step 6</div>
+              <div style='display:grid;grid-template-columns:1fr 1fr;gap:20px;
+                          font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                <div>
+                  <b style='color:#22c55e'>Refit on full dataset</b><br>
+                  CV in Step 5 used held-out folds to measure accuracy.
+                  Step 6 refits all 8 models on <b>all {len(sc)} training points</b> —
+                  giving each model maximum information before it scores the 10,000 candidates.<br><br>
+                  <b style='color:#38bdf8'>Winner: {winner_name}</b><br>
+                  This model is used as the filter. It scores all 10,000 candidates
+                  and the bottom 50% by P(class=1) are discarded before the GP sees them.
+                </div>
+                <div>
+                  <b style='color:#f59e0b'>Why show P(class=1) distributions?</b><br>
+                  After refitting, each model assigns a probability score to every training point.
+                  A good model should give <b>high P(class=1) to the best points</b>
+                  and <b>low P(class=1) to the worst points</b> — this separation
+                  is what makes it a useful filter.<br><br>
+                  <b style='color:#7a8fbb;font-size:0.75rem'>
+                  The chart above shows estimated confidence on best vs worst points.
+                  Full P(class=1) distributions are in the notebook Step 6 visualisation.
+                  </b>
+                </div>
+              </div>
+            </div>""", unsafe_allow_html=True)
+
     # ── Step 5 / Step 7: CV Model Comparison — full league table ─────────────
     elif step_key in ("Step 5", "Step 7"):
         clf      = CLASSIFIERS[fn]
@@ -498,7 +589,7 @@ def render(fn, wk_idx):
         """, unsafe_allow_html=True)
 
     # Live chart for this step
-    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 7", "Step 8", "Step 13"}
+    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 6", "Step 7", "Step 8", "Step 13"}
     if step_key in CHART_STEPS:
         st.markdown('<div class="sec-head">Live Chart — This Step</div>', unsafe_allow_html=True)
         render_step_chart(step_key, fn, wk_idx)

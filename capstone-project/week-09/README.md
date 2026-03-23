@@ -144,7 +144,7 @@ All hyperparameters are documented in `FX_WY_hyperparameters.json` for every fun
 
 ---
 
-## Results (W1–W7)
+## Results (W1–W8)
 
 Full interactive results on the [live dashboard](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app).
 
@@ -183,3 +183,8 @@ Full interactive results on the [live dashboard](https://mikes-capstone-drgbnucp
 | Eriksson et al. (2019) | TuRBO trust regions — sigma adaptation strategy |
 | Cybenko (1989) | Universal approximation — NN classifier justification |
 | Goodfellow et al. (2016) | Deep learning — CNN-1D classifier foundations |
+| Vaswani et al. (2017) | Attention is all you need — anisotropic σ (F7/F8) |
+| Kaplan et al. (2020) | Scaling laws — low-temperature precision sampling (F2/F3/F5/F6) |
+| Shannon (1948) | Information theory — delimiting context, entropy of search distributions |
+| Wei et al. (2022) | Emergent abilities — high-temperature exploration rationale (F1/F4) |
+| Prompt Engineering Guide | Few-shot prompting — structured acquisition decisions |

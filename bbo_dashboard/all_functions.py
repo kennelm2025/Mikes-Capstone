@@ -131,18 +131,31 @@ def render(wk_idx=None):
         rng = max(abs(row.max()), abs(row.min()), 1e-12)
         z_norm[i] = row / rng
 
+    # Dynamic height: 40px per row + 60px for x-axis labels
+    _heatmap_h = len(fns_list) * 40 + 60
+    # Dynamic width: 120px per column + 60px for y-axis labels — ensures all columns visible
+    _heatmap_w = n_transitions * 120 + 60
+
     fig2 = go.Figure(go.Heatmap(
         z=z_norm, x=weeks, y=fns_list,
         text=text_matrix, texttemplate="%{text}",
-        textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+        textfont=dict(size=8, color="white", family="IBM Plex Mono"),
         colorscale=[[0,"#7f1d1d"],[0.35,"#1a2540"],[0.65,"#1a2540"],[1,"#14532d"]],
         zmid=0, showscale=False,
         hovertemplate="<b>%{y} %{x}</b><br>Δ = %{text}<extra></extra>",
+        xgap=2, ygap=2,
     ))
-    fig2.update_layout(height=320, paper_bgcolor="#060a10",
-                       font=dict(color="#4a5a7a", size=10, family="IBM Plex Mono"),
-                       margin=dict(l=10, r=10, t=10, b=40), autosize=True)
-    st.plotly_chart(fig2, use_container_width=True)
+    fig2.update_layout(
+        height=_heatmap_h,
+        width=_heatmap_w,
+        paper_bgcolor="#060a10",
+        plot_bgcolor="#060a10",
+        font=dict(color="#4a5a7a", size=10, family="IBM Plex Mono"),
+        margin=dict(l=50, r=20, t=10, b=50),
+        xaxis=dict(side="bottom", tickangle=0, tickfont=dict(size=9)),
+        yaxis=dict(tickfont=dict(size=10)),
+    )
+    st.plotly_chart(fig2, use_container_width=False)
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
     # ── W7 submission strings table ───────────────────────────────────────────

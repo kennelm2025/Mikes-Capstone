@@ -108,14 +108,15 @@ def render(wk_idx=None):
 
     st.markdown('<div class="sec-head">Improvement Heatmap — Week-on-Week</div>', unsafe_allow_html=True)
     fns_list = list(FUNCTIONS.keys())
-    # Heatmap shows all actual transitions (not filtered by selected week)
-    n_actual_scores = len([s for s in SCORES[list(FUNCTIONS.keys())[0]] if s is not None])
-    n_transitions = n_actual_scores - 1
-    weeks    = [f"W{i+1}\u2192W{i+2}" for i in range(n_transitions)]
+    # Heatmap shows all actual transitions — CURRENT_WEEK-1 actuals, so CURRENT_WEEK-2 transitions
+    # (last week is always pending/None, so actual count = CURRENT_WEEK-1)
+    _n_actuals    = CURRENT_WEEK - 1          # 8 actual weeks at W9
+    n_transitions = _n_actuals - 1            # 7 transitions W1→W2 … W7→W8
+    weeks         = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"
-        sc = [s for s in SCORES[fid] if s is not None]
+        sc = [s for s in SCORES[fid] if s is not None][:_n_actuals]
         row_vals, text_vals = [], []
         for i in range(min(n_transitions, len(sc)-1)):
             delta = sc[i+1] - sc[i]

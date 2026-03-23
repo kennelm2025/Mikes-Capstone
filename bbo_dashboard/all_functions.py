@@ -57,7 +57,7 @@ def render(wk_idx=None):
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.62rem;
                           color:{acolor};margin-bottom:6px'>{action.split()[0]}</div>
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#1a2a1a;
-                          word-break:break-all;line-height:1.4'>{sub_str[:35]}…</div>
+                          word-break:break-all;line-height:1.4;font-size:0.55rem'>{sub_str[:72]}{'…' if len(sub_str)>72 else ''}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -146,7 +146,7 @@ def render(wk_idx=None):
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
     # ── W7 submission strings table ───────────────────────────────────────────
-    st.markdown('<div class="sec-head">Submission Strings — All Functions · All Weeks Available</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">Submission Strings — All Functions · W1–W8 Actuals (64 rows · scroll)</div>', unsafe_allow_html=True)
 
     rows_html = ""
     for fn in FUNCTIONS:
@@ -166,11 +166,11 @@ def render(wk_idx=None):
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:#e8eeff'>{fn}</td>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{"#2563eb" if is_selected else "#2d3a52"}'>{wl}</td>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{sc_color}'>{fmt(score)}</td>
-              <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.68rem;color:#22c55e;word-break:break-all'>{sub}</td>
+              <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.65rem;color:#22c55e;word-break:break-all;white-space:normal;min-width:400px'>{sub}</td>
             </tr>"""
 
     st.markdown(f"""
-    <div style='max-height:400px;overflow-y:auto;border:1px solid #141e30;border-radius:10px'>
+    <div style='max-height:700px;overflow-y:auto;overflow-x:auto;border:1px solid #141e30;border-radius:10px'>
     <table style='width:100%;border-collapse:collapse;background:#080e1a'>
       <thead style='position:sticky;top:0;background:#0a1020'>
         <tr>
@@ -184,4 +184,4 @@ def render(wk_idx=None):
     </table>
     </div>
     """, unsafe_allow_html=True)
-    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score for that function")
+    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best · 64 rows total — scroll to see all · W9 pending rows hidden")

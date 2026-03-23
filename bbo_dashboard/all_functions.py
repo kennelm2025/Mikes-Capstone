@@ -108,12 +108,14 @@ def render(wk_idx=None):
 
     st.markdown('<div class="sec-head">Improvement Heatmap — Week-on-Week</div>', unsafe_allow_html=True)
     fns_list = list(FUNCTIONS.keys())
-    n_transitions = wk_idx  # only show transitions up to selected week
+    # Heatmap shows all actual transitions (not filtered by selected week)
+    n_actual_scores = len([s for s in SCORES[list(FUNCTIONS.keys())[0]] if s is not None])
+    n_transitions = n_actual_scores - 1
     weeks    = [f"W{i+1}\u2192W{i+2}" for i in range(n_transitions)]
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"
-        sc = [s for s in SCORES[fid] if s is not None][:wk_idx + 1]
+        sc = [s for s in SCORES[fid] if s is not None]
         row_vals, text_vals = [], []
         for i in range(min(n_transitions, len(sc)-1)):
             delta = sc[i+1] - sc[i]
@@ -152,6 +154,9 @@ def render(wk_idx=None):
         for wi in range(CURRENT_WEEK):
             score = SCORES[fn][wi] if wi < len(SCORES[fn]) else None
             sub   = WEEKLY[fn][wi].get("submission","—") if wi < len(WEEKLY[fn]) else "—"
+            # Skip pending weeks (no actual score yet)
+            if score is None and sub in ("[PENDING]", "—"):
+                continue
             wl    = f"W{wi+1}"
             is_selected = wi == wk_idx
             sc_color = "#f59e0b" if (score is not None and score == get_all_time_best(fn)) else "#8a9abf"

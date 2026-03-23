@@ -2,7 +2,7 @@
   "meta": {
     "function_id": "F8",
     "week": 8,
-    "timestamp": "2026-03-13 15:47:20",
+    "timestamp": "2026-03-23 14:16:22",
     "input_file": ".\\f8_w8_inputs.npy",
     "output_file": ".\\f8_w8_outputs.npy",
     "objective": "MAXIMIZE"

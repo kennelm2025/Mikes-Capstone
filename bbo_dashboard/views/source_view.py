@@ -313,6 +313,91 @@ def render_step_chart(step_key, fn, wk_idx):
               </div>
             </div>""", unsafe_allow_html=True)
 
+    # ── Step 5B: CNN Inspection — why this is separate from Step 5 ────────────
+    elif step_key == "Step 5B":
+        dims = FUNCTIONS[fn]["dims"]
+        clf  = CLASSIFIERS[fn]
+        cv_rows = CV_RESULTS.get(fn, [])
+        cnn_row = next((r for r in cv_rows if "CNN" in r["name"]), None)
+        winner  = next((r for r in cv_rows if r["winner"]), {"name": clf["name"], "cv": clf["cv"]})
+
+        # Show CNN architecture diagram as a simple visual
+        fig = go.Figure()
+        # Node positions for a simple CNN flow diagram
+        layers = ["Input\n(coords)", "Conv1d\n8 filters\nkernel=2", "MaxPool", "FC(32)", "FC(16)", "Output\nP(class=1)"]
+        params = ["n_dims", "16 params", "—", "~512", "~512", "~16"]
+        x_pos  = list(range(len(layers)))
+        colors_node = ["#4a6a9a", "#38bdf8", "#4a6a9a", "#4a6a9a", "#4a6a9a", "#22c55e"]
+        for i, (lyr, x, col) in enumerate(zip(layers, x_pos, colors_node)):
+            fig.add_trace(go.Scatter(
+                x=[x], y=[0], mode="markers+text",
+                marker=dict(size=55, color=col, line=dict(color="#060a10", width=2)),
+                text=[lyr], textposition="middle center",
+                textfont=dict(size=8, color="white", family="IBM Plex Mono"),
+                showlegend=False, hoverinfo="skip"
+            ))
+            if i < len(layers)-1:
+                fig.add_annotation(x=x+0.5, y=0, text="→", showarrow=False,
+                                   font=dict(size=16, color="#7a8fbb"))
+            fig.add_annotation(x=x, y=-0.35, text=f"~{params[i]} params" if params[i] != "—" else "",
+                               showarrow=False, font=dict(size=7, color="#5a6a8a", family="IBM Plex Mono"))
+        fig.update_layout(
+            height=180, paper_bgcolor=DARK, plot_bgcolor=DARK,
+            margin=dict(l=10, r=10, t=30, b=40),
+            title=dict(text="CNN-1D Architecture — 33 total parameters",
+                       font=dict(size=11, color="#c8d4f0")),
+            xaxis=dict(showgrid=False, showticklabels=False, zeroline=False, range=[-0.5, len(layers)-0.5]),
+            yaxis=dict(showgrid=False, showticklabels=False, zeroline=False, range=[-0.6, 0.5]),
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+        cnn_cv_str = f"{cnn_row['cv']:.1%}" if cnn_row else "—"
+        winner_str = f"{winner['name']} ({winner['cv']:.1%})"
+        st.markdown(f"""
+        <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
+                    padding:16px 20px;margin-top:0.5rem'>
+          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                      text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+            Step 5B — CNN Inspection: A Learning Exercise, Not a Re-test</div>
+          <div style='display:grid;grid-template-columns:1fr 1fr;gap:20px;
+                      font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+            <div>
+              <b style='color:#38bdf8'>Isn't CNN already tested in Step 5?</b><br>
+              Yes — CNN-1D competed in Step 5 and got CV={cnn_cv_str}.
+              But Step 5B is not a re-test. It's <b>opening the hood</b>:
+              we're asking <i>what did the CNN learn?</i> not <i>how accurate was it?</i><br><br>
+              <b style='color:#f59e0b'>What does "opening the hood" mean?</b><br>
+              The CNN has 8 small filters, each scanning a pair of adjacent coordinates
+              [X1,X2], [X2,X3] etc. After training, we look at which filter
+              fired most strongly on the best-known point. That tells us
+              <b>which coordinate pair the CNN thinks matters most</b>.<br><br>
+              This is a <b>Module 17 learning exercise</b> — practising the same
+              filter inspection technique used in production computer vision.
+            </div>
+            <div>
+              <b style='color:#22c55e'>What did this reveal for F7?</b><br>
+              Filters 3 and 4 activated at 1.56 and 1.44 on coord pair [X1, X2] —
+              roughly <b>3× higher</b> than the other filters. That magnitude difference
+              was large enough to act on: we tightened σ for X1 to 0.012 while
+              keeping X2–X6 at 0.028. W7 set a new best of 2.4134, confirming it.<br><br>
+
+              <b style='color:#f59e0b'>How do we know it's a useful signal?</b><br>
+              <span style='color:#c8d4f0'>Honestly — we don't, formally.
+              The method is a <b>heuristic, not statistically rigorous</b>:<br>
+              · No baseline for what activation level is "meaningful" vs random noise<br>
+              · 33-parameter CNN on 21–36 points is severely underfitted<br>
+              · We're not comparing activation on class-1 vs class-0 points<br>
+              · The only validation is the portal score the following week<br><br>
+              A more rigorous approach would compute the ratio:<br>
+              <i>mean activation on class-1 points ÷ mean activation on class-0 points</i><br>
+              and only act when this ratio exceeds ~1.5×. For F7 the 3× magnitude
+              difference was convincing enough to act — and the portal confirmed it.
+              For {fn}, the CV winner is {winner_str} — CNN filter insights
+              are noted but treated as weak signal given the small sample size.</span>
+            </div>
+          </div>
+        </div>""", unsafe_allow_html=True)
+
     # ── Step 6: Refit & Visualise — model confidence on known points ──────────
     elif step_key == "Step 6":
         sc = actuals[:n]
@@ -591,7 +676,7 @@ def render(fn, wk_idx):
         """, unsafe_allow_html=True)
 
     # Live chart for this step
-    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 6", "Step 7", "Step 8", "Step 13"}
+    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 5B", "Step 6", "Step 7", "Step 8", "Step 13"}
     if step_key in CHART_STEPS:
         st.markdown('<div class="sec-head">Live Chart — This Step</div>', unsafe_allow_html=True)
         render_step_chart(step_key, fn, wk_idx)

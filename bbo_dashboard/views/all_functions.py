@@ -127,12 +127,22 @@ def render(wk_idx=None):
         while len(row_vals) < n_transitions: row_vals.append(0); text_vals.append("—")
         z_matrix.append(row_vals); text_matrix.append(text_vals)
 
-    # Per-row normalise so each function's improvements are visible regardless of scale
-    z_arr = np.array(z_matrix, dtype=float)
+    # Normalise each row relative to the function's ALL-TIME BEST score
+    # This anchors the colour scale to what actually matters:
+    # - A delta equal to the ATB = full green (+1.0)
+    # - Tiny near-zero deltas (F1) stay neutral because they're tiny vs ATB
+    z_arr  = np.array(z_matrix, dtype=float)
     z_norm = np.zeros_like(z_arr)
+    fn_keys = list(FUNCTIONS.keys())
     for i, row in enumerate(z_arr):
-        rng = max(abs(row.max()), abs(row.min()), 1e-12)
-        z_norm[i] = row / rng  # range [-1, 1] per row
+        fn_i    = fn_keys[i]
+        atb     = abs(get_all_time_best(fn_i))          # scale anchor = ATB magnitude
+        anchor  = max(atb, 1e-12)                        # never divide by zero
+        normed  = np.clip(row / anchor, -1.0, 1.0)      # [-1, 1] relative to ATB
+        # Noise floor: deltas < 0.1% of ATB are genuinely meaningless → neutral
+        noise   = anchor * 0.001
+        normed[np.abs(row) < noise] = 0.0
+        z_norm[i] = normed
 
     # 5-stop diverging scale:
     # -1.0  strong red    (big regression)

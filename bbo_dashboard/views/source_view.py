@@ -441,22 +441,72 @@ def render(fn, wk_idx):
         st.markdown('<div class="sec-head">Live Chart — This Step</div>', unsafe_allow_html=True)
         render_step_chart(step_key, fn, wk_idx)
 
-    # Code block
-    code = STEP_CODE.get(step_key)
-    if code:
-        st.markdown('<div class="sec-head">Code Excerpt</div>', unsafe_allow_html=True)
+    # Code block — generate dynamically for function/week-aware steps
+    st.markdown('<div class="sec-head">Code Excerpt</div>', unsafe_allow_html=True)
+    strat  = STRATEGY[fn]
+    weekly = WEEKLY[fn][wk_idx]
+    hp     = weekly["hyperparams"]
+    sigma  = hp.get("sigma", strat.get("sigma", "—"))
+    sigma_str = repr(sigma) if isinstance(sigma, list) else str(sigma)
+    week_num  = wk_idx + 1
+
+    if step_key == "Step 0":
+        action = strat["action"]
+        code = f'''# ─── Step 0: Config & Strategy ({fn} · W{week_num}) ────────────────────────
+FUNCTION_ID   = "{fn}"
+WEEK          = {week_num}
+MAXIMIZE      = True
+
+EXPLOIT_RATIO  = {hp.get("exploit_ratio", "—")}
+EXPLOIT_SIGMA  = {sigma_str}{"  # Anisotropic!" if isinstance(sigma, list) else ""}
+UCB_KAPPA      = {hp.get("ucb_kappa", "—")}
+GP_RESTARTS    = {hp.get("gp_restarts", "—")}
+
+# Strategy: {action}
+# {strat["rationale"][:120]}
+
+W = 70
+print("╔" + "═"*W + "╗")
+print(f"║  WEEK {week_num} · {fn} · {action[:40]}".ljust(W) + " ║")
+print("╚" + "═"*W + "╝")'''
         st.code(code, language="python")
+
+    elif step_key == "Step 1":
+        code = f'''# ─── Step 1: Data Load ({fn} · W{week_num}) ────────────────────────────────
+import numpy as np, json, os
+
+INPUT_FILE  = "f{fn[1].lower()}_w{week_num}_inputs.npy"
+OUTPUT_FILE = "f{fn[1].lower()}_w{week_num}_outputs.npy"
+
+X_train = np.load(INPUT_FILE)
+y_train = np.load(OUTPUT_FILE)
+print(f"Loaded: n={{X_train.shape[0]}}, dims={{X_train.shape[1]}}")
+print(f"y range: [{{y_train.min():.4f}}, {{y_train.max():.4f}}]")
+
+# Week log override (if applicable)
+LOG_FILE = f"week_log_{fn}.json"
+if os.path.exists(LOG_FILE):
+    with open(LOG_FILE) as f:
+        log = json.load(f)
+    print(f"Week log loaded: {{len(log['weeks'])}} entries")'''
+        st.code(code, language="python")
+
     else:
-        st.markdown(f"""
-        <div class='info-card'>
-          <div class='info-card-title'>Code structure for {step_key}</div>
-          <div class='info-card-body'>
-            This step follows the standard BBO pipeline pattern. The full notebook
-            (<code>Capstone_{fn}_W{wk_idx+1}.ipynb</code>) contains the complete implementation.
-            See the GitHub repo for the downloadable .ipynb files.
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
+        # For other steps, show the static excerpt if available, else generic message
+        code = STEP_CODE.get(step_key)
+        if code:
+            st.code(code, language="python")
+        else:
+            st.markdown(f"""
+            <div class='info-card'>
+              <div class='info-card-title'>Code structure for {step_key}</div>
+              <div class='info-card-body'>
+                This step follows the standard BBO pipeline pattern. The full notebook
+                (<code>Capstone_{fn}_W{week_num}.ipynb</code>) contains the complete implementation.
+                See the GitHub repo for the downloadable .ipynb files.
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
 
     # All steps quick reference
     st.markdown('<div class="sec-head">All Steps — Quick Reference</div>', unsafe_allow_html=True)

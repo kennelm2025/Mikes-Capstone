@@ -210,7 +210,9 @@ with st.sidebar:
         scores   = SCORES[fn]
         actuals  = [s for s in scores if s is not None]
         n_actual = len(actuals)
-        wk_idx   = min(wk_idx, n_actual - 1)
+        # Allow selecting up to CURRENT_WEEK-1 (latest week, even if pending)
+        # Don't cap to n_actual-1 — that silently shows W8 when W9 is selected
+        wk_idx   = min(wk_idx, CURRENT_WEEK - 1)
         st.session_state["wk_idx"] = wk_idx
 
         score_this_wk = scores[wk_idx] if wk_idx < len(scores) else None

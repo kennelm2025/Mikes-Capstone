@@ -92,12 +92,22 @@ def render(fn, wk_idx):
     """, unsafe_allow_html=True)
 
     # ── Submitted coordinates ─────────────────────────────────────────────────
-    if coords_this_wk:
-        sub_str = weekly.get("submission", "-".join(str(round(c,6)) for c in coords_this_wk))
+    sub_str = weekly.get("submission", "—")
+    if sub_str and sub_str != "[PENDING]":
         st.markdown(f"""
         <div class='sub-box'>
           <div class='sub-label'>{week_label} · {fn} · Submitted Coordinates</div>
           {sub_str}
+        </div>
+        """, unsafe_allow_html=True)
+    elif sub_str == "[PENDING]":
+        st.markdown(f"""
+        <div style='background:#050810;border:1px solid #1e2d45;border-left:3px solid #38bdf8;
+                    border-radius:0 8px 8px 0;padding:10px 16px;margin:0.8rem 0;
+                    font-family:"IBM Plex Mono",monospace;font-size:0.85rem;color:#5a6a8a'>
+          <div style='font-size:0.60rem;color:#2d4a5a;text-transform:uppercase;
+                      letter-spacing:0.15em;margin-bottom:4px'>{week_label} · {fn} · Submission</div>
+          ⏳ Pending — not yet submitted
         </div>
         """, unsafe_allow_html=True)
 
@@ -147,7 +157,15 @@ def render(fn, wk_idx):
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
         # ── Coordinate plot ───────────────────────────────────────────────────
-        if coords_this_wk and len(coords_this_wk) > 0:
+        if coords_this_wk is None:
+            st.markdown('<div class="sec-head">Submitted Coordinates</div>', unsafe_allow_html=True)
+            st.markdown("""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
+                        padding:20px;text-align:center;color:#5a6a8a;
+                        font-family:"IBM Plex Mono",monospace;font-size:0.85rem'>
+              ⏳ W9 submission pending — coordinates will appear after portal return
+            </div>""", unsafe_allow_html=True)
+        elif coords_this_wk and len(coords_this_wk) > 0:
             st.markdown('<div class="sec-head">Submitted Coordinates</div>', unsafe_allow_html=True)
             dims = [f"X{i+1}" for i in range(len(coords_this_wk))]
             fig2 = go.Figure()

@@ -19,7 +19,7 @@ def render(wk_idx=None):
     <div class='page-hero'>
       <div class='page-eyebrow'>All Functions · All Weeks · {week_label} Selected</div>
       <div class='page-title'>All 8 Functions</div>
-      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · All data W1–W' + str(CURRENT_WEEK) + '</div>
+      <div class='page-sub'>Side-by-side comparison · Use sidebar Week selector to change view · Showing W1–{week_label}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -73,18 +73,21 @@ def render(wk_idx=None):
         row, col = divmod(idx, 4); row+=1; col+=1
         maximize = info["objective"] == "MAXIMISE"
         scores   = SCORES[fid]
-        actuals  = [s for s in scores if s is not None]
-        pred     = W7_PRED[fid]
-        rb       = running_best(scores, maximize)
-        rb_vals  = [r for r in rb if r is not None]
-        week_labels = [f"W{i+1}" for i in range(len(actuals))]
+        all_actuals = [s for s in scores if s is not None]
+        pred        = W7_PRED[fid]
+        rb_all      = running_best(scores, maximize)
+        # Slice to selected week — only show data up to wk_idx
+        n_show      = min(wk_idx + 1, len(all_actuals))
+        actuals     = all_actuals[:n_show]
+        rb_vals     = [r for r in rb_all if r is not None][:n_show]
+        week_labels = [f"W{i+1}" for i in range(n_show)]
 
         bar_colors = ["#3d4f70"]
         for i in range(1, len(actuals)):
             imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
             bar_colors.append("#22c55e" if imp else "#ef4444")
-        # Highlight selected week
-        if wk_idx < len(bar_colors): bar_colors[wk_idx] = "#2563eb"
+        # Highlight selected week (last bar shown)
+        if actuals: bar_colors[-1] = "#2563eb"
 
         fig.add_trace(go.Bar(x=week_labels, y=actuals, marker_color=bar_colors,
                              marker_line_width=0, opacity=0.85, showlegend=False,
@@ -105,12 +108,12 @@ def render(wk_idx=None):
 
     st.markdown('<div class="sec-head">Improvement Heatmap — Week-on-Week</div>', unsafe_allow_html=True)
     fns_list = list(FUNCTIONS.keys())
-    n_transitions = CURRENT_WEEK - 1
+    n_transitions = wk_idx  # only show transitions up to selected week
     weeks    = [f"W{i+1}\u2192W{i+2}" for i in range(n_transitions)]
     z_matrix, text_matrix = [], []
     for fid in fns_list:
         maximize = FUNCTIONS[fid]["objective"] == "MAXIMISE"
-        sc = [s for s in SCORES[fid] if s is not None]
+        sc = [s for s in SCORES[fid] if s is not None][:wk_idx + 1]
         row_vals, text_vals = [], []
         for i in range(min(n_transitions, len(sc)-1)):
             delta = sc[i+1] - sc[i]

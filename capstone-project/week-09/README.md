@@ -93,20 +93,22 @@ Each weekly folder contains:
 
 ### W9 Strategy
 
-| Fn | Dims | n  | W8 Result | Strategy | ATB | σ W9 | TuRBO |
-|----|------|----|-----------|----------|-----|------|-------|
-| F1 | 2D | 17 | 1.26e-49 (8th near-zero) | EXPLORE — EXTREME WIDENING | 8.84e-7 (W2) | 0.45 | EXPAND |
-| F2 | 2D | 17 | 0.4926 (X2 drift) | RETURN TO W5 ATB — PRECISION LOCK | 0.6497 (W5) | 0.008 | SHRINK |
-| F3 | 3D | 22 | −0.1132 (X3 drift) | RETURN TO W7 ATB — PRECISION LOCK | −0.000707 (W6) | 0.015 | SHRINK |
-| F4 | 4D | 37 | −0.5542 (exploring) | EXPLORE — BOUNDARY CORNERS | 0.2376 (W2) | 0.18 | EXPAND |
-| F5 | 4D | 27 | 8382.47 ★ NEW | PUSH X1→1.0 — LOCKED AT BOUNDARY | 8382.47 (W8) | 0.025 | SHRINK |
-| F6 | 5D | 27 | −0.4006 (regression) | PRECISION LOCK W6 ATB | −0.1727 (W6) | 0.018 | SHRINK |
-| F7 | 6D | 37 | 2.5982 ★ NEW | ANISOTROPIC σ TIGHTEN | 2.5982 (W8) | [0.010, 0.025×5] | SHRINK |
-| F8 | 8D | 47 | 9.8021 (0.030 from ATB) | ANISOTROPIC σ TIGHTEN | 9.8320 (W2) | aniso | SHRINK |
+| Fn | Dims | n  | W8 Result | W9 Strategy | σ W9 | TuRBO | Module | Academic Basis |
+|----|------|----|-----------|-------------|------|-------|--------|----------------|
+| F1 | 2D | 17 | 1.26e-49 (8th near-zero) | EXPLORE — EXTREME WIDENING | 0.45 | EXPAND | Mod 19 | Wei et al. (2022) — high-temperature sampling; maximise entropy when landscape is flat |
+| F2 | 2D | 17 | 0.4926 (X2 drift) | RETURN TO W5 ATB — PRECISION LOCK | 0.008 | SHRINK | Mod 19 | Kaplan et al. (2020) — low-temperature precision; concentrate mass on confirmed best |
+| F3 | 3D | 22 | −0.1132 (X3 drift) | RETURN TO W7 ATB — PRECISION LOCK | 0.015 | SHRINK | Mod 19 | Shannon (1948) — delimiting context; narrow distribution = higher information per query |
+| F4 | 4D | 37 | −0.5542 (exploring) | EXPLORE — BOUNDARY CORNERS | 0.18 | EXPAND | Mod 19 | Wei et al. (2022) — high-temperature sampling; landscape unknown after inject failure |
+| F5 | 4D | 27 | 8382.47 ★ NEW | PUSH X1→1.0 — LOCKED AT BOUNDARY | 0.025 | SHRINK | Mod 19 | Kaplan et al. (2020) — gradient commit; scale exploitation toward confirmed boundary |
+| F6 | 5D | 27 | −0.4006 (regression) | PRECISION LOCK W6 ATB | 0.018 | SHRINK | Mod 19 | Shannon (1948) — delimiting context; pin to [0.427, 0.326, 0.598, 0.780, 0.144] |
+| F7 | 6D | 37 | 2.5982 ★ NEW | ANISOTROPIC σ TIGHTEN | [0.010, 0.025×5] | SHRINK | Mod 19 | Vaswani et al. (2017) — multi-head attention; per-dimension σ mirrors per-head specialisation |
+| F8 | 8D | 47 | 9.8021 (0.030 from ATB) | ANISOTROPIC σ TIGHTEN | [0.008–0.030] | SHRINK | Mod 19 | Vaswani et al. (2017) — per-dimension structure; X3/X7 near-zero dims get tightest σ |
 
 **★** New all-time best in W8 — tighten and exploit  
-**F2/F3** both regressed due to GP drift — W9 returns precisely to confirmed ATB coordinates  
-**F7 anisotropic σ** tightened further: X1 σ=0.010, X2–X6 σ=0.025
+**F2/F3** GP drift regressions — W9 precision lock on confirmed ATB coords  
+**F7/F8** anisotropic σ: different σ per dimension mirrors multi-head attention's per-head specialisation (Vaswani et al., 2017)  
+**F1/F4** high-temperature explore: maximise entropy when no exploitable signal found (Wei et al., 2022)  
+**F2/F3/F5/F6** low-temperature exploit: commit compute to confirmed best region (Kaplan et al., 2020; Shannon, 1948)
 
 ---
 
@@ -116,11 +118,11 @@ All hyperparameters are documented in `FX_WY_hyperparameters.json` for every fun
 
 | Parameter | Purpose | Typical range | W8 rationale |
 |-----------|---------|---------------|-------------|
-| `EXPLOIT_RATIO` | Fraction of 10k candidates near best point | 0.20–0.92 | 0.92 for F8 (tightest ever); 0.20 for F1 (extreme explore) |
-| `EXPLOIT_SIGMA` | Gaussian σ around best point | 0.010–0.40 | F4: 0.0175→0.12 (abandon inject); F1: 0.216→0.40 (escalate) |
-| `UCB_KAPPA` | Exploration weight in UCB = μ + κσ | 2.0–4.0 | 4.0 for F1 (EI unreliable near zero) |
-| `EI_XI` | Exploration jitter in EI | 0.01 | Fixed; prevents over-committing to tiny improvements |
-| `GP_RESTARTS` | Random restarts for kernel optimisation | 5–10 | 10 for F8 (8 length scales) |
+| `EXPLOIT_RATIO` | Fraction of 10k candidates near best point | 0.15–0.95 | 0.95 for F2 (precision lock); 0.15 for F1 (max entropy explore) |
+| `EXPLOIT_SIGMA` | Gaussian σ around best point | 0.008–0.45 | F2: 0.008 (tightest); F1: 0.45 (widest); F7/F8 anisotropic |
+| `UCB_KAPPA` | Exploration weight in UCB = μ + κσ | 2.0–4.0 | 4.0 for F1/F4 (EI unreliable); 2.0 for exploit functions |
+| `EI_XI` | Exploration jitter in EI | 0.01–0.05 | 0.05 for F1 (flat landscape); 0.01 standard elsewhere |
+| `GP_RESTARTS` | Random restarts for kernel optimisation | 5–10 | 5 standard; higher for high-dim (F7/F8) |
 | `FILTER_PERCENTILE` | Classifier filter threshold | 50% | Keeps top 5,000 of 10,000 candidates for GP |
 
 **Sigma adaptation rule (TuRBO-inspired):** if W(n) > W(n-1), SHRINK sigma; if W(n) ≤ W(n-1), EXPAND sigma. F7 uses anisotropic sigma [σ_X1, σ_X2–X6] validated by W7 result.

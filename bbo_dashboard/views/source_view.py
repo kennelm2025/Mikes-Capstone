@@ -353,50 +353,48 @@ def render_step_chart(step_key, fn, wk_idx):
 
         cnn_cv_str = f"{cnn_row['cv']:.1%}" if cnn_row else "—"
         winner_str = f"{winner['name']} ({winner['cv']:.1%})"
-        st.markdown(f"""
-        <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
-                    padding:16px 20px;margin-top:0.5rem'>
-          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
-                      text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
-            Step 5B — CNN Inspection: A Learning Exercise, Not a Re-test</div>
-          <div style='display:grid;grid-template-columns:1fr 1fr;gap:20px;
-                      font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
-            <div>
-              <b style='color:#38bdf8'>Isn't CNN already tested in Step 5?</b><br>
-              Yes — CNN-1D competed in Step 5 and got CV={cnn_cv_str}.
-              But Step 5B is not a re-test. It's <b>opening the hood</b>:
-              we're asking <i>what did the CNN learn?</i> not <i>how accurate was it?</i><br><br>
-              <b style='color:#f59e0b'>What does "opening the hood" mean?</b><br>
-              The CNN has 8 small filters, each scanning a pair of adjacent coordinates
-              [X1,X2], [X2,X3] etc. After training, we look at which filter
-              fired most strongly on the best-known point. That tells us
-              <b>which coordinate pair the CNN thinks matters most</b>.<br><br>
-              This is a <b>Module 17 learning exercise</b> — practising the same
-              filter inspection technique used in production computer vision.
-            </div>
-            <div>
-              <b style='color:#22c55e'>What did this reveal for F7?</b><br>
-              Filters 3 and 4 activated at 1.56 and 1.44 on coord pair [X1, X2] —
-              roughly <b>3× higher</b> than the other filters. That magnitude difference
-              was large enough to act on: we tightened σ for X1 to 0.012 while
-              keeping X2–X6 at 0.028. W7 set a new best of 2.4134, confirming it.<br><br>
-
-              How do we know it's a useful signal?<br>
-              Honestly — we don't, formally.
-              The method is a heuristic, not statistically rigorous:<br>
-              · No baseline for what activation level is meaningful vs random noise<br>
-              · 33-parameter CNN on 21-36 points is severely underfitted<br>
-              · We are not comparing activation on class-1 vs class-0 points<br>
-              · The only validation is the portal score the following week<br><br>
-              A more rigorous approach would compute the ratio:
-              mean activation on class-1 points divided by mean activation on class-0 points,
-              and only act when this ratio exceeds ~1.5x. For F7 the 3x magnitude
-              difference was convincing enough to act — and the portal confirmed it.<br><br>
-              For {fn}: CV winner = {winner_str}. CNN filter insights
-              are noted but treated as weak signal given the small sample size.
-            </div>
-          </div>
-        </div>""", unsafe_allow_html=True)
+        _c1, _c2 = st.columns(2)
+        with _c1:
+            st.markdown(f"""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                          text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                A Learning Exercise, Not a Re-test</div>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                <b style='color:#38bdf8'>Isn't CNN already tested in Step 5?</b><br>
+                Yes — CNN-1D competed in Step 5 and got CV={cnn_cv_str}.
+                Step 5B is not a re-test. It asks <i>what did the CNN learn?</i>
+                not <i>how accurate was it?</i><br><br>
+                <b style='color:#f59e0b'>What does "opening the hood" mean?</b><br>
+                The CNN has 8 small filters, each scanning an adjacent coordinate pair
+                [X1,X2], [X2,X3] etc. After training we check which filter fired
+                most strongly on the best-known point — that tells us which coordinate
+                pair the CNN found most structurally significant.<br><br>
+                This is a <b>Module 17 learning exercise</b> — the same filter
+                inspection technique used in production computer vision.
+              </div>
+            </div>""", unsafe_allow_html=True)
+        with _c2:
+            st.markdown(f"""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                          text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                What Did It Reveal — And Is It Reliable?</div>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                <b style='color:#22c55e'>For F7:</b> Filters 3 and 4 activated at 1.56 and 1.44
+                on [X1, X2] — roughly <b>3x higher</b> than other filters.
+                We tightened σ for X1 to 0.012 while keeping X2-X6 at 0.028.
+                W7 set a new best of 2.4134, confirming it.<br><br>
+                <b style='color:#f59e0b'>Is it reliable?</b><br>
+                Honestly — it is a heuristic, not statistically rigorous.
+                There is no formal threshold. A more rigorous approach would compare
+                mean filter activation on class-1 vs class-0 points, and only act
+                when the ratio exceeds ~1.5x. The 3x difference for F7 was
+                convincing enough — and the portal validated it.<br><br>
+                For {fn}: CV winner = {winner_str}. CNN filter insights
+                are treated as weak signal only given the small sample size.
+              </div>
+            </div>""", unsafe_allow_html=True)
 
     # ── Step 6: Refit & Visualise — model confidence on known points ──────────
     elif step_key == "Step 6":

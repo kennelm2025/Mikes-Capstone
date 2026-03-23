@@ -139,9 +139,9 @@ def render(wk_idx=None):
         zmid=0, showscale=False,
         hovertemplate="<b>%{y} %{x}</b><br>Δ = %{text}<extra></extra>",
     ))
-    fig2.update_layout(height=260, paper_bgcolor="#060a10",
+    fig2.update_layout(height=320, paper_bgcolor="#060a10",
                        font=dict(color="#4a5a7a", size=10, family="IBM Plex Mono"),
-                       margin=dict(l=10, r=10, t=10, b=40))
+                       margin=dict(l=10, r=10, t=10, b=40), autosize=True)
     st.plotly_chart(fig2, use_container_width=True)
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
@@ -170,7 +170,7 @@ def render(wk_idx=None):
             </tr>"""
 
     st.markdown(f"""
-    <div style='max-height:700px;overflow-y:auto;overflow-x:auto;border:1px solid #141e30;border-radius:10px'>
+    <div style='overflow-x:auto;border:1px solid #141e30;border-radius:10px'>
     <table style='width:100%;border-collapse:collapse;background:#080e1a'>
       <thead style='position:sticky;top:0;background:#0a1020'>
         <tr>
@@ -184,4 +184,4 @@ def render(wk_idx=None):
     </table>
     </div>
     """, unsafe_allow_html=True)
-    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best · 64 rows total — scroll to see all · W9 pending rows hidden")
+    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score · W9 pending rows hidden")

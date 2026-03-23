@@ -58,11 +58,11 @@ st.markdown("""
   /* Section headers */
   .sec-head {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem; color: #2563eb; text-transform: uppercase;
+    font-size: 0.62rem; color: #38bdf8; text-transform: uppercase;
     letter-spacing: 0.25em; margin: 1.8rem 0 0.6rem;
     display: flex; align-items: center; gap: 8px;
   }
-  .sec-head::after { content: ''; flex: 1; height: 1px; background: #111827; }
+  .sec-head::after { content: ''; flex: 1; height: 1px; background: #1e2d45; }
 
   /* Strategy badge */
   .badge {
@@ -97,7 +97,7 @@ st.markdown("""
     padding: 18px 20px; margin: 8px 0; line-height: 1.75;
   }
   .info-card-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
-    color: #4a8fff; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 8px; }
+    color: #38bdf8; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 8px; }
   .info-card-body { color: #c8d4f0; font-size: 0.88rem; }
 
   /* Param row */
@@ -109,7 +109,7 @@ st.markdown("""
   /* Page hero */
   .page-hero { margin-bottom: 1.5rem; }
   .page-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
-    color: #2563eb; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 6px; }
+    color: #38bdf8; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 6px; }
   .page-title { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
     color: #e8eeff; line-height: 1.15; margin-bottom: 6px; }
   .page-sub { color: #7a8fbb; font-size: 0.88rem; }
@@ -168,7 +168,9 @@ with st.sidebar:
     )
     st.session_state["page"] = page
 
-    st.markdown('<div class="nav-section">Select Data</div>', unsafe_allow_html=True)
+    # Only show data selectors when not on Home page
+    if "Home" not in page:
+        st.markdown('<div class="nav-section">Select Data</div>', unsafe_allow_html=True)
 
     if "All Functions" in page:
         fn = "ALL"
@@ -182,10 +184,10 @@ with st.sidebar:
         st.session_state["wk_idx"] = wk_idx
         st.markdown(f"""
         <div style='background:#0a1020;border-radius:8px;padding:10px 12px;margin-top:8px;
-                    font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#2563eb'>
+                    font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#38bdf8'>
           All 8 functions · All weeks available
         </div>""", unsafe_allow_html=True)
-    else:
+    elif "Home" not in page:
         fn_list = list(FUNCTIONS.keys())
         fn = st.selectbox(
             "Function",

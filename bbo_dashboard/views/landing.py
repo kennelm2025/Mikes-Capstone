@@ -35,7 +35,7 @@ def render():
     .hero-eyebrow {
         font-family: "IBM Plex Mono", monospace;
         font-size: 0.68rem;
-        color: #2563eb;
+        color: #38bdf8;
         text-transform: uppercase;
         letter-spacing: 0.35em;
         margin-bottom: 16px;
@@ -51,7 +51,7 @@ def render():
         letter-spacing: -0.01em;
         max-width: 100%;
     }
-    .hero-title span { color: #2563eb; }
+    .hero-title span { color: #38bdf8; }
     .hero-subtitle-row {
         display: flex;
         align-items: center;

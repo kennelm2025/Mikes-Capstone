@@ -91,7 +91,7 @@ COORDS = {
         [0.703, 0.927],
         [0.688952, 0.168811],
         [0.712753, 0.042543],
-        None,  # W9 — pending
+        [0.710, 0.162],  # W9 — target coords
     ],
     "F3": [
         [0.40, 0.55, 0.50],
@@ -102,7 +102,7 @@ COORDS = {
         [0.998, 0.621, 0.453],
         [1.000000, 0.571651, 0.503999],
         [0.981542, 0.540570, 0.192008],
-        None,  # W9 — pending
+        [1.000, 0.572, 0.504],  # W9 — target coords
     ],
     "F4": [
         [0.50, 0.50, 0.50, 0.50],
@@ -124,7 +124,7 @@ COORDS = {
         [0.7810, 1.0,    1.0,    1.0   ],
         [0.937682, 1.000000, 1.000000, 1.000000],
         [0.985104, 1.000000, 1.000000, 1.000000],
-        None,  # W9 — pending
+        [1.000, 1.000, 1.000, 1.000],  # W9 — target coords
     ],
     "F6": [
         [0.50, 0.50, 0.50, 0.50, 0.50],
@@ -135,7 +135,7 @@ COORDS = {
         [0.427, 0.326, 0.598, 0.780, 0.144],
         [0.497320, 0.294798, 0.563080, 0.684981, 0.129206],
         [0.460210, 0.301460, 0.549552, 0.839145, 0.200664],
-        None,  # W9 — pending
+        [0.427, 0.326, 0.598, 0.780, 0.144],  # W9 — target coords
     ],
     "F7": [
         [0.50, 0.40, 0.35, 0.25, 0.38, 0.65],
@@ -146,7 +146,7 @@ COORDS = {
         [0.055, 0.407, 0.341, 0.242, 0.375, 0.685],
         [0.078067, 0.385415, 0.381193, 0.266170, 0.353901, 0.693102],
         [0.096399, 0.368153, 0.413112, 0.285892, 0.336821, 0.699617],
-        None,  # W9 — pending
+        [0.096, 0.368, 0.413, 0.286, 0.337, 0.700],  # W9 — target coords
     ],
     "F8": [
         [0.009077, 0.47215,  0.51597,  0.430449, 0.468951, 0.460126, 0.579196, 0.50672 ],
@@ -157,7 +157,7 @@ COORDS = {
         [0.0,      0.387061, 0.068459, 0.146466, 0.368072, 0.66282,  0.291841, 0.727685],
         [0.040422, 0.331667, 0.003668, 0.158463, 0.396893, 0.509806, 0.16649,  0.780552],
         [0.008368, 0.331528, 0.000000, 0.160107, 0.374002, 0.541189, 0.166880, 0.765946],
-        None,  # W9 — pending
+        [0.000, 0.179, 0.000, 0.071, 0.929, 0.460, 0.000, 0.541],  # W9 — target coords (W2 ATB inject)
     ],
 }
 
@@ -519,7 +519,7 @@ WEEKLY = {
             "hp_rationale": "Tightest F2 ever: σ=0.008 (2σ=±0.016), ratio=0.95. Low-temperature precision sampling — Kaplan et al. (2020): concentrate mass on confirmed best. Module 19. Pin X2 within [0.146, 0.178].",
             "learned": "Awaiting W9 result.",
             "experiment": "Return precisely to W5 ATB [0.710, 0.162]. Four consecutive regressions — σ=0.008 should prevent X2 drift.",
-            "submission": "[PENDING]",
+            "submission": "0.710000-0.162000",
         },
     ],
     "F3": [
@@ -584,7 +584,7 @@ WEEKLY = {
             "hp_rationale": "Tighten: σ=0.015 (2σ=±0.030), ratio=0.92. Delimiting context — Shannon (1948): narrow distribution = higher information per query. Module 19. Target: W7 ATB region [1.000, 0.572, 0.504].",
             "learned": "Awaiting W9 result.",
             "experiment": "Return to W7 ATB coords after W8 X3 drift. σ=0.015 confines X3 within ±0.030 of 0.504.",
-            "submission": "[PENDING]",
+            "submission": "1.000000-0.572000-0.504000",
         },
     ],
     "F4": [
@@ -714,7 +714,7 @@ WEEKLY = {
             "hp_rationale": "Tighten: σ=0.025, ratio=0.92. Low-temperature gradient commit — Kaplan et al. (2020): scale precision toward confirmed boundary. Module 19. Target: X1 → 1.0, X2-X4 locked at 1.0.",
             "learned": "Awaiting W9 result.",
             "experiment": "Push X1 from 0.985 → 1.0 with tighter σ. W8 confirmed monotonic X1 → 1.0 trend.",
-            "submission": "[PENDING]",
+            "submission": "1.000000-1.000000-1.000000-1.000000",
         },
     ],
     "F6": [
@@ -779,7 +779,7 @@ WEEKLY = {
             "hp_rationale": "Precision lock: σ=0.018, ratio=0.92. Delimiting context — Shannon (1948): constrain to known-good region. Module 19. Pin to W6 ATB [0.427, 0.326, 0.598, 0.780, 0.144].",
             "learned": "Awaiting W9 result.",
             "experiment": "Direct lock on W6 ATB coordinates. W8 σ=0.025 still saw X4/X5 drift — W9 tightens further.",
-            "submission": "[PENDING]",
+            "submission": "0.427000-0.326000-0.598000-0.780000-0.144000",
         },
     ],
     "F7": [
@@ -844,7 +844,7 @@ WEEKLY = {
             "hp_rationale": "Anisotropic tightened: X1 σ=0.010, X2-X6 σ=0.025. Multi-head attention analogy — Vaswani et al. (2017): per-dimension σ mirrors per-head specialisation. Module 19.",
             "learned": "Awaiting W9 result.",
             "experiment": "Third consecutive anisotropic submission. W8 new best 2.5982 — W9 tightens further around X1 near-zero anchor.",
-            "submission": "[PENDING]",
+            "submission": "0.096000-0.368000-0.413000-0.286000-0.337000-0.700000",
         },
     ],
     "F8": [
@@ -909,7 +909,7 @@ WEEKLY = {
             "hp_rationale": "Anisotropic: X1/X3/X7 σ=0.008 (zero-boundary dims tightest), X2/X6 σ=0.015, X5/X8 σ=0.030 (free dims). Multi-head attention — Vaswani et al. (2017): per-dimension structure. Module 19.",
             "learned": "Awaiting W9 result.",
             "experiment": "First anisotropic F8 submission. Per-dimension σ based on W2 ATB structure: X1=X3=X7≈0 → tight; X5≈0.93 → looser.",
-            "submission": "[PENDING]",
+            "submission": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
         },
     ],
 }

@@ -592,6 +592,117 @@ def render_step_chart(step_key, fn, wk_idx):
             {_why}</div>
         </div>""", unsafe_allow_html=True)
 
+    # ── Step 7B: Why This Classifier Won — dynamic analysis ─────────────────
+    elif step_key == "Step 7B":
+        clf      = CLASSIFIERS[fn]
+        cv_rows  = CV_RESULTS.get(fn, [])
+        winner   = next((r for r in cv_rows if r["winner"]), {"name": clf["name"], "cv": clf["cv"], "std": clf["std"]})
+        strat    = STRATEGY[fn]
+        sc       = actuals[:n]
+        dims     = FUNCTIONS[fn]["dims"]
+
+        # ── Winner family rationale ──────────────────────────────────────────
+        _rationale = {
+            "CNN":    ("CNN-1D", "Scans adjacent coordinate pairs with 8 learned filters. "
+                       "Detects local spatial structure — e.g. X1≈0 AND X6>0.6 — "
+                       "that scalar models cannot see. Particularly powerful when boundary "
+                       "conditions span adjacent dimensions."),
+            "RF":     ("Random Forest", "Ensemble of 100 decision trees. Each tree learns "
+                       "a different threshold rule — the ensemble vote averages out noise. "
+                       "Critical advantage on small datasets where single trees overfit badly."),
+            "DT":     ("Decision Tree", "Learns hard threshold rules: e.g. X1<0.1 AND X5>0.9. "
+                       "Wins when the high-value region has a clear geometric boundary "
+                       "that can be expressed as axis-aligned cuts."),
+            "SVM":    ("Linear SVM", "Finds the maximum-margin hyperplane separating class 1 "
+                       "from class 0. Wins when the landscape is linearly separable — "
+                       "a strong signal that the high-value region has clean geometric structure."),
+            "LogReg": ("Logistic Regression", "Models P(class=1) as a smooth sigmoid function. "
+                       "Wins when the boundary is soft and probabilistic rather than a hard edge. "
+                       "Most interpretable model — coefficients directly show dimension importance."),
+        }
+        _wname = winner["name"]
+        if "CNN" in _wname:        _fam = "CNN"
+        elif "Forest" in _wname:   _fam = "RF"
+        elif "Tree" in _wname:     _fam = "DT"
+        elif "SVM" in _wname:      _fam = "SVM"
+        elif "Logistic" in _wname: _fam = "LogReg"
+        else:                      _fam = "RF"
+        _fam_name, _fam_why = _rationale.get(_fam, (_wname, "Selected by highest CV accuracy."))
+
+        # ── Boundary dimension analysis ──────────────────────────────────────
+        coords_wk = COORDS[fn][wk_idx] if wk_idx < len(COORDS[fn]) else None
+        if coords_wk:
+            near_zero = [f"X{i+1}={v:.3f}" for i,v in enumerate(coords_wk) if abs(v) < 0.1]
+            near_one  = [f"X{i+1}={v:.3f}" for i,v in enumerate(coords_wk) if abs(v-1) < 0.1]
+            mid_range = [f"X{i+1}={v:.3f}" for i,v in enumerate(coords_wk)
+                         if abs(v) >= 0.1 and abs(v-1) >= 0.1]
+            boundary_pct = (len(near_zero) + len(near_one)) / dims * 100
+        else:
+            near_zero, near_one, mid_range = [], [], []
+            boundary_pct = 0
+
+        # ── Filter quality ───────────────────────────────────────────────────
+        margin = winner["cv"] - (sum(r["cv"] for r in cv_rows) / len(cv_rows)) if cv_rows else 0
+        runner_up = sorted(cv_rows, key=lambda x: x["cv"], reverse=True)[1] if len(cv_rows) > 1 else None
+
+        # ── Render ───────────────────────────────────────────────────────────
+        _c1, _c2 = st.columns(2)
+        with _c1:
+            st.markdown(f"""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px;margin-bottom:10px'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                          text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                Winner Analysis — {fn} W{wk_idx+1}</div>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                <b style='color:#22c55e'>★ {winner["name"]}</b>
+                &nbsp;·&nbsp; CV={winner["cv"]:.1%} ± {winner["std"]:.1%}<br>
+                {"vs runner-up " + runner_up["name"] + " (" + f"{runner_up['cv']:.1%}" + ") — margin: +" + f"{winner['cv']-runner_up['cv']:.1%}" if runner_up else ""}<br>
+                {"Above-field margin: +" + f"{margin:.1%}" if margin > 0 else ""}<br><br>
+                <b style='color:#38bdf8'>Why {_fam_name} wins here:</b><br>
+                {_fam_why}<br><br>
+                <b style='color:#f59e0b'>Implication for GP:</b><br>
+                This model pre-filters 10,000 candidates to ~5,000 before GP evaluation.
+                A {winner["cv"]:.0%} accurate filter means roughly
+                {int(winner["cv"]*10000*0.3):,} true class-1 candidates pass through
+                vs ~{int((1-winner["cv"])*10000*0.3):,} false positives.
+              </div>
+            </div>""", unsafe_allow_html=True)
+
+        with _c2:
+            _bnd_str = ""
+            if near_zero:
+                _bnd_str += f"<b style='color:#38bdf8'>Near-zero boundary</b> ({len(near_zero)}/{dims} dims):<br>"
+                _bnd_str += ", ".join(near_zero) + "<br><br>"
+            if near_one:
+                _bnd_str += f"<b style='color:#22c55e'>Near-one boundary</b> ({len(near_one)}/{dims} dims):<br>"
+                _bnd_str += ", ".join(near_one) + "<br><br>"
+            if mid_range:
+                _bnd_str += f"<b style='color:#c8d4f0'>Mid-range</b> ({len(mid_range)}/{dims} dims):<br>"
+                _bnd_str += ", ".join(mid_range) + "<br><br>"
+
+            _geom = ("High boundary concentration — suggests the peak sits at an edge or corner of the search space. "
+                     "Boundary-aware models (CNN, DT) have structural advantage here."
+                     if boundary_pct > 40 else
+                     "Mixed interior/boundary pattern — no single model family has a clear geometric advantage. "
+                     "CV accuracy is the primary selection criterion.")
+
+            st.markdown(f"""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px;margin-bottom:10px'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                          text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                Boundary Dimension Analysis — W{wk_idx+1} Submission</div>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                {_bnd_str if coords_wk else "Coordinates pending — boundary analysis available after submission."}
+                <b style='color:#f59e0b'>Data geometry:</b><br>
+                {boundary_pct:.0f}% of dimensions at boundary (&lt;0.1 or &gt;0.9).<br>
+                {_geom}<br><br>
+                <b style='color:#7a8fbb;font-size:0.75rem'>
+                n={len(sc)} training points · {dims}D space ·
+                Effective density: {len(sc)/dims:.1f} points per dimension
+                </b>
+              </div>
+            </div>""", unsafe_allow_html=True)
+
     # ── Step 8: Candidate generation split ───────────────────────────────────
     elif step_key == "Step 8":
         strat = STRATEGY[fn]
@@ -704,7 +815,7 @@ def render(fn, wk_idx):
         """, unsafe_allow_html=True)
 
     # Live chart for this step
-    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 5B", "Step 6", "Step 7", "Step 8", "Step 13"}
+    CHART_STEPS = {"Step 3", "Step 4", "Step 5", "Step 5B", "Step 6", "Step 7", "Step 7B", "Step 8", "Step 13"}
     if step_key in CHART_STEPS:
         st.markdown('<div class="sec-head">Live Chart — This Step</div>', unsafe_allow_html=True)
         render_step_chart(step_key, fn, wk_idx)

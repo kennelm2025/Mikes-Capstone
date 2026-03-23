@@ -45,7 +45,7 @@ def render(fn, wk_idx):
         dim = "" if available else " style='opacity:0.35'"
         tabs_html += f'<span class="wtab {active}"{dim}>{label}</span>'
     tabs_html += "</div>"
-    st.markdown(tabs_html + "<div style='font-size:0.65rem;color:#2d3a52;font-family:IBM Plex Mono,monospace;margin-bottom:1rem'>← Use sidebar Week selector to navigate</div>", unsafe_allow_html=True)
+    st.markdown(tabs_html + "<div style='font-size:0.65rem;color:#5a6a8a;font-family:IBM Plex Mono,monospace;margin-bottom:1rem'>← Use sidebar Week selector to navigate</div>", unsafe_allow_html=True)
 
     # ── KPI row ───────────────────────────────────────────────────────────────
     is_best = (score_this_wk == atb) if score_this_wk is not None else False
@@ -56,7 +56,7 @@ def render(fn, wk_idx):
         delta_col = "#34d399" if delta > 0 else "#ef4444"
         if not maximize: delta_col = "#ef4444" if delta > 0 else "#34d399"
     else:
-        delta_str, delta_col = "—", "#4a5a7a"
+        delta_str, delta_col = "—", "#7a8fbb"
 
     rb = running_best(scores, maximize)
     rb_this = rb[wk_idx] if wk_idx < len(rb) and rb[wk_idx] is not None else None
@@ -107,7 +107,7 @@ def render(fn, wk_idx):
         # ── Trajectory chart ──────────────────────────────────────────────────
         st.markdown('<div class="sec-head">Week-on-Week Trajectory</div>', unsafe_allow_html=True)
         week_labels = [f"W{i+1}" for i in range(len(actuals))]
-        bar_colors = ["#4a5a7a"]
+        bar_colors = ["#7a8fbb"]
         for i in range(1, len(actuals)):
             imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
             bar_colors.append("#22c55e" if imp else "#ef4444")
@@ -136,7 +136,7 @@ def render(fn, wk_idx):
                           annotation_font_color="#2563eb", annotation_font_size=10)
         fig.update_layout(
             paper_bgcolor="#080e1a", plot_bgcolor="#080e1a",
-            font=dict(color="#4a5a7a", family="IBM Plex Mono"),
+            font=dict(color="#7a8fbb", family="IBM Plex Mono"),
             height=280, margin=dict(l=10, r=10, t=20, b=40),
             showlegend=True,
             legend=dict(bgcolor="rgba(0,0,0,0)", font_size=10,
@@ -153,7 +153,7 @@ def render(fn, wk_idx):
             fig2 = go.Figure()
             fig2.add_trace(go.Bar(
                 x=dims, y=coords_this_wk,
-                marker_color=["#2563eb" if abs(c) < 0.1 or abs(c-1) < 0.1 else "#3d4f70" for c in coords_this_wk],
+                marker_color=["#2563eb" if abs(c) < 0.1 or abs(c-1) < 0.1 else "#6070a0" for c in coords_this_wk],
                 marker_line_width=0, opacity=0.9,
                 text=[f"{c:.4f}" for c in coords_this_wk],
                 textposition="outside", textfont=dict(size=10, color="white"),
@@ -162,7 +162,7 @@ def render(fn, wk_idx):
             fig2.add_hline(y=0.5, line_dash="dot", line_color="#1a2540", line_width=1)
             fig2.update_layout(
                 paper_bgcolor="#080e1a", plot_bgcolor="#080e1a",
-                font=dict(color="#4a5a7a", family="IBM Plex Mono"),
+                font=dict(color="#7a8fbb", family="IBM Plex Mono"),
                 height=220, margin=dict(l=10, r=10, t=10, b=40),
                 showlegend=False,
                 xaxis=dict(gridcolor="#0d1320", showgrid=False),
@@ -243,12 +243,12 @@ def render(fn, wk_idx):
     rows = ""
     for i, (wl, sc) in enumerate(zip([f"W{j+1}" for j in range(CURRENT_WEEK)], scores)):
         if sc is None:
-            sc_str, row_col = "Pending", "#2d3a52"
+            sc_str, row_col = "Pending", "#5a6a8a"
         else:
             sc_str = fmt(sc)
             rb_i = rb[i] if i < len(rb) and rb[i] is not None else None
             is_rb = (sc == rb_i) and sc is not None
-            row_col = "#f59e0b" if is_rb else ("#34d399" if (i > 0 and scores[i-1] is not None and ((maximize and sc > scores[i-1]) or (not maximize and sc < scores[i-1]))) else "#4a5a7a")
+            row_col = "#f59e0b" if is_rb else ("#34d399" if (i > 0 and scores[i-1] is not None and ((maximize and sc > scores[i-1]) or (not maximize and sc < scores[i-1]))) else "#7a8fbb")
 
         highlight = "background:#0d1a30;" if i == wk_idx else ""
         coords_i = COORDS[fn][i] if i < len(COORDS[fn]) and COORDS[fn][i] else []
@@ -258,7 +258,7 @@ def render(fn, wk_idx):
         <tr style='{highlight}'>
           <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.78rem;color:#e8eeff;font-weight:{"700" if i==wk_idx else "400"}'>{wl}</td>
           <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.85rem;color:{row_col}'>{sc_str}</td>
-          <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#2d3a52'>{coord_str[:60]}</td>
+          <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#5a6a8a'>{coord_str[:60]}</td>
         </tr>"""
 
     st.markdown(f"""
@@ -267,11 +267,11 @@ def render(fn, wk_idx):
       <thead>
         <tr style='background:#0a1020'>
           <th style='padding:8px 12px;text-align:left;font-family:"IBM Plex Mono",monospace;
-                     font-size:0.62rem;color:#2d3a52;text-transform:uppercase;letter-spacing:0.15em'>Week</th>
+                     font-size:0.62rem;color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>Week</th>
           <th style='padding:8px 12px;text-align:left;font-family:"IBM Plex Mono",monospace;
-                     font-size:0.62rem;color:#2d3a52;text-transform:uppercase;letter-spacing:0.15em'>Score</th>
+                     font-size:0.62rem;color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>Score</th>
           <th style='padding:8px 12px;text-align:left;font-family:"IBM Plex Mono",monospace;
-                     font-size:0.62rem;color:#2d3a52;text-transform:uppercase;letter-spacing:0.15em'>Coordinates</th>
+                     font-size:0.62rem;color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>Coordinates</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>

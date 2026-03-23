@@ -8,11 +8,11 @@ def build_sparkline(scores, maximize):
         if s is None:
             color = "#1a2540"
         elif j == 0:
-            color = "#4a5a7a"
+            color = "#7a8fbb"
         elif scores[j-1] is not None:
             color = "#22c55e" if ((maximize and s > scores[j-1]) or (not maximize and s < scores[j-1])) else "#ef4444"
         else:
-            color = "#4a5a7a"
+            color = "#7a8fbb"
         bars.append(f"<div style='flex:1;height:4px;border-radius:2px;background:{color}'></div>")
     return "".join(bars)
 
@@ -69,7 +69,7 @@ def render():
     .hero-name-sub {
         font-family: "IBM Plex Mono", monospace;
         font-size: 0.65rem;
-        color: #4a5a7a;
+        color: #7a8fbb;
         margin-top: 2px;
     }
     .imperial-logo {
@@ -96,11 +96,11 @@ def render():
     .imperial-sub {
         font-family: "IBM Plex Mono", monospace;
         font-size: 0.60rem;
-        color: #4a5a7a;
+        color: #7a8fbb;
         margin-top: 1px;
     }
     .hero-desc {
-        color: #8a9abf;
+        color: #c8d4f0;
         font-size: 1.05rem;
         max-width: 100%;
         line-height: 1.8;
@@ -151,7 +151,7 @@ def render():
             rb_vals = [r for r in rb if r is not None][:len(actuals)]
             week_labels = [f"W{i+1}" for i in range(len(actuals))]
 
-            bar_colors = ["#4a5a7a"]
+            bar_colors = ["#7a8fbb"]
             for i in range(1, len(actuals)):
                 imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
                 bar_colors.append("#22c55e" if imp else "#ef4444")
@@ -175,7 +175,7 @@ def render():
                     <div>
                       <span style='font-family:Syne,sans-serif;font-size:2rem;font-weight:800;color:#e8eeff'>{fn}</span>
                       <span style='font-family:"IBM Plex Mono",monospace;font-size:0.72rem;
-                                  color:#2d3a52;margin-left:10px'>{info["dims"]}D · {info["objective"]}</span>
+                                  color:#5a6a8a;margin-left:10px'>{info["dims"]}D · {info["objective"]}</span>
                     </div>
                     <div style='font-size:0.68rem;background:{abg};color:{acolor};
                                 padding:4px 12px;border-radius:12px;font-weight:600;
@@ -183,19 +183,19 @@ def render():
                       {action.split()[0]}
                     </div>
                   </div>
-                  <div style='font-size:0.88rem;color:#4a5a7a;margin-bottom:10px;line-height:1.5'>{info["desc"]}</div>
+                  <div style='font-size:0.88rem;color:#7a8fbb;margin-bottom:10px;line-height:1.5'>{info["desc"]}</div>
                   <div style='display:flex;gap:24px;margin-bottom:12px'>
                     <div>
-                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;margin-bottom:2px'>ALL-TIME BEST</div>
+                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#5a6a8a;margin-bottom:2px'>ALL-TIME BEST</div>
                       <div style='font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:700;color:#f59e0b'>★ {fmt(atb)}</div>
                     </div>
                     <div>
-                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;margin-bottom:2px'>' + f'W{CURRENT_WEEK}' + ' SCORE</div>
+                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#5a6a8a;margin-bottom:2px'>' + f'W{CURRENT_WEEK}' + ' SCORE</div>
                       <div style='font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:700;
                                   color:{"#34d399" if is_best else "#e8eeff"}'>{fmt(w7_score)}</div>
                     </div>
                     <div>
-                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#2d3a52;margin-bottom:2px'>DIMS</div>
+                      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.58rem;color:#5a6a8a;margin-bottom:2px'>DIMS</div>
                       <div style='font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:700;color:#e8eeff'>{info["dims"]}D</div>
                     </div>
                   </div>
@@ -225,21 +225,21 @@ def render():
                 fig.update_layout(
                     paper_bgcolor="#0a1020",
                     plot_bgcolor="#0a1020",
-                    font=dict(color="#4a5a7a", family="IBM Plex Mono"),
+                    font=dict(color="#7a8fbb", family="IBM Plex Mono"),
                     height=320,
                     margin=dict(l=10, r=10, t=20, b=10),
                     showlegend=True,
                     legend=dict(
                         bgcolor="rgba(0,0,0,0)",
-                        font=dict(size=10, color="#4a5a7a"),
+                        font=dict(size=10, color="#7a8fbb"),
                         orientation="h",
                         yanchor="bottom", y=1.01,
                         xanchor="right", x=1,
                     ),
                     xaxis=dict(gridcolor="#0d1320", showgrid=False,
-                               tickfont=dict(size=11, color="#4a5a7a")),
+                               tickfont=dict(size=11, color="#7a8fbb")),
                     yaxis=dict(gridcolor="#111827", showgrid=True,
-                               gridwidth=0.5, tickfont=dict(size=10, color="#4a5a7a")),
+                               gridwidth=0.5, tickfont=dict(size=10, color="#7a8fbb")),
                 )
                 st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
@@ -250,7 +250,7 @@ def render():
                   <div style='display:flex;gap:3px;margin-bottom:4px'>
                     {build_sparkline(scores, maximize)}
                   </div>
-                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.55rem;color:#2d3a52'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.55rem;color:#5a6a8a'>
                     W1 → ' + str(CURRENT_WEEK) + ' · green=improvement · gold=all-time best
                   </div>
                 </div>
@@ -276,7 +276,7 @@ def render():
                         padding:20px;border-top:2px solid {color}'>
               <div style='font-family:Syne,sans-serif;font-size:1rem;font-weight:700;
                           color:{color};margin-bottom:10px'>{title}</div>
-              <div style='color:#8a9abf;font-size:0.95rem;line-height:1.75'>{body}</div>
+              <div style='color:#c8d4f0;font-size:0.95rem;line-height:1.75'>{body}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -296,6 +296,6 @@ def render():
                         padding:16px;border-left:3px solid {color}'>
               <div style='font-family:Syne,sans-serif;font-weight:700;color:{color};
                           margin-bottom:6px;font-size:0.95rem'>{title}</div>
-              <div style='color:#8a9abf;font-size:0.88rem;line-height:1.6'>{desc}</div>
+              <div style='color:#c8d4f0;font-size:0.88rem;line-height:1.6'>{desc}</div>
             </div>
             """, unsafe_allow_html=True)

@@ -46,9 +46,9 @@ def render(wk_idx=None):
                         padding:14px 16px;margin-bottom:10px;border-top:2px solid {acolor}'>
               <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:8px'>
                 <span style='font-family:Syne,sans-serif;font-size:1.3rem;font-weight:800;color:#e8eeff'>{fn}</span>
-                <span style='font-family:"IBM Plex Mono",monospace;font-size:0.62rem;color:#2d3a52'>{info["dims"]}D</span>
+                <span style='font-family:"IBM Plex Mono",monospace;font-size:0.62rem;color:#5a6a8a'>{info["dims"]}D</span>
               </div>
-              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#2d3a52;margin-bottom:3px'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#5a6a8a;margin-bottom:3px'>
                 {week_label} SCORE</div>
               <div style='font-family:"IBM Plex Mono",monospace;font-size:1.1rem;font-weight:600;
                           color:{"#f59e0b" if is_best else "#e8eeff"};margin-bottom:6px'>
@@ -82,7 +82,7 @@ def render(wk_idx=None):
         rb_vals     = [r for r in rb_all if r is not None][:n_show]
         week_labels = [f"W{i+1}" for i in range(n_show)]
 
-        bar_colors = ["#3d4f70"]
+        bar_colors = ["#6070a0"]
         for i in range(1, len(actuals)):
             imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
             bar_colors.append("#22c55e" if imp else "#ef4444")
@@ -99,7 +99,7 @@ def render(wk_idx=None):
 
     fig.update_layout(
         height=480, paper_bgcolor="#060a10", plot_bgcolor="#0a1020",
-        font=dict(color="#4a5a7a", size=9, family="IBM Plex Mono"),
+        font=dict(color="#7a8fbb", size=9, family="IBM Plex Mono"),
         margin=dict(l=10, r=10, t=50, b=10),
     )
     fig.update_xaxes(gridcolor="#0d1320", tickfont=dict(size=7))
@@ -171,7 +171,7 @@ def render(wk_idx=None):
             thickness=10, len=0.8,
             tickvals=[-1, -0.5, 0, 0.5, 1],
             ticktext=["Regress", "", "Neutral", "", "Improve"],
-            tickfont=dict(size=8, color="#4a5a7a", family="IBM Plex Mono"),
+            tickfont=dict(size=8, color="#7a8fbb", family="IBM Plex Mono"),
             outlinewidth=0,
         ),
         hovertemplate="<b>%{y} %{x}</b><br>Δ = %{text}<extra></extra>",
@@ -181,7 +181,7 @@ def render(wk_idx=None):
         height=300,
         paper_bgcolor="#060a10",
         plot_bgcolor="#060a10",
-        font=dict(color="#4a5a7a", size=9, family="IBM Plex Mono"),
+        font=dict(color="#7a8fbb", size=9, family="IBM Plex Mono"),
         margin=dict(l=40, r=10, t=5, b=45),
         xaxis=dict(side="bottom", tickangle=0, tickfont=dict(size=8),
                    scaleanchor=None, constrain="domain"),
@@ -204,12 +204,12 @@ def render(wk_idx=None):
                 continue
             wl    = f"W{wi+1}"
             is_selected = wi == wk_idx
-            sc_color = "#f59e0b" if (score is not None and score == get_all_time_best(fn)) else "#8a9abf"
-            if score is None: sc_color = "#2d3a52"
+            sc_color = "#f59e0b" if (score is not None and score == get_all_time_best(fn)) else "#c8d4f0"
+            if score is None: sc_color = "#5a6a8a"
             highlight = "background:#0d1a30;" if is_selected else ""
             rows_html += f"""<tr style='{highlight}'>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:#e8eeff'>{fn}</td>
-              <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{"#2563eb" if is_selected else "#2d3a52"}'>{wl}</td>
+              <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{"#2563eb" if is_selected else "#5a6a8a"}'>{wl}</td>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.75rem;color:{sc_color}'>{fmt(score)}</td>
               <td style='padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:0.65rem;color:#22c55e;word-break:break-all;white-space:normal;min-width:400px'>{sub}</td>
             </tr>"""
@@ -219,10 +219,10 @@ def render(wk_idx=None):
     <table style='width:100%;border-collapse:collapse;background:#080e1a'>
       <thead style='position:sticky;top:0;background:#0a1020'>
         <tr>
-          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#2d3a52;text-transform:uppercase'>Fn</th>
-          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#2d3a52;text-transform:uppercase'>Wk</th>
-          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#2d3a52;text-transform:uppercase'>Score</th>
-          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#2d3a52;text-transform:uppercase'>Submission String</th>
+          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#5a6a8a;text-transform:uppercase'>Fn</th>
+          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#5a6a8a;text-transform:uppercase'>Wk</th>
+          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#5a6a8a;text-transform:uppercase'>Score</th>
+          <th style='padding:7px 10px;text-align:left;font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#5a6a8a;text-transform:uppercase'>Submission String</th>
         </tr>
       </thead>
       <tbody>{rows_html}</tbody>

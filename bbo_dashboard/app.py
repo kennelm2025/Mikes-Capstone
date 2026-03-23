@@ -28,9 +28,9 @@ st.markdown("""
     background: #080c14 !important;
     border-right: 1px solid #111827;
   }
-  [data-testid="stSidebar"] * { color: #8a9abf !important; }
+  [data-testid="stSidebar"] * { color: #c8d4f0 !important; }
   [data-testid="stSidebar"] .stSelectbox label,
-  [data-testid="stSidebar"] .stRadio label { color: #4a5a7a !important; font-size: 0.65rem !important;
+  [data-testid="stSidebar"] .stRadio label { color: #7a8fbb !important; font-size: 0.65rem !important;
     text-transform: uppercase; letter-spacing: 0.15em; }
 
   /* Main bg */
@@ -51,9 +51,9 @@ st.markdown("""
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
     background: var(--accent, #3b82f6);
   }
-  .kpi-label { font-size: 0.62rem; color: #3d4f70; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
+  .kpi-label { font-size: 0.62rem; color: #6070a0; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
   .kpi-value { font-size: 1.4rem; font-weight: 700; color: #e8eeff; font-family: 'IBM Plex Mono', monospace; line-height: 1.1; }
-  .kpi-sub   { font-size: 0.7rem; color: #3d4f70; margin-top: 4px; }
+  .kpi-sub   { font-size: 0.7rem; color: #6070a0; margin-top: 4px; }
 
   /* Section headers */
   .sec-head {
@@ -79,7 +79,7 @@ st.markdown("""
   .wtab {
     padding: 5px 14px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;
     font-size: 0.75rem; cursor: pointer; border: 1px solid #1a2540;
-    background: #0d1320; color: #4a5a7a; text-decoration: none;
+    background: #0d1320; color: #7a8fbb; text-decoration: none;
   }
   .wtab-active { background: #1e3a6e; color: #93c5fd; border-color: #2563eb; }
 
@@ -97,13 +97,13 @@ st.markdown("""
     padding: 18px 20px; margin: 8px 0; line-height: 1.75;
   }
   .info-card-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
-    color: #2563eb; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 8px; }
-  .info-card-body { color: #8a9abf; font-size: 0.88rem; }
+    color: #4a8fff; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 8px; }
+  .info-card-body { color: #c8d4f0; font-size: 0.88rem; }
 
   /* Param row */
   .param-row { display: flex; justify-content: space-between; align-items: center;
     padding: 9px 14px; background: #080e1a; border-radius: 6px; margin: 4px 0; }
-  .param-name { color: #4a5a7a; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; }
+  .param-name { color: #7a8fbb; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; }
   .param-val  { color: #e8eeff; font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; font-weight: 500; }
 
   /* Page hero */
@@ -112,17 +112,17 @@ st.markdown("""
     color: #2563eb; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 6px; }
   .page-title { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
     color: #e8eeff; line-height: 1.15; margin-bottom: 6px; }
-  .page-sub { color: #4a5a7a; font-size: 0.88rem; }
+  .page-sub { color: #7a8fbb; font-size: 0.88rem; }
 
   /* Sidebar nav labels */
   .nav-section { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
-    color: #2d3a52 !important; text-transform: uppercase; letter-spacing: 0.2em;
+    color: #5a6a8a !important; text-transform: uppercase; letter-spacing: 0.2em;
     margin: 1.2rem 0 0.4rem; padding-bottom: 4px; border-bottom: 1px solid #111827; }
 
   /* Source code viewer */
   .source-block { background: #050810; border: 1px solid #141e30; border-radius: 8px;
     padding: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-    color: #8a9abf; overflow-x: auto; white-space: pre; line-height: 1.6; }
+    color: #c8d4f0; overflow-x: auto; white-space: pre; line-height: 1.6; }
 
   div[data-testid="stDataFrame"] { border-radius: 8px; }
   .stPlotlyChart { border-radius: 10px; overflow: hidden; }
@@ -152,7 +152,7 @@ with st.sidebar:
     st.markdown("""
     <div style='padding: 0.5rem 0 1rem'>
       <div style='font-family:Syne,sans-serif;font-size:1.2rem;font-weight:800;color:#e8eeff'>🎯 BBO Capstone</div>
-      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.65rem;color:#2d3a52;margin-top:2px'>MIKE KENNELLY · DATA 2026</div>
+      <div style='font-family:"IBM Plex Mono",monospace;font-size:0.65rem;color:#5a6a8a;margin-top:2px'>MIKE KENNELLY · DATA 2026</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -223,7 +223,7 @@ with st.sidebar:
         <div style='background:#0a1020;border:1px solid #141e30;border-radius:8px;
                     padding:12px 14px;margin-top:8px'>
           <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;
-                      color:#2d3a52;text-transform:uppercase;letter-spacing:0.15em'>
+                      color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>
             {fn} · W{wk_idx+1} Score
           </div>
           <div style='font-size:1.3rem;font-weight:700;color:#e8eeff;
@@ -235,7 +235,7 @@ with st.sidebar:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown(f"<div style='font-size:0.63rem;color:#2d3a52;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W{CURRENT_WEEK} · BBO Optimisation</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='font-size:0.63rem;color:#5a6a8a;font-family:IBM Plex Mono,monospace'>Imperial College London<br>DATA 2026 Cohort<br>W1–W{CURRENT_WEEK} · BBO Optimisation</div>", unsafe_allow_html=True)
 
 # ── Route ────────────────────────────────────────────────────────────────────────
 page = st.session_state["page"]

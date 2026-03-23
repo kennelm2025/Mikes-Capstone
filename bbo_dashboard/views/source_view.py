@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import numpy as np
-from data import FUNCTIONS, SCORES, STRATEGY, WEEKLY, COORDS, CLASSIFIERS, TURBO_SUMMARY, PIPELINE_STEPS, CURRENT_WEEK, running_best, get_all_time_best
+from data import FUNCTIONS, SCORES, STRATEGY, WEEKLY, COORDS, CLASSIFIERS, CV_RESULTS, TURBO_SUMMARY, PIPELINE_STEPS, CURRENT_WEEK, running_best, get_all_time_best
 
 # Representative source code excerpts for each pipeline step
 STEP_CODE = {
@@ -251,22 +251,44 @@ def render_step_chart(step_key, fn, wk_idx):
                               yaxis=dict(gridcolor="#111827"))
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
-    # ── Step 5 / Step 7: CV Model Comparison ─────────────────────────────────
+    # ── Step 5 / Step 7: CV Model Comparison — full league table ─────────────
     elif step_key in ("Step 5", "Step 7"):
-        clf = CLASSIFIERS[fn]
-        # Show classifier winner card
-        st.markdown(f"""
-        <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
-                    padding:16px 20px;border-left:4px solid #22c55e;margin-bottom:1rem'>
-          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;
-                      color:#38bdf8;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:6px'>
-            CV Winner — {fn} W{wk_idx+1}</div>
-          <div style='font-family:Syne,sans-serif;font-size:1.3rem;font-weight:700;color:#22c55e'>
-            {clf["name"]}</div>
-          <div style='font-family:"IBM Plex Mono",monospace;font-size:0.85rem;color:#c8d4f0;margin-top:4px'>
-            CV Accuracy: {clf["cv"]:.1%} ± {clf["std"]:.1%} &nbsp;·&nbsp; Family: {clf["family"]}
-          </div>
-        </div>""", unsafe_allow_html=True)
+        clf      = CLASSIFIERS[fn]
+        cv_rows  = CV_RESULTS.get(fn, [])
+        # Sort by cv descending
+        cv_rows  = sorted(cv_rows, key=lambda x: x["cv"], reverse=True)
+        names    = [r["name"] for r in cv_rows]
+        cvs      = [r["cv"] for r in cv_rows]
+        stds     = [r["std"] for r in cv_rows]
+        colors   = ["#22c55e" if r["winner"] else "#4a6a9a" for r in cv_rows]
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            y=names, x=cvs,
+            orientation="h",
+            marker_color=colors,
+            marker_line_width=0,
+            error_x=dict(type="data", array=stds, color="#7a8fbb", thickness=1.5, width=4),
+            text=[f"{v:.1%}" for v in cvs],
+            textposition="outside",
+            textfont=dict(size=10, color="white", family="IBM Plex Mono"),
+            hovertemplate="%{y}: <b>%{x:.1%}</b> ± %{error_x.array:.1%}<extra></extra>",
+        ))
+        fig.add_vline(x=0.5, line_dash="dot", line_color="#f59e0b",
+                      annotation_text="50% baseline",
+                      annotation_font=dict(color="#f59e0b", size=9))
+        fig.update_layout(
+            height=320,
+            paper_bgcolor=DARK, plot_bgcolor=PLOT,
+            font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+            margin=dict(l=10, r=60, t=40, b=10),
+            title=dict(text=f"{fn} — CV Model Comparison · green = winner · error bars = ±1 std",
+                       font=dict(size=11, color="#c8d4f0")),
+            xaxis=dict(tickformat=".0%", range=[0, 1.05], gridcolor="#111827"),
+            yaxis=dict(autorange="reversed", tickfont=dict(size=10)),
+            bargap=0.3,
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        st.caption(f"★ Winner: {clf['name']} · CV={clf['cv']:.1%} ± {clf['std']:.1%} · refit on full dataset for candidate filtering")
 
     # ── Step 8: Candidate generation split ───────────────────────────────────
     elif step_key == "Step 8":

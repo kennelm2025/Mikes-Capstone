@@ -234,6 +234,8 @@ def render_step_chart(step_key, fn, wk_idx):
         sc = actuals[:n]
         if sc:
             threshold = np.percentile(sc, 70)
+            n_class1 = sum(1 for s in sc if (s >= threshold if maximize else s <= threshold))
+            n_class0 = len(sc) - n_class1
             colors = ["#22c55e" if (s >= threshold if maximize else s <= threshold) else "#ef4444" for s in sorted(sc)]
             fig = go.Figure(go.Bar(
                 x=list(range(len(sc))), y=sorted(sc), marker_color=colors,
@@ -244,12 +246,36 @@ def render_step_chart(step_key, fn, wk_idx):
                           annotation_font=dict(color="#f59e0b", size=9))
             fig.update_layout(height=280, paper_bgcolor=DARK, plot_bgcolor=PLOT,
                               font=dict(color="#7a8fbb", family="IBM Plex Mono"),
-                              margin=dict(l=10,r=10,t=30,b=10),
-                              title=dict(text=f"{fn} — Binary Labels (green=class 1, red=class 0)",
-                                         font=dict(size=12, color="#c8d4f0")),
-                              xaxis=dict(title="Rank (sorted)", showgrid=False),
+                              margin=dict(l=10,r=60,t=30,b=40),
+                              title=dict(text=f"{fn} W{wk_idx+1} — Binary Labels · green=class 1 (HIGH) · red=class 0 (LOW)",
+                                         font=dict(size=11, color="#c8d4f0")),
+                              xaxis=dict(title="Rank (sorted low→high)", showgrid=False),
                               yaxis=dict(gridcolor="#111827"))
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            # Explanation card
+            st.markdown(f"""
+            <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;
+                        padding:16px 20px;margin-top:0.2rem'>
+              <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                          text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                Why Binary Labels?</div>
+              <div style='display:grid;grid-template-columns:1fr 1fr;gap:16px'>
+                <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.8'>
+                  <b style='color:#22c55e'>Class 1 (HIGH)</b> — top 30% of scores<br>
+                  These {n_class1} points are labelled as "probably good regions".<br>
+                  Threshold: <b>{fmt(threshold)}</b><br><br>
+                  <b style='color:#ef4444'>Class 0 (LOW)</b> — bottom 70% of scores<br>
+                  These {n_class0} points are labelled "probably bad regions".
+                </div>
+                <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.8'>
+                  <b style='color:#38bdf8'>Why convert to binary?</b><br>
+                  The GP is expensive — evaluating all 10,000 candidates directly is too slow.
+                  By training a fast classifier (SVM, RF, CNN) to predict P(class=1),
+                  we can discard the bottom 50% of candidates <i>before</i> the GP sees them.
+                  This gives the GP a pre-filtered, higher-quality candidate pool to work with.
+                </div>
+              </div>
+            </div>""", unsafe_allow_html=True)
 
     # ── Step 5 / Step 7: CV Model Comparison — full league table ─────────────
     elif step_key in ("Step 5", "Step 7"):

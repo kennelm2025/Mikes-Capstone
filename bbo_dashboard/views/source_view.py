@@ -361,15 +361,18 @@ def render_step_chart(step_key, fn, wk_idx):
                           text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
                 A Learning Exercise, Not a Re-test</div>
               <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
-                <b style='color:#38bdf8'>Isn't CNN already tested in Step 5?</b><br>
-                Yes — CNN-1D competed in Step 5 and got CV={cnn_cv_str}.
-                Step 5B is not a re-test. It asks <i>what did the CNN learn?</i>
-                not <i>how accurate was it?</i><br><br>
-                <b style='color:#f59e0b'>What does "opening the hood" mean?</b><br>
-                The CNN has 8 small filters, each scanning an adjacent coordinate pair
-                [X1,X2], [X2,X3] etc. After training we check which filter fired
-                most strongly on the best-known point — that tells us which coordinate
-                pair the CNN found most structurally significant.<br><br>
+                <b style='color:#38bdf8'>Two separate jobs — not competing</b><br>
+                The Step 5 CV winner (e.g. {winner["name"]}) filters the 10,000
+                candidates by P(class=1) — this decides <b>which points to evaluate</b>.<br><br>
+                Step 5B CNN inspection does something completely different:
+                it decides <b>how wide to search around the best point</b>.
+                By checking which filter fires strongest on the best-known point,
+                we learn which dimensions are dominant — and tighten σ in those
+                directions while keeping it looser in others.<br><br>
+                These two outputs feed into different parts of the pipeline and
+                never compete. The CV winner could be a Decision Tree, SVM or
+                Random Forest — it does not affect what CNN inspection tells us
+                about dimension structure.<br><br>
                 This is a <b>Module 17 learning exercise</b> — the same filter
                 inspection technique used in production computer vision.
               </div>

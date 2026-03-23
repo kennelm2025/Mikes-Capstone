@@ -131,11 +131,6 @@ def render(wk_idx=None):
         rng = max(abs(row.max()), abs(row.min()), 1e-12)
         z_norm[i] = row / rng
 
-    # Dynamic height: 40px per row + 60px for x-axis labels
-    _heatmap_h = len(fns_list) * 40 + 60
-    # Dynamic width: 120px per column + 60px for y-axis labels — ensures all columns visible
-    _heatmap_w = n_transitions * 120 + 60
-
     fig2 = go.Figure(go.Heatmap(
         z=z_norm, x=weeks, y=fns_list,
         text=text_matrix, texttemplate="%{text}",
@@ -146,16 +141,16 @@ def render(wk_idx=None):
         xgap=2, ygap=2,
     ))
     fig2.update_layout(
-        height=_heatmap_h,
-        width=_heatmap_w,
+        height=300,
         paper_bgcolor="#060a10",
         plot_bgcolor="#060a10",
-        font=dict(color="#4a5a7a", size=10, family="IBM Plex Mono"),
-        margin=dict(l=50, r=20, t=10, b=50),
-        xaxis=dict(side="bottom", tickangle=0, tickfont=dict(size=9)),
-        yaxis=dict(tickfont=dict(size=10)),
+        font=dict(color="#4a5a7a", size=9, family="IBM Plex Mono"),
+        margin=dict(l=40, r=10, t=5, b=45),
+        xaxis=dict(side="bottom", tickangle=0, tickfont=dict(size=8),
+                   scaleanchor=None, constrain="domain"),
+        yaxis=dict(tickfont=dict(size=9), constrain="domain"),
     )
-    st.plotly_chart(fig2, use_container_width=False)
+    st.plotly_chart(fig2, use_container_width=True)
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
     # ── W7 submission strings table ───────────────────────────────────────────

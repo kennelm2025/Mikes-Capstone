@@ -619,7 +619,7 @@ def render_step_chart(step_key, fn, wk_idx):
             st.caption(f"Each line = one week's {dims}D submission · Colour = score · Drag axes to filter")
 
     # ── Step 10 / 11: Acquisition Functions ─────────────────────────────────
-    elif step_key in ("Step 10", "Step 11"):
+    elif step_key == "Step 10":
         sc      = actuals[:n]
         strat   = STRATEGY[fn]
         hp      = weekly["hyperparams"]
@@ -719,7 +719,223 @@ def render_step_chart(step_key, fn, wk_idx):
                   </div>
                 </div>""", unsafe_allow_html=True)
 
+    # ── Step 11: Acquisition Curves — per-dimension sweep ────────────────────
+    elif step_key == "Step 11":
+        sc        = actuals[:n]
+        hp        = weekly["hyperparams"]
+        kappa     = hp.get("ucb_kappa", 2.0)
+        coords_wk = COORDS[fn][wk_idx] if wk_idx < len(COORDS[fn]) and COORDS[fn][wk_idx] else None
+        atb       = get_all_time_best(fn)
+        atb_coords = next((COORDS[fn][i] for i,s in enumerate(SCORES[fn])
+                           if s == atb and COORDS[fn][i] is not None), None)
+
+        if sc and coords_wk and atb_coords:
+            dim_labels = [f"X{i+1}" for i in range(dims)]
+
+            # Per-dimension sensitivity: how far each submitted dim is from ATB
+            deltas     = [abs(coords_wk[i] - atb_coords[i]) for i in range(dims)]
+            delta_max  = max(deltas) or 1
+
+            # EI signal per dim: proximity to ATB coord (inverse of delta, normalised)
+            ei_per_dim = [1 - (d / delta_max) for d in deltas]
+
+            # UCB signal per dim: distance from boundary (0 or 1) weighted by kappa
+            bnd_dist   = [min(c, 1-c) for c in coords_wk]  # 0=at boundary, 0.5=centre
+            ucb_per_dim = [kappa * (1 - b*2) for b in bnd_dist]  # high near boundary
+            ucb_norm_max = max(abs(u) for u in ucb_per_dim) or 1
+            ucb_per_dim = [u / ucb_norm_max for u in ucb_per_dim]
+
+            # Combined acquisition per dimension
+            combined   = [(e + u) / 2 for e, u in zip(ei_per_dim, ucb_per_dim)]
+
+            # Identify most influential dimension
+            top_dim    = dim_labels[combined.index(max(combined))]
+
+            fig = go.Figure()
+            fig.add_trace(go.Bar(
+                name="EI signal (proximity to ATB coord)",
+                x=dim_labels, y=ei_per_dim,
+                marker_color=["#22c55e" if v == max(ei_per_dim) else "#1a4a2a" for v in ei_per_dim],
+                text=[f"{v:.2f}" for v in ei_per_dim],
+                textposition="outside",
+                textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+                hovertemplate="%{x}: EI=%{y:.3f}<extra></extra>"))
+            fig.add_trace(go.Bar(
+                name=f"UCB signal (boundary pull κ={kappa})",
+                x=dim_labels, y=ucb_per_dim,
+                marker_color=["#38bdf8" if v == max(ucb_per_dim) else "#1a2a4a" for v in ucb_per_dim],
+                text=[f"{v:.2f}" for v in ucb_per_dim],
+                textposition="outside",
+                textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+                hovertemplate="%{x}: UCB=%{y:.3f}<extra></extra>"))
+            fig.add_trace(go.Scatter(
+                name="Combined (EI+UCB)/2",
+                x=dim_labels, y=combined,
+                mode="lines+markers",
+                line=dict(color="#f59e0b", width=2),
+                marker=dict(size=8, color=["#f59e0b" if v==max(combined) else "#92400e" for v in combined]),
+                hovertemplate="%{x}: Combined=%{y:.3f}<extra></extra>"))
+            fig.update_layout(
+                barmode="group", height=320,
+                paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                margin=dict(l=10, r=10, t=40, b=10),
+                title=dict(text=f"{fn} W{wk_idx+1} — Per-Dimension Acquisition Sweep · ★ = dominant dim ({top_dim})",
+                           font=dict(size=11, color="#c8d4f0")),
+                xaxis=dict(gridcolor="#111827", showgrid=False),
+                yaxis=dict(gridcolor="#111827", title="Acquisition signal (normalised 0–1)"),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font_size=9,
+                            x=0.5, xanchor="center", y=-0.12, orientation="h"))
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.caption(f"EI = proximity of submitted coord to ATB coord per dimension · "
+                       f"UCB = boundary pull (high near X=0 or X=1) · Combined picks the submission · "
+                       f"Dominant dimension: {top_dim}")
+
+            # Show the sweep table
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown(f"""
+                <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                              text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                    Per-Dimension Analysis — W{wk_idx+1} vs ATB</div>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.80rem;color:#c8d4f0;line-height:2.0'>
+                    {"".join(
+                        f"<b style='color:{"#22c55e" if combined[i]==max(combined) else "#c8d4f0"}'>{dim_labels[i]}</b>: "
+                        f"submit={coords_wk[i]:.4f} · ATB={atb_coords[i]:.4f} · Δ={deltas[i]:.4f}<br>"
+                        for i in range(dims)
+                    )}
+                  </div>
+                </div>""", unsafe_allow_html=True)
+            with c2:
+                st.markdown(f"""
+                <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                              text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                    What Step 11 Does</div>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                    <b style='color:#38bdf8'>Per-dimension EI sweep:</b><br>
+                    For each dimension Xi, the notebook sweeps Xi from 0→1 while holding all
+                    other dims fixed at the best-known point. This shows how EI changes
+                    along each axis individually — revealing which dimensions are most
+                    sensitive to change.<br><br>
+                    <b style='color:#f59e0b'>Why does this matter?</b><br>
+                    A flat EI curve for Xi means that dimension doesn't affect the outcome much
+                    — we can be loose with σ there. A peaked EI curve means Xi is critical
+                    — we should tighten σ for that dimension. This directly informs the
+                    anisotropic σ strategy used for {fn}.
+                  </div>
+                </div>""", unsafe_allow_html=True)
+
     # ── Step 13: Submission dashboard
+    # ── Step 11: Acquisition Curves — per-dimension sweep ────────────────────
+    elif step_key == "Step 11":
+        sc        = actuals[:n]
+        hp        = weekly["hyperparams"]
+        kappa     = hp.get("ucb_kappa", 2.0)
+        coords_wk = COORDS[fn][wk_idx] if wk_idx < len(COORDS[fn]) and COORDS[fn][wk_idx] else None
+        atb       = get_all_time_best(fn)
+        atb_coords = next((COORDS[fn][i] for i,s in enumerate(SCORES[fn])
+                           if s == atb and COORDS[fn][i] is not None), None)
+
+        if sc and coords_wk and atb_coords:
+            dim_labels = [f"X{i+1}" for i in range(dims)]
+
+            # Per-dimension sensitivity: how far each submitted dim is from ATB
+            deltas     = [abs(coords_wk[i] - atb_coords[i]) for i in range(dims)]
+            delta_max  = max(deltas) or 1
+
+            # EI signal per dim: proximity to ATB coord (inverse of delta, normalised)
+            ei_per_dim = [1 - (d / delta_max) for d in deltas]
+
+            # UCB signal per dim: distance from boundary (0 or 1) weighted by kappa
+            bnd_dist   = [min(c, 1-c) for c in coords_wk]  # 0=at boundary, 0.5=centre
+            ucb_per_dim = [kappa * (1 - b*2) for b in bnd_dist]  # high near boundary
+            ucb_norm_max = max(abs(u) for u in ucb_per_dim) or 1
+            ucb_per_dim = [u / ucb_norm_max for u in ucb_per_dim]
+
+            # Combined acquisition per dimension
+            combined   = [(e + u) / 2 for e, u in zip(ei_per_dim, ucb_per_dim)]
+
+            # Identify most influential dimension
+            top_dim    = dim_labels[combined.index(max(combined))]
+
+            fig = go.Figure()
+            fig.add_trace(go.Bar(
+                name="EI signal (proximity to ATB coord)",
+                x=dim_labels, y=ei_per_dim,
+                marker_color=["#22c55e" if v == max(ei_per_dim) else "#1a4a2a" for v in ei_per_dim],
+                text=[f"{v:.2f}" for v in ei_per_dim],
+                textposition="outside",
+                textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+                hovertemplate="%{x}: EI=%{y:.3f}<extra></extra>"))
+            fig.add_trace(go.Bar(
+                name=f"UCB signal (boundary pull κ={kappa})",
+                x=dim_labels, y=ucb_per_dim,
+                marker_color=["#38bdf8" if v == max(ucb_per_dim) else "#1a2a4a" for v in ucb_per_dim],
+                text=[f"{v:.2f}" for v in ucb_per_dim],
+                textposition="outside",
+                textfont=dict(size=9, color="white", family="IBM Plex Mono"),
+                hovertemplate="%{x}: UCB=%{y:.3f}<extra></extra>"))
+            fig.add_trace(go.Scatter(
+                name="Combined (EI+UCB)/2",
+                x=dim_labels, y=combined,
+                mode="lines+markers",
+                line=dict(color="#f59e0b", width=2),
+                marker=dict(size=8, color=["#f59e0b" if v==max(combined) else "#92400e" for v in combined]),
+                hovertemplate="%{x}: Combined=%{y:.3f}<extra></extra>"))
+            fig.update_layout(
+                barmode="group", height=320,
+                paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                margin=dict(l=10, r=10, t=40, b=10),
+                title=dict(text=f"{fn} W{wk_idx+1} — Per-Dimension Acquisition Sweep · ★ = dominant dim ({top_dim})",
+                           font=dict(size=11, color="#c8d4f0")),
+                xaxis=dict(gridcolor="#111827", showgrid=False),
+                yaxis=dict(gridcolor="#111827", title="Acquisition signal (normalised 0–1)"),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font_size=9,
+                            x=0.5, xanchor="center", y=-0.12, orientation="h"))
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.caption(f"EI = proximity of submitted coord to ATB coord per dimension · "
+                       f"UCB = boundary pull (high near X=0 or X=1) · Combined picks the submission · "
+                       f"Dominant dimension: {top_dim}")
+
+            # Show the sweep table
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown(f"""
+                <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                              text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                    Per-Dimension Analysis — W{wk_idx+1} vs ATB</div>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.80rem;color:#c8d4f0;line-height:2.0'>
+                    {"".join(
+                        f"<b style='color:{"#22c55e" if combined[i]==max(combined) else "#c8d4f0"}'>{dim_labels[i]}</b>: "
+                        f"submit={coords_wk[i]:.4f} · ATB={atb_coords[i]:.4f} · Δ={deltas[i]:.4f}<br>"
+                        for i in range(dims)
+                    )}
+                  </div>
+                </div>""", unsafe_allow_html=True)
+            with c2:
+                st.markdown(f"""
+                <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                              text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px'>
+                    What Step 11 Does</div>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                    <b style='color:#38bdf8'>Per-dimension EI sweep:</b><br>
+                    For each dimension Xi, the notebook sweeps Xi from 0→1 while holding all
+                    other dims fixed at the best-known point. This shows how EI changes
+                    along each axis individually — revealing which dimensions are most
+                    sensitive to change.<br><br>
+                    <b style='color:#f59e0b'>Why does this matter?</b><br>
+                    A flat EI curve for Xi means that dimension doesn't affect the outcome much
+                    — we can be loose with σ there. A peaked EI curve means Xi is critical
+                    — we should tighten σ for that dimension. This directly informs the
+                    anisotropic σ strategy used for {fn}.
+                  </div>
+                </div>""", unsafe_allow_html=True)
+
     # ── Step 13: Submission dashboard ────────────────────────────────────────
     elif step_key == "Step 13":
         sc = actuals[:n]

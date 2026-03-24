@@ -618,6 +618,108 @@ def render_step_chart(step_key, fn, wk_idx):
             st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
             st.caption(f"Each line = one week's {dims}D submission · Colour = score · Drag axes to filter")
 
+    # ── Step 10 / 11: Acquisition Functions ─────────────────────────────────
+    elif step_key in ("Step 10", "Step 11"):
+        sc      = actuals[:n]
+        strat   = STRATEGY[fn]
+        hp      = weekly["hyperparams"]
+        kappa   = hp.get("ucb_kappa", 2.0)
+        coords_wk = COORDS[fn][wk_idx] if wk_idx < len(COORDS[fn]) and COORDS[fn][wk_idx] else None
+        atb       = get_all_time_best(fn)
+        atb_coords = next((COORDS[fn][i] for i,s in enumerate(SCORES[fn]) if s == atb and COORDS[fn][i]), None)
+
+        if sc and coords_wk:
+            # Simulate EI and UCB curves using historical score data
+            # x-axis = weeks, show how EI and UCB scores evolved at each submission point
+            # EI at each week = improvement over best-so-far at that point
+            ei_vals, ucb_vals, rb_at_week = [], [], []
+            running_b = actuals[0]
+            for i, s in enumerate(sc):
+                rb_at_week.append(running_b)
+                # EI = max(0, s - best_so_far) — simplified (actual EI requires GP posterior)
+                ei = max(0, (s - running_b) if maximize else (running_b - s))
+                ei_vals.append(ei)
+                # UCB proxy = s + kappa * abs(s - running_b) / (max(sc)+1e-12)
+                sigma_proxy = abs(s - running_b) if i > 0 else abs(s) * 0.1
+                ucb = s + kappa * sigma_proxy if maximize else s - kappa * sigma_proxy
+                ucb_vals.append(ucb)
+                if (s > running_b if maximize else s < running_b):
+                    running_b = s
+
+            # Normalise for display
+            ei_max = max(abs(v) for v in ei_vals) or 1
+            ucb_max = max(abs(v) for v in ucb_vals) or 1
+            ei_norm  = [v / ei_max  for v in ei_vals]
+            ucb_norm = [v / ucb_max for v in ucb_vals]
+
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                x=week_labels[:len(ei_norm)], y=ei_norm,
+                mode="lines+markers", name="EI (normalised)",
+                line=dict(color="#22c55e", width=2),
+                marker=dict(size=8, color=["#f59e0b" if e==max(ei_norm) else "#22c55e" for e in ei_norm]),
+                hovertemplate="<b>%{x}</b><br>EI (norm)=%{y:.3f}<extra></extra>"))
+            fig.add_trace(go.Scatter(
+                x=week_labels[:len(ucb_norm)], y=ucb_norm,
+                mode="lines+markers", name=f"UCB κ={kappa} (normalised)",
+                line=dict(color="#38bdf8", width=2, dash="dot"),
+                marker=dict(size=6),
+                hovertemplate="<b>%{x}</b><br>UCB (norm)=%{y:.3f}<extra></extra>"))
+            fig.add_trace(go.Bar(
+                x=week_labels[:len(sc)], y=sc,
+                name="Score", opacity=0.25,
+                marker_color="#4a6a9a", yaxis="y2",
+                hovertemplate="<b>%{x}</b><br>Score=%{y:.4f}<extra></extra>"))
+            fig.update_layout(
+                height=320, paper_bgcolor=DARK, plot_bgcolor=PLOT,
+                font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                margin=dict(l=10, r=60, t=40, b=10),
+                title=dict(text=f"{fn} W{wk_idx+1} — Acquisition Function Signals · EI + UCB (κ={kappa})",
+                           font=dict(size=11, color="#c8d4f0")),
+                xaxis=dict(gridcolor="#111827", showgrid=True),
+                yaxis=dict(title="Acq. score (normalised)", gridcolor="#111827", side="left"),
+                yaxis2=dict(title="Raw score", overlaying="y", side="right",
+                            gridcolor="rgba(0,0,0,0)", showgrid=False),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font_size=9,
+                            x=0.5, xanchor="center", y=-0.12, orientation="h"),
+                barmode="overlay")
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            st.caption(f"★ Gold marker = week EI peaked · EI = observed improvement over best-so-far · "
+                       f"UCB = score + κσ encourages exploration · κ={kappa} set in W{wk_idx+1} hyperparams")
+
+            # Explanation cards
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown(f"""
+                <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                              text-transform:uppercase;letter-spacing:0.18em;margin-bottom:8px'>
+                    Expected Improvement (EI)</div>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                    EI answers: <b>how much better than the current best</b> do we expect this point to be?<br><br>
+                    EI = 0 everywhere except near the best-known region — it is conservative and exploitation-focused.
+                    High EI = the GP predicts this point will beat the current ATB of <b>{fmt(atb)}</b>.<br><br>
+                    <b style='color:#f59e0b'>Why normalise?</b> EI and UCB have different scales so both
+                    are normalised to [0,1] before combining. The combined score picks the submission point.
+                  </div>
+                </div>""", unsafe_allow_html=True)
+            with c2:
+                st.markdown(f"""
+                <div style='background:#0a1020;border:1px solid #1e2d45;border-radius:10px;padding:16px 20px'>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.60rem;color:#38bdf8;
+                              text-transform:uppercase;letter-spacing:0.18em;margin-bottom:8px'>
+                    Upper Confidence Bound (UCB) · κ={kappa}</div>
+                  <div style='font-family:"IBM Plex Mono",monospace;font-size:0.82rem;color:#c8d4f0;line-height:1.85'>
+                    UCB answers: <b>what is the optimistic upper bound</b> on this point's score?<br><br>
+                    UCB = μ + κσ — the GP mean plus κ times the uncertainty.
+                    High κ = more exploration (trust uncertainty); low κ = more exploitation (trust mean).<br><br>
+                    For {fn} W{wk_idx+1}, κ={kappa} was chosen to
+                    {"favour exploitation — we are confident in the region" if kappa <= 2.0 else
+                     "encourage exploration — we want to probe uncertain regions"}.
+                  </div>
+                </div>""", unsafe_allow_html=True)
+
+    # ── Step 13: Submission dashboard
     # ── Step 13: Submission dashboard ────────────────────────────────────────
     elif step_key == "Step 13":
         sc = actuals[:n]
@@ -693,7 +795,7 @@ def render(fn, wk_idx):
         """, unsafe_allow_html=True)
 
     # ── Live chart
-    CHART_STEPS = {"Step 3","Step 4","Step 5","Step 5B","Step 6","Step 7","Step 7B","Step 8","Step 13"}
+    CHART_STEPS = {"Step 3","Step 4","Step 5","Step 5B","Step 6","Step 7","Step 7B","Step 8","Step 10","Step 11","Step 13"}
     if step_key in CHART_STEPS:
         st.markdown('<div class="sec-head">Live Chart — This Step</div>', unsafe_allow_html=True)
         render_step_chart(step_key, fn, wk_idx)

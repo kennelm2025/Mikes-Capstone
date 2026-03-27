@@ -1,0 +1,5 @@
+# F5 Week 10 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Linear SVM CV=100.0% | GP R2=1.0000
+# mu=8604.070620 sigma=39.635740 EI=1.232285
+# best=8662.482500 delta=-58.411880
+1.000000-1.000000-0.989930-1.000000

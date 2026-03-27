@@ -1,0 +1,127 @@
+BBO CAPSTONE — WEEK 10 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.911939-0.661887
+Function 2:  0.640219-0.040241
+Function 3:  0.929491-0.684416-0.621434
+Function 4:  0.476870-0.494027-0.420410-0.346682
+Function 5:  1.000000-1.000000-0.989930-1.000000
+Function 6:  0.389852-0.333817-0.652408-0.764251-0.078672
+Function 7:  0.125051-0.359133-0.441354-0.282350-0.330896-0.702888
+Function 8:  0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  Strategy        : EXPLORE -- NEAR-UNIFORM RANDOM
+  W9 Result       : -2.45e-183 -- 9th consecutive near-zero
+  True best used  : 8.84e-7 (W2) @ [0.684, 0.704]
+  EXPLOIT_RATIO   : 0.10  |  EXPLOIT_SIGMA : 0.45  |  TuRBO: EXPAND
+  UCB_KAPPA       : 4.0
+  Model           : Random Forest CV=77.8%  |  GP R2=1.0000
+  GP mu=-0.000084  sigma=0.000686  EI=0.000000
+  ATB best=0.000000  delta=-0.000084
+  Module 20       : Ollama 3-run strategic plan -- explore W10, W11 return to [0.684,0.704]
+  Submission      : 0.911939-0.661887
+
+F2 (2D)
+  Strategy        : RETURN TO ATB -- ANISO X2 LOCK LOW X2 REGION
+  W9 Result       : 0.6497 (matched ATB)
+  True best used  : 0.6497 (W5) @ [0.710, 0.162]
+  EXPLOIT_RATIO   : 0.95  |  ANISO_SIGMA : [0.012, 0.007]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Model           : CNN-1D CV=74.6%  |  GP R2=1.0000
+  GP mu=0.461298  sigma=0.185262  EI=0.013461
+  ATB best=0.649700  delta=-0.188402
+  Module 20       : Ollama 4-run unanimous -- X2=0.007 lock LOW X2 region (drift 0.777)
+  Submission      : 0.640219-0.040241
+
+F3 (3D)
+  Strategy        : EXPLOIT W6 ATB -- ANISO X1 GRADIENT RECOVERY
+  W9 Result       : -0.01348 (recovery from W8 -0.1132)
+  True best used  : -0.000707 (W6) @ [0.998, 0.621, 0.453]
+  EXPLOIT_RATIO   : 0.92  |  ANISO_SIGMA : [0.010, 0.018, 0.018]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Model           : Decision Tree CV=82.1%  |  GP R2=1.0000
+  GP mu=-0.040244  sigma=0.064640  EI=0.008242
+  ATB best=-0.000707  delta=-0.039537
+  Module 20       : Ollama 4-run unanimous -- X1=0.010 recover W1-W6 gradient toward 1.0
+  Submission      : 0.929491-0.684416-0.621434
+
+F4 (4D)
+  Strategy        : RETURN TO W2 ATB REGION -- ANISO EXPLOIT
+  W9 Result       : -1.4047 (corner exploration failed)
+  True best used  : 0.2376 (W2) @ [0.439, 0.415, 0.385, 0.398]
+  EXPLOIT_RATIO   : 0.60  |  ANISO_SIGMA : [0.060, 0.050, 0.100, 0.070]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 3.0
+  Model           : Random Forest CV=86.8%  |  GP R2=1.0000
+  GP mu=-0.109687  sigma=3.128594  EI=1.073076
+  ATB best=0.237600  delta=-0.347287
+  Module 20       : Ollama 3-run -- X1/X4 unanimous, X2/X3 non-stationary flip resolved
+  Submission      : 0.476870-0.494027-0.420410-0.346682
+
+F5 (4D)
+  Strategy        : EXPLOIT BOUNDARY [1,1,1,1] -- ANISO PROBE INTERIOR
+  W9 Result       : 8662.48 NEW ATB (4th consecutive improvement)
+  True best used  : 8662.48 (W9) @ [1.000, 1.000, 1.000, 1.000]
+  EXPLOIT_RATIO   : 0.92  |  ANISO_SIGMA : [0.010, 0.015, 0.025, 0.010]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Model           : Linear SVM CV=100.0%  |  GP R2=1.0000
+  GP mu=8604.070620  sigma=39.635740  EI=1.232285
+  ATB best=8662.482500  delta=-58.411880
+  Module 20       : Ollama 4-run unanimous -- X1/X4 tight boundary, X3=0.025 probe relaxation
+  Submission      : 1.000000-1.000000-0.989930-1.000000
+
+F6 (5D)
+  Strategy        : EXPLOIT W9 ATB -- ANISO LOCK
+  W9 Result       : 0.0360 NEW ATB
+  True best used  : 0.0360 (W9) @ [0.407, 0.339, 0.635, 0.769, 0.115]
+  EXPLOIT_RATIO   : 0.92  |  ANISO_SIGMA : [0.015, 0.012, 0.010, 0.020, 0.013]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Model           : Random Forest CV=82.1%  |  GP R2=1.0000
+  GP mu=0.141165  sigma=0.037502  EI=0.095215
+  ATB best=0.036017  delta=+0.105148
+  GP PREDICTS NEW BEST -- mu=0.141165 > ATB=0.036017
+  Module 20       : Ollama 6-run converged -- X3=0.010 dominant (sensitivity 3.11)
+  Submission      : 0.389852-0.333817-0.652408-0.764251-0.078672
+
+F7 (6D)
+  Strategy        : EXPLOIT W8 ATB -- ANISO X3 DOMINANT
+  W9 Result       : 2.5968 (slight regression from W8 ATB 2.5982)
+  True best used  : 2.5982 (W8) @ [0.096, 0.368, 0.413, 0.286, 0.337, 0.700]
+  EXPLOIT_RATIO   : 0.92  |  ANISO_SIGMA : [0.010, 0.030, 0.018, 0.020, 0.020, 0.030]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.5
+  Model           : Linear SVM CV=73.9%  |  GP R2=1.0000
+  GP mu=2.689531  sigma=0.050331  EI=0.082468
+  ATB best=2.598189  delta=+0.091342
+  GP PREDICTS NEW BEST -- mu=2.689531 > ATB=2.598189
+  Module 20       : Ollama 4-run unanimous -- X3=0.018 dominant (strongest capstone consensus)
+  Submission      : 0.125051-0.359133-0.441354-0.282350-0.330896-0.702888
+
+F8 (8D)
+  Strategy        : EXPLOIT ATB -- ANISO ZERO-BOUNDARY LOCK
+  W9 Result       : 9.8115 (gap to ATB = 0.021)
+  True best used  : 9.832 (W2) @ [0.000, 0.179, 0.000, 0.071, 0.929, 0.460, 0.000, 0.541]
+  EXPLOIT_RATIO   : 0.92  |  ANISO_SIGMA : [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020]  |  TuRBO: SHRINK
+  UCB_KAPPA       : 2.0
+  Model           : CNN-1D CV=89.3%  |  GP R2=1.0000
+  GP mu=9.895287  sigma=0.161139  EI=0.098813
+  ATB best=9.825098  delta=+0.070189
+  GP PREDICTS NEW BEST -- mu=9.895287 > current best 9.825098
+  Module 20       : Ollama 4-run iterative -- X4/X5/X6 unanimous, zero-boundary X1/X3/X7 locked
+  Submission      : 0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731
+
+=======================================================
+GP PREDICTIONS SUMMARY
+=======================================================
+
+  F6: mu=0.141 > ATB=0.036  --> PREDICTS NEW BEST (+0.105)
+  F7: mu=2.690 > ATB=2.598  --> PREDICTS NEW BEST (+0.091)
+  F8: mu=9.895 > ATB=9.825  --> PREDICTS NEW BEST (+0.070)
+
+=======================================================

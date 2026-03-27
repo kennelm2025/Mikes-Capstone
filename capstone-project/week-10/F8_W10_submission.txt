@@ -1,0 +1,5 @@
+# F8 Week 10 | Method: Adaptive+GP/EI | MAXIMIZE
+# Classifier: CNN-1D (learning) CV=89.3% | Surrogate: GP Matern5/2 | R2=1.0000
+# mu=9.895287 sigma=0.161139 EI=0.098813
+# best=9.825098 delta=+0.070189
+0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731

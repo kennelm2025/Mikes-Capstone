@@ -1,0 +1,117 @@
+======================================================================
+  BBO RUN REPORT — F7  Week 10
+  Generated : 2026-03-27 15:00:24
+======================================================================
+
+── DATA ────────────────────────────────────────────────────────────
+  Function    : F7
+  Week        : 10
+  Samples     : 38  |  Dims: 6D  |  n/p: 6.33
+  Y range     : [0.002701, 2.598189]
+  All-time best: 2.59818913  @ index 36
+  Best point  : [0.096399 0.368153 0.413112 0.285892 0.336821 0.699617]
+  Last week   : 2.59675397
+
+── HYPERPARAMETERS ─────────────────────────────────────────────────
+  TOP_PERCENTILE    = 30%
+  N_CANDIDATES      = 10,000
+  EXPLOIT_RATIO     = 0.92  (92% near best, 7% random)
+  EXPLOIT_SIGMA     = 0.01
+  UCB_KAPPA         = 2.5  (UCB = mu + 2.5*sigma)
+  EI_XI             = 0.01
+  GP_RESTARTS       = 8
+  FILTER_PERCENTILE = 50%  (keep top 50%)
+  RANDOM_SEED       = 42
+  NN_SMALL          = (16, 8)
+  NN_MEDIUM         = (64, 32)
+  NN_LARGE          = (128, 64, 32)
+
+── GP KERNEL ───────────────────────────────────────────────────────
+  Type            : ConstantKernel * Matern(nu=2.5)
+  Initial spec    : 1**2 * Matern(length_scale=1, nu=2.5)
+  Fitted spec     : 0.725**2 * Matern(length_scale=1.16, nu=2.5)
+  normalize_y     : True
+  alpha (nugget)  : 1e-6
+  n_restarts      : 8
+  Training R²     : 1.000000
+  Training RMSE   : 0.00005849
+  Fitted params   :
+    k1: 0.725**2
+    k2: Matern(length_scale=1.16, nu=2.5)
+    k1__constant_value: 0.5250014045729885
+    k1__constant_value_bounds: (0.001, 1000.0)
+    k2__length_scale: 1.1557601099654062
+    k2__length_scale_bounds: (0.01, 100.0)
+    k2__nu: 2.5
+
+── CLASSIFICATION ──────────────────────────────────────────────────
+  Label threshold : 0.55812348  (top 30%)
+  Class 1 (HIGH)  : 12 samples
+  Class 0 (LOW)   : 26 samples
+  CV folds        : 5
+
+  All model results (5-fold CV):
+  Model                             CV Mean    CV Std  Selected
+  ----------------------------------------------------------
+  Linear SVM                         0.7393    0.1087  ★ SELECTED
+  Logistic Regression                0.7393    0.1087  
+  CNN-1D (learning)                  0.7143    0.1174  
+  Random Forest                      0.7107    0.1285  
+  Decision Tree                      0.6821    0.1843  
+  NN-Large (128, 64, 32)             0.6321    0.0915  
+  NN-Medium (64, 32)                 0.4786    0.2012  
+  NN-Small (16, 8)                   0.3393    0.0904  
+
+── ACQUISITION ─────────────────────────────────────────────────────
+  Method    : EI (primary) + UCB (reference)
+  EI formula: (mu - y_best - xi)*Phi(Z) + sigma*phi(Z)
+  UCB formula: mu + 2.5*sigma
+  Direction : MAXIMIZE — argmax
+  EI max    : 0.08246819
+  UCB max   : 2.85632315
+  % EI > 0  : 100.0%
+
+── PER-DIMENSION ANALYSIS ──────────────────────────────────────────
+  Dim        Best   Submit   Sensitivity   EI peak  UCB peak Agree
+  ------------------------------------------------------------------
+  X1       0.0964   0.1251      1.863298    0.1859    0.2613 YES
+  X2       0.3682   0.3591      1.669289    0.3116    0.2513 YES
+  X3       0.4131   0.4414      1.828457    0.4874    0.5678 YES
+  X4       0.2859   0.2823      0.009892    0.2161    0.1457 YES
+  X5       0.3368   0.3309      1.249399    0.2663    0.2010 YES
+  X6       0.6996   0.7029      0.003811    0.7538    0.8141 YES
+
+── SUBMISSION ──────────────────────────────────────────────────────
+  Point     : [0.12505112 0.35913307 0.4413542  0.28234994 0.33089635 0.70288772]
+  GP mu     : 2.68953139
+  GP sigma  : 0.05033062
+  EI        : 0.08246819
+  UCB       : 2.81535795
+  EI driver : exploitation
+  Delta vs best: +0.09134225
+  Prediction: NEW BEST
+
+  FORMATTED STRING:
+  0.125051-0.359133-0.441354-0.282350-0.330896-0.702888
+
+── VISUALISATIONS PRODUCED ─────────────────────────────────────────
+  ✅  F7_W10_Step3_History.png
+       Historical performance: all evaluations, running best, value distribution
+  ✅  F7_W10_Step6_ModelPredictions.png
+       All 7 model P(class=1) prediction distributions + agreement correlation matrix
+  ✅  F7_W10_Step7_ModelComparison.png
+       CV accuracy bar chart + per-fold accuracy lines for all 7 models
+  ✅  F7_W10_Step11a_GlobalAcquisition.png
+       Global EI acquisition curve (log) and UCB acquisition curve (sorted)
+  ✅  F7_W10_Step11b_EI_PerDimension.png
+       EI acquisition curve per dimension — sweeping each dim 0→1
+  ✅  F7_W10_Step11c_UCB_PerDimension.png
+       UCB acquisition curve per dimension — sweeping each dim 0→1
+  ⚠️ (not yet saved)  F7_W10_Step12_AcquisitionSurface.png
+       GP mean, EI, UCB contour surfaces on top-2 sensitive dimensions
+  ✅  F7_W10_Step13_Dashboard.png
+       Full submission dashboard: history, coordinates, EI decomp, summary table
+
+======================================================================
+  END OF REPORT — F7 Week 10
+======================================================================

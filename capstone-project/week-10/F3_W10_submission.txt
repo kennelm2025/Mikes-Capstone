@@ -1,0 +1,5 @@
+# F3 Week 10 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Decision Tree CV=82.1% | GP R2=1.0000
+# mu=-0.040244 sigma=0.064640 EI=0.008242
+# best=-0.000707 delta=-0.039537
+0.929491-0.684416-0.621434

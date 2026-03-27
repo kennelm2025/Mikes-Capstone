@@ -13,7 +13,7 @@ HOW TO UPDATE EACH WEEK:
 """
 
 # ── Single source-of-truth: update this every week ───────────────────────────
-CURRENT_WEEK = 9   # ← increment after each portal result
+CURRENT_WEEK = 10  # ← increment after each portal result
 
 # ── Function metadata ─────────────────────────────────────────────────────────
 FUNCTIONS = {
@@ -37,14 +37,14 @@ FUNCTIONS = {
 
 # ── Week-by-week scores (W1–W7 actuals) ──────────────────────────────────────
 SCORES = {
-    "F1": [0.0,        8.84e-7,    5.17e-96,   1.66e-9,    -5.44e-7,   1.67e-85,   -2.22e-17,  1.26e-49,   None],
-    "F2": [0.5246,     0.2847,     -0.0298,    0.0188,     0.6497,     0.5844,     0.5338,     0.4926,     None],
-    "F3": [-0.01358,   -0.03277,   -0.08337,   -0.13795,   -0.05900,   -0.000707,  -0.00534,   -0.1132,    None],
-    "F4": [-2.6271,    0.2376,     -0.9620,    -0.5268,    -2.4571,    -0.1294,    -0.2651,    -0.5542,    None],
-    "F5": [60.07,      4062.1,     4890.6,     2913.0,     24.48,      5875.1,     7596.79,    8382.47,    None],
-    "F6": [-1.3389,    -0.2372,    -0.8835,    -0.3630,    -1.7662,    -0.1727,    -0.3422,    -0.4006,    None],
-    "F7": [0.8085,     1.7392,     1.7358,     1.1399,     0.5763,     2.1190,     2.4134,     2.5982,     None],
-    "F8": [9.0093,     9.8320,     9.8188,     9.3341,     8.9560,     9.7741,     9.8251,     9.8021,     None],
+    "F1": [0.0,        8.84e-7,    5.17e-96,   1.66e-9,    -5.44e-7,   1.67e-85,   -2.22e-17,  1.26e-49,   -2.447e-183, None],
+    "F2": [0.5246,     0.2847,     -0.0298,    0.0188,     0.6497,     0.5844,     0.5338,     0.4926,     0.6497,     None],
+    "F3": [-0.01358,   -0.03277,   -0.08337,   -0.13795,   -0.05900,   -0.000707,  -0.00534,   -0.1132,    -0.01348,   None],
+    "F4": [-2.6271,    0.2376,     -0.9620,    -0.5268,    -2.4571,    -0.1294,    -0.2651,    -0.5542,    -1.4047,    None],
+    "F5": [60.07,      4062.1,     4890.6,     2913.0,     24.48,      5875.1,     7596.79,    8382.47,    8662.48,    None],
+    "F6": [-1.3389,    -0.2372,    -0.8835,    -0.3630,    -1.7662,    -0.1727,    -0.3422,    -0.4006,    0.0360,     None],
+    "F7": [0.8085,     1.7392,     1.7358,     1.1399,     0.5763,     2.1190,     2.4134,     2.5982,     2.5968,     None],
+    "F8": [9.0093,     9.8320,     9.8188,     9.3341,     8.9560,     9.7741,     9.8251,     9.8021,     9.8115,     None],
 }
 # W7 actuals will be filled in after Tudor portal results received
 # Submission strings:
@@ -59,14 +59,14 @@ SCORES = {
 
 # ── GP W7 predictions (mu, sigma from EI winner) ─────────────────────────────
 W7_PRED = {
-    "F1": {"mu": 0.0,       "sigma": 0.0,      "ucb": 0.0},
-    "F2": {"mu": 0.6412,    "sigma": 0.018,    "ucb": 0.677},
-    "F3": {"mu": -0.00045,  "sigma": 0.0008,   "ucb": 0.00115},
-    "F4": {"mu": 0.2201,    "sigma": 0.022,    "ucb": 0.264},
-    "F5": {"mu": 5821.2,    "sigma": 145.5,    "ucb": 6112.2},
-    "F6": {"mu": -0.1512,   "sigma": 0.028,    "ucb": -0.095},
-    "F7": {"mu": 2.0920,    "sigma": 0.1448,   "ucb": 2.454},
-    "F8": {"mu": 9.878,     "sigma": 0.019,    "ucb": 9.916},
+    "F1": {"mu": -0.000084, "sigma": 0.000686, "ucb": 0.001},
+    "F2": {"mu": 0.461298,  "sigma": 0.185262, "ucb": 0.832},
+    "F3": {"mu": -0.040244, "sigma": 0.064640, "ucb": 0.089},
+    "F4": {"mu": -0.109687, "sigma": 3.128594, "ucb": 6.147},
+    "F5": {"mu": 8604.07,   "sigma": 39.636,   "ucb": 8683.3},
+    "F6": {"mu": 0.141165,  "sigma": 0.037502, "ucb": 0.216},
+    "F7": {"mu": 2.689531,  "sigma": 0.050331, "ucb": 2.815},
+    "F8": {"mu": 9.895287,  "sigma": 0.161139, "ucb": 10.218},
 }
 
 # ── Submitted coordinates per week (W1–W7) ───────────────────────────────────
@@ -164,132 +164,148 @@ COORDS = {
 # ── W8 Strategy per function ──────────────────────────────────────────────────
 STRATEGY = {
     "F1": {
-        "action": "EXPLORE — EXTREME WIDENING",
-        "exploit_ratio": 0.15,
+        "action": "EXPLORE — NEAR-UNIFORM RANDOM",
+        "exploit_ratio": 0.10,
         "sigma": 0.45,
         "sigma_type": "isotropic",
         "ucb_kappa": 4.0,
         "gp_restarts": 5,
         "turbo": "EXPAND",
         "rationale": (
-            "W8 = 1.26e-49 — 8th near-zero. Maximum-entropy search: σ=0.45 (full-space), ratio=0.15. "
-            "Wei et al. (2022) / Module 19: high-temperature sampling when landscape is flat."
+            "W9 = -2.45e-183 — 9 consecutive near-zero. Near-uniform random sigma=0.45, ratio=0.10. "
+            "Ollama 3-run plan: explore W10, return to ATB region [0.684,0.704] in W11-W12. "
+            "Wei et al. (2022) / Module 20: high-temperature sampling."
         ),
         "best_week": "W2 (8.84e-7)",
-        "pattern": "Flat — no dominant region found across 8 weeks",
-        "w9_submission": "[PENDING]",
+        "pattern": "Flat — no dominant region after 9 weeks",
+        "w9_submission": "0.979878-1.000000",
+        "w10_submission": "0.911939-0.661887",
     },
     "F2": {
-        "action": "RETURN TO W5 ATB — PRECISION LOCK",
+        "action": "RETURN TO ATB — ANISO X2 LOCK LOW X2 REGION",
         "exploit_ratio": 0.95,
-        "sigma": 0.008,
-        "sigma_type": "isotropic",
+        "sigma": [0.012, 0.007],
+        "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 5,
         "turbo": "SHRINK",
         "rationale": (
-            "W8 = 0.4926 — X2 drifted to 0.043. Return to W5 ATB [0.710, 0.162]: σ=0.008 (2σ=±0.016), ratio=0.95. "
-            "Kaplan et al. (2020) / Module 19: low-temperature precision sampling."
+            "W9 = 0.6497 (matched ATB). Ollama 4-run unanimous: X2=0.007 lock LOW X2 region. "
+            "Bimodal landscape — LOW X2 (~0.16) yields ATB, HIGH X2 (~0.93) inferior. "
+            "Kaplan et al. (2020) / Module 20: low-temperature precision sampling."
         ),
-        "best_week": "W5 (0.6497)",
-        "pattern": "Strong peak at X2≈0.16, X1≈0.71",
-        "w9_submission": "[PENDING]",
+        "best_week": "W5 / W9 (0.6497)",
+        "pattern": "Bimodal: LOW X2 (~0.16) = ATB region; HIGH X2 (~0.93) = inferior",
+        "w9_submission": "0.710000-0.162000",
+        "w10_submission": "0.640219-0.040241",
     },
     "F3": {
-        "action": "RETURN TO W7 ATB — PRECISION LOCK",
+        "action": "EXPLOIT W6 ATB — ANISO X1 GRADIENT RECOVERY",
         "exploit_ratio": 0.92,
-        "sigma": 0.015,
-        "sigma_type": "isotropic",
+        "sigma": [0.010, 0.018, 0.018],
+        "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 6,
         "turbo": "SHRINK",
         "rationale": (
-            "W8 = -0.1132 — X3 drifted to 0.192. Return to W7 ATB region [1.000, 0.572, 0.504]: "
-            "σ=0.015, ratio=0.92. Shannon (1948) / Module 19: delimiting context."
+            "W9 = -0.01348 (recovery). Ollama 4-run unanimous: X1=0.010 recover W1-W6 gradient toward 1.0. "
+            "Full 9-week history sent to LLM. Gradient language in all 4 runs. "
+            "Shannon (1948) / Module 20: delimiting context to confirmed ATB region."
         ),
         "best_week": "W6 (-0.000707)",
-        "pattern": "X1 → 1.0 boundary dominates; X2/X3 near [0.57, 0.50]",
-        "w9_submission": "[PENDING]",
+        "pattern": "X1 gradient toward 1.0 established W1-W6; X2/X3 free",
+        "w9_submission": "0.750421-0.591494-0.448064",
+        "w10_submission": "0.929491-0.684416-0.621434",
     },
     "F4": {
-        "action": "EXPLORE — BOUNDARY CORNERS",
-        "exploit_ratio": 0.25,
-        "sigma": 0.18,
-        "sigma_type": "isotropic",
-        "ucb_kappa": 3.5,
+        "action": "RETURN TO W2 ATB — ANISO EXPLOIT",
+        "exploit_ratio": 0.60,
+        "sigma": [0.060, 0.050, 0.100, 0.070],
+        "sigma_type": "anisotropic",
+        "ucb_kappa": 3.0,
         "gp_restarts": 8,
-        "turbo": "EXPAND",
+        "turbo": "SHRINK",
         "rationale": (
-            "W8 = -0.5542 — exploring. Try boundary corners [0.1×4],[0.9×4]: ratio=0.25, σ=0.18, κ=3.5. "
-            "Wei et al. (2022) / Module 19: high-temperature sampling when landscape unknown."
+            "W9 = -1.4047 — corner exploration failed. Return to W2 ATB [0.439,0.415,0.385,0.398]. "
+            "Ollama 3-run: X1/X4 unanimous, X2/X3 non-stationary flip resolved at midpoints. "
+            "Vaswani et al. (2017) / Module 20: anisotropic sigma per-dim structure."
         ),
         "best_week": "W2 (+0.2376)",
-        "pattern": "Landscape unknown post-inject — exploring boundary corners",
-        "w9_submission": "[PENDING]",
+        "pattern": "Non-stationary — returning to W2 ATB region [0.439,0.415,0.385,0.398]",
+        "w9_submission": "0.522075-0.389882-0.430921-0.356775",
+        "w10_submission": "0.476870-0.494027-0.420410-0.346682",
     },
     "F5": {
-        "action": "PUSH X1→1.0 — LOCKED AT BOUNDARY",
+        "action": "EXPLOIT BOUNDARY [1,1,1,1] — ANISO PROBE",
         "exploit_ratio": 0.92,
-        "sigma": 0.025,
-        "sigma_type": "isotropic",
-        "ucb_kappa": 2.0,
-        "gp_restarts": 8,
-        "turbo": "SHRINK",
-        "rationale": (
-            "W8 = 8382.47 NEW ATB. X1=0.985 — push to 1.0: σ=0.025, ratio=0.92. X2-X4 locked. "
-            "Kaplan et al. (2020) / Module 19: gradient commit toward confirmed boundary."
-        ),
-        "best_week": "W8 (8382.47)",
-        "pattern": "X2=X3=X4=1.0 boundary; X1 increasing (0.78→0.99)",
-        "w9_submission": "[PENDING]",
-    },
-    "F6": {
-        "action": "PRECISION LOCK W6 ATB",
-        "exploit_ratio": 0.92,
-        "sigma": 0.018,
-        "sigma_type": "isotropic",
-        "ucb_kappa": 2.0,
-        "gp_restarts": 8,
-        "turbo": "SHRINK",
-        "rationale": (
-            "W8 = -0.4006 — drift continued. Pin to W6 ATB [0.427, 0.326, 0.598, 0.780, 0.144]: "
-            "σ=0.018, ratio=0.92. Shannon (1948) / Module 19: delimiting context in 5D."
-        ),
-        "best_week": "W6 (-0.1727)",
-        "pattern": "X4 high (~0.78), X5 low (~0.14)",
-        "w9_submission": "[PENDING]",
-    },
-    "F7": {
-        "action": "ANISOTROPIC σ TIGHTEN — W8 NEW ATB",
-        "exploit_ratio": 0.92,
-        "sigma": [0.010, 0.025, 0.025, 0.025, 0.025, 0.025],
+        "sigma": [0.010, 0.015, 0.025, 0.010],
         "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 8,
         "turbo": "SHRINK",
         "rationale": (
-            "W8 = 2.5982 NEW ATB. Tighten: X1 σ=0.010, X2-X6 σ=0.025, ratio=0.92. "
-            "Vaswani et al. (2017) / Module 19: per-dimension σ mirrors per-head attention specialisation."
+            "W9 = 8662.48 NEW ATB. Ollama 4-run unanimous: X1/X4 tight boundary, X3=0.025 free probe. "
+            "4 consecutive new bests W6-W9. X3 relaxation may unlock further improvement. "
+            "Kaplan et al. (2020) / Module 20: gradient commit to confirmed boundary."
+        ),
+        "best_week": "W9 (8662.48)",
+        "pattern": "All dims at boundary 1.0 — probing X3 relaxation this week",
+        "w9_submission": "1.000000-1.000000-1.000000-1.000000",
+        "w10_submission": "1.000000-1.000000-0.989930-1.000000",
+    },
+    "F6": {
+        "action": "EXPLOIT W9 ATB — ANISO LOCK",
+        "exploit_ratio": 0.92,
+        "sigma": [0.015, 0.012, 0.010, 0.020, 0.013],
+        "sigma_type": "anisotropic",
+        "ucb_kappa": 2.0,
+        "gp_restarts": 8,
+        "turbo": "SHRINK",
+        "rationale": (
+            "W9 = 0.0360 NEW ATB — first positive F6 result. "
+            "Ollama 6-run converged: X3 dominant (sensitivity 3.11), tightest sigma. "
+            "GP predicts new best mu=0.141. Vaswani et al. (2017) / Module 20."
+        ),
+        "best_week": "W9 (0.0360)",
+        "pattern": "X3 dominant — first positive result W9; X4 high, X5 low confirmed",
+        "w9_submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        "w10_submission": "0.389852-0.333817-0.652408-0.764251-0.078672",
+    },
+    "F7": {
+        "action": "EXPLOIT W8 ATB — ANISO X3 DOMINANT",
+        "exploit_ratio": 0.92,
+        "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030],
+        "sigma_type": "anisotropic",
+        "ucb_kappa": 2.5,
+        "gp_restarts": 8,
+        "turbo": "SHRINK",
+        "rationale": (
+            "W9 = 2.5968 (slight regression from W8 ATB 2.5982). "
+            "Ollama 4-run unanimous: X3=0.018 dominant — strongest consensus in capstone. "
+            "GP predicts new best mu=2.690. Vaswani et al. (2017) / Module 20."
         ),
         "best_week": "W8 (2.5982)",
-        "pattern": "X1 near-zero (~0.08-0.10), X6 elevated (~0.69-0.70)",
-        "w9_submission": "[PENDING]",
+        "pattern": "X1 near-zero anchor (~0.09); X3 dominant; X6 elevated (~0.70)",
+        "w9_submission": "0.096000-0.368000-0.413000-0.286000-0.337000-0.700000",
+        "w10_submission": "0.125051-0.359133-0.441354-0.282350-0.330896-0.702888",
     },
     "F8": {
-        "action": "ANISOTROPIC σ — PER-DIM BOUNDARY LOCK",
+        "action": "EXPLOIT ATB — ANISO ZERO-BOUNDARY LOCK",
         "exploit_ratio": 0.92,
-        "sigma": [0.008, 0.015, 0.008, 0.030, 0.020, 0.015, 0.008, 0.030],
+        "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020],
         "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 10,
         "turbo": "SHRINK",
         "rationale": (
-            "W8 = 9.8021. First anisotropic F8: X1/X3/X7 σ=0.008 (zero-boundary), X5/X8 σ=0.030. "
-            "Vaswani et al. (2017) / Module 19: per-dim structure = per-head specialisation."
+            "W9 = 9.8115. Ollama 4-run iterative: X4/X5/X6 unanimous; zero-boundary X1/X3/X7 locked. "
+            "GP predicts new best mu=9.895. CNN-1D won CV=89.3%. "
+            "Vaswani et al. (2017) / Module 20: zero-boundary dims = zero-attention heads."
         ),
         "best_week": "W2 (9.8320)",
-        "pattern": "X1≈0, X3≈0, X7≈0 near-zero; X5≈0.93 elevated",
-        "w9_submission": "[PENDING]",
+        "pattern": "X1/X3/X7 zero-boundary locked; X5/X8 free; closing gap to W2 ATB",
+        "w9_submission": "0.040831-0.318869-0.000000-0.292836-0.417265-0.522722-0.161505-0.827640",
+        "w10_submission": "0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731",
     },
 }
 # ── W9 Summary at a glance ────────────────────────────────────────────────────
@@ -319,14 +335,14 @@ TURBO_SUMMARY = {
 }
 # ── Winning classifiers per function (W7) ────────────────────────────────────
 CLASSIFIERS = {
-    "F1": {"name": "Linear SVM",         "cv": 0.750, "std": 0.14, "family": "SVM"},
-    "F2": {"name": "Logistic Regression", "cv": 0.833, "std": 0.10, "family": "LogReg"},
-    "F3": {"name": "Random Forest",       "cv": 0.833, "std": 0.10, "family": "RF"},
-    "F4": {"name": "Linear SVM",          "cv": 0.833, "std": 0.12, "family": "SVM"},
-    "F5": {"name": "Random Forest",       "cv": 0.880, "std": 0.08, "family": "RF"},
-    "F6": {"name": "Random Forest",       "cv": 0.833, "std": 0.10, "family": "RF"},
-    "F7": {"name": "Linear SVM",          "cv": 0.771, "std": 0.19, "family": "SVM"},
-    "F8": {"name": "Decision Tree",       "cv": 0.867, "std": 0.08, "family": "DT"},
+    "F1": {"name": "Random Forest",      "cv": 0.778, "std": 0.12, "family": "RF"},
+    "F2": {"name": "CNN-1D",             "cv": 0.746, "std": 0.11, "family": "CNN"},
+    "F3": {"name": "Decision Tree",      "cv": 0.821, "std": 0.10, "family": "DT"},
+    "F4": {"name": "Random Forest",      "cv": 0.868, "std": 0.09, "family": "RF"},
+    "F5": {"name": "Linear SVM",         "cv": 1.000, "std": 0.00, "family": "SVM"},
+    "F6": {"name": "Random Forest",      "cv": 0.821, "std": 0.10, "family": "RF"},
+    "F7": {"name": "Linear SVM",         "cv": 0.739, "std": 0.18, "family": "SVM"},
+    "F8": {"name": "CNN-1D",             "cv": 0.893, "std": 0.08, "family": "CNN"},
 }
 
 # ── All 8 model CV results per function (W8 actuals for F1-F3, W7 for F4-F8) ─
@@ -443,6 +459,8 @@ PIPELINE_STEPS = [
      "desc": "Computes EI (Expected Improvement) and UCB (μ + κσ) over filtered candidates. Selects submission = argmax(norm(EI) + norm(UCB))."},
     {"step": "Step 11", "title": "Acquisition Curves",      "icon": "📉",
      "desc": "Per-dimension EI and UCB sweeps. Shows how each dimension contributes to acquisition signal."},
+    {"step": "Step 11B","title": "Ollama LLM Advisor",      "icon": "🤖",
+     "desc": "Module 20: Ollama llama3.1 receives GP sensitivity scores + full submission history. Recommends per-dimension anisotropic sigma in 3-4 iterative runs. Temperature 0.3 (0.7 for F1 strategic)."},
     {"step": "Step 12", "title": "GP Surfaces",             "icon": "🗺️",
      "desc": "2D contour plots of GP μ, σ, EI, UCB over top-2 sensitive dimensions. Best point (★) and submission (◆) overlaid."},
     {"step": "Step 13", "title": "Submission Dashboard",    "icon": "🏆",
@@ -538,7 +556,14 @@ WEEKLY = {
             "hp_rationale": "Extreme explore: ratio=0.15 (85% random), σ=0.45 (effective full-space coverage), κ=4.0. High-temperature sampling — Wei et al. (2022): maximise entropy when landscape is flat. Module 19.",
             "learned": "Awaiting W9 result.",
             "experiment": "Maximum-entropy search. Nine consecutive near-zero weeks — either a spike will be found or F1 is confirmed globally flat.",
-            "submission": "[PENDING]",
+            "submission": "0.979878-1.000000",
+        },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.10, "sigma": 0.45, "ucb_kappa": 4.0, "gp_restarts": 5},
+            "hp_rationale": "Near-uniform random sigma=0.45, ratio=0.10. Ollama 3-run strategic plan: W10 explore, W11 return to ATB region, W12 tight exploit.",
+            "learned": "W10 submitted — awaiting portal result.",
+            "experiment": "Module 20 Ollama Step 11B: strategic history reasoning (temp=0.7). Phased 3-query plan for F1 remaining budget.",
+            "submission": "0.911939-0.661887",
         },
     ],
     "F2": [
@@ -605,6 +630,13 @@ WEEKLY = {
             "experiment": "Return precisely to W5 ATB [0.710, 0.162]. Four consecutive regressions — σ=0.008 should prevent X2 drift.",
             "submission": "0.710000-0.162000",
         },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.95, "sigma": [0.012, 0.007], "ucb_kappa": 2.0, "gp_restarts": 5},
+            "hp_rationale": "Anisotropic: X1=0.012 wider, X2=0.007 tightest (lock LOW X2 region). Ollama 4-run unanimous — X2=0.007 most consistent capstone result.",
+            "learned": "W10 submitted — awaiting portal result.",
+            "experiment": "Module 20 Ollama Step 11B: 4-run unanimous. Two-region landscape context produced zero divergence. X2 drift 0.777 flagged all runs.",
+            "submission": "0.640219-0.040241",
+        },
     ],
     "F3": [
         {  # W1
@@ -668,7 +700,14 @@ WEEKLY = {
             "hp_rationale": "Tighten: σ=0.015 (2σ=±0.030), ratio=0.92. Delimiting context — Shannon (1948): narrow distribution = higher information per query. Module 19. Target: W7 ATB region [1.000, 0.572, 0.504].",
             "learned": "Awaiting W9 result.",
             "experiment": "Return to W7 ATB coords after W8 X3 drift. σ=0.015 confines X3 within ±0.030 of 0.504.",
-            "submission": "1.000000-0.572000-0.504000",
+            "submission": "0.750421-0.591494-0.448064",
+        },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.018, 0.018], "ucb_kappa": 2.0, "gp_restarts": 6},
+            "hp_rationale": "Anisotropic: X1=0.010 (gradient recovery), X2/X3=0.018 free. Ollama 4-run unanimous. History-enhanced prompt.",
+            "learned": "W10 submitted — awaiting portal result.",
+            "experiment": "Module 20 Ollama Step 11B: 4-run unanimous (4th run confirmed free for X3). All runs used gradient language.",
+            "submission": "0.929491-0.684416-0.621434",
         },
     ],
     "F4": [
@@ -733,7 +772,14 @@ WEEKLY = {
             "hp_rationale": "Continue wide explore: ratio=0.25 (75% random), σ=0.18, κ=3.5. High-temperature sampling — Wei et al. (2022): landscape unknown after inject failure. Module 19. Try boundary corners [0.1×4],[0.9×4].",
             "learned": "Awaiting W9 result.",
             "experiment": "Boundary-corner exploration after two wide-explore weeks. Testing whether F4 peak is near the corner of [0,1]⁴.",
-            "submission": "[PENDING]",
+            "submission": "0.522075-0.389882-0.430921-0.356775",
+        },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.60, "sigma": [0.060, 0.050, 0.100, 0.070], "ucb_kappa": 3.0, "gp_restarts": 8},
+            "hp_rationale": "Return to W2 ATB region. Ollama 3-run: X1/X4 unanimous, X2/X3 non-stationary midpoints.",
+            "learned": "W10 submitted — awaiting portal result.",
+            "experiment": "Module 20 Ollama Step 11B: 3-run non-stationary. X2/X3 flip is key Module 20 finding — non-stationary GP gives Ollama contradictory data.",
+            "submission": "0.476870-0.494027-0.420410-0.346682",
         },
     ],
     "F5": [
@@ -800,6 +846,13 @@ WEEKLY = {
             "experiment": "Push X1 from 0.985 → 1.0 with tighter σ. W8 confirmed monotonic X1 → 1.0 trend.",
             "submission": "1.000000-1.000000-1.000000-1.000000",
         },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.015, 0.025, 0.010], "ucb_kappa": 2.0, "gp_restarts": 8},
+            "hp_rationale": "Anisotropic: X1/X4=0.010 boundary locks, X3=0.025 free probe. Ollama 4-run unanimous. Linear SVM CV=100%.",
+            "learned": "W10 submitted — awaiting portal result.",
+            "experiment": "Module 20 Ollama Step 11B: 4-run unanimous. X3 given free sigma to probe relaxation below boundary. CV=100% is capstone first.",
+            "submission": "1.000000-1.000000-0.989930-1.000000",
+        },
     ],
     "F6": [
         {  # W1
@@ -863,7 +916,14 @@ WEEKLY = {
             "hp_rationale": "Precision lock: σ=0.018, ratio=0.92. Delimiting context — Shannon (1948): constrain to known-good region. Module 19. Pin to W6 ATB [0.427, 0.326, 0.598, 0.780, 0.144].",
             "learned": "Awaiting W9 result.",
             "experiment": "Direct lock on W6 ATB coordinates. W8 σ=0.025 still saw X4/X5 drift — W9 tightens further.",
-            "submission": "0.427000-0.326000-0.598000-0.780000-0.144000",
+            "submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.015, 0.012, 0.010, 0.020, 0.013], "ucb_kappa": 2.0, "gp_restarts": 8},
+            "hp_rationale": "Anisotropic: X3=0.010 tightest (dominant, sensitivity 3.11). Ollama 6-run experiment — most extensive.",
+            "learned": "W10 submitted — awaiting portal result. GP predicts new best mu=0.141 vs ATB=0.036.",
+            "experiment": "Module 20 Ollama Step 11B: 6 iterative rounds. X3 dominant every run. Strongest GP prediction of W10 (+0.105).",
+            "submission": "0.389852-0.333817-0.652408-0.764251-0.078672",
         },
     ],
     "F7": [
@@ -930,6 +990,13 @@ WEEKLY = {
             "experiment": "Third consecutive anisotropic submission. W8 new best 2.5982 — W9 tightens further around X1 near-zero anchor.",
             "submission": "0.096000-0.368000-0.413000-0.286000-0.337000-0.700000",
         },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030], "ucb_kappa": 2.5, "gp_restarts": 8},
+            "hp_rationale": "Anisotropic: X1=0.010 anchor, X3=0.018 dominant, X2/X6=0.030 free. Ollama 4-run unanimous — strongest capstone consensus.",
+            "learned": "W10 submitted — awaiting portal result. GP predicts new best mu=2.690 vs ATB=2.598.",
+            "experiment": "Module 20 Ollama Step 11B: 4-run unanimous. X3=0.018 strongest sigma consensus in entire capstone. GP +0.091 prediction.",
+            "submission": "0.125051-0.359133-0.441354-0.282350-0.330896-0.702888",
+        },
     ],
     "F8": [
         {  # W1
@@ -993,7 +1060,14 @@ WEEKLY = {
             "hp_rationale": "Anisotropic: X1/X3/X7 σ=0.008 (zero-boundary dims tightest), X2/X6 σ=0.015, X5/X8 σ=0.030 (free dims). Multi-head attention — Vaswani et al. (2017): per-dimension structure. Module 19.",
             "learned": "Awaiting W9 result.",
             "experiment": "First anisotropic F8 submission. Per-dimension σ based on W2 ATB structure: X1=X3=X7≈0 → tight; X5≈0.93 → looser.",
-            "submission": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
+            "submission": "0.040831-0.318869-0.000000-0.292836-0.417265-0.522722-0.161505-0.827640",
+        },
+        {  # W10
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "Anisotropic: X1/X3/X7=0.006 zero-boundary locks, X5=0.025, X6=0.030 free, X8=0.020. Ollama 4-run iterative.",
+            "learned": "W10 submitted — awaiting portal result. GP predicts new best mu=9.895 vs ATB=9.825.",
+            "experiment": "Module 20 Ollama Step 11B: 4-run iterative. X4/X5/X6 unanimous. X8 settled at 0.020 (overcorrected R1). CNN-1D CV=89.3%.",
+            "submission": "0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731",
         },
     ],
 }

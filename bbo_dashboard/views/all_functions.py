@@ -110,8 +110,8 @@ def render(wk_idx=None):
     fns_list = list(FUNCTIONS.keys())
     # Heatmap shows all actual transitions — CURRENT_WEEK-1 actuals, so CURRENT_WEEK-2 transitions
     # (last week is always pending/None, so actual count = CURRENT_WEEK-1)
-    _n_actuals    = CURRENT_WEEK - 1          # 8 actual weeks at W9
-    n_transitions = _n_actuals - 1            # 7 transitions W1→W2 … W7→W8
+    _n_actuals    = CURRENT_WEEK - 1          # 9 actual weeks at W10
+    n_transitions = _n_actuals - 1            # 8 transitions W1→W2 … W8→W9
     weeks         = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
 
     z_matrix, text_matrix = [], []
@@ -191,7 +191,7 @@ def render(wk_idx=None):
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
     # ── W7 submission strings table ───────────────────────────────────────────
-    st.markdown('<div class="sec-head">Submission Strings — All Functions · W1–W8 Actuals (64 rows · scroll)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">Submission Strings — All Functions · W1–W9 Actuals + W10 Submitted (80 rows · scroll)</div>', unsafe_allow_html=True)
 
     rows_html = ""
     for fn in FUNCTIONS:
@@ -229,4 +229,4 @@ def render(wk_idx=None):
     </table>
     </div>
     """, unsafe_allow_html=True)
-    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score · W9 pending rows hidden")
+    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score · W10 pending result rows hidden")

@@ -12,9 +12,11 @@ def render(fn, wk_idx):
     info     = FUNCTIONS[fn]
     maximize = info["objective"] == "MAXIMISE"
     scores   = SCORES[fn]
-    actuals  = [s for s in scores if s is not None]
-    atb      = get_all_time_best(fn)
-    strat    = STRATEGY[fn]       # W7 strategy
+    actuals  = [s for s in scores if s is not None]  # full list for ATB calc
+    # Slice to selected week for chart — only show data up to wk_idx
+    actuals_display = actuals[:wk_idx+1]
+    atb      = get_all_time_best(fn)   # all-time (used for ATB card)
+    strat    = STRATEGY[fn]
     clf      = CLASSIFIERS[fn]
     weekly   = WEEKLY[fn][wk_idx]
     week_label = f"W{wk_idx+1}"
@@ -48,7 +50,11 @@ def render(fn, wk_idx):
     st.markdown(tabs_html + "<div style='font-size:0.65rem;color:#5a6a8a;font-family:IBM Plex Mono,monospace;margin-bottom:1rem'>← Use sidebar Week selector to navigate</div>", unsafe_allow_html=True)
 
     # ── KPI row ───────────────────────────────────────────────────────────────
-    is_best = (score_this_wk == atb) if score_this_wk is not None else False
+    # ATB as of selected week (not all-time)
+    actuals_to_wk = [s for s in scores[:wk_idx+1] if s is not None]
+    atb_to_wk = (max(actuals_to_wk) if maximize else min(actuals_to_wk)) if actuals_to_wk else atb
+    best_wk_num = actuals_to_wk.index(atb_to_wk) + 1 if actuals_to_wk else '?'
+    is_best = (score_this_wk == atb_to_wk) if score_this_wk is not None else False
     prev_score = scores[wk_idx-1] if wk_idx > 0 and scores[wk_idx-1] is not None else None
     if prev_score is not None and score_this_wk is not None:
         delta = score_this_wk - prev_score
@@ -61,6 +67,17 @@ def render(fn, wk_idx):
     rb = running_best(scores, maximize)
     rb_this = rb[wk_idx] if wk_idx < len(rb) and rb[wk_idx] is not None else None
 
+    # Use selected week's strategy label if available, else fall back to current
+    _wk_data = WEEKLY[fn][wk_idx] if wk_idx < len(WEEKLY[fn]) else {}
+    wk_action = _wk_data.get('hp_rationale', action)[:60] if _wk_data.get('submission','—') not in ('[PENDING]','—') else action
+    # For the strategy label use the week's submission status
+    if wk_idx == CURRENT_WEEK - 1:
+        wk_action = action  # current week always uses STRATEGY
+    elif wk_idx < CURRENT_WEEK - 1:
+        # Historical week -- derive action from what was submitted
+        wk_sigma = _wk_data.get('hyperparams', {}).get('sigma', '—')
+        wk_ratio = _wk_data.get('hyperparams', {}).get('exploit_ratio', '—')
+        wk_action = f"ratio={wk_ratio} | sigma={wk_sigma}"
     st.markdown(f"""
     <div class='kpi-grid'>
       <div class='kpi-card' style='--accent:#2563eb'>
@@ -80,13 +97,13 @@ def render(fn, wk_idx):
       </div>
       <div class='kpi-card' style='--accent:#10b981'>
         <div class='kpi-label'>All-Time Best</div>
-        <div class='kpi-value'>{fmt(atb)}</div>
-        <div class='kpi-sub'>{strat["best_week"]}</div>
+        <div class='kpi-value'>{fmt(atb_to_wk)}</div>
+        <div class='kpi-sub'>W{best_wk_num} best (through {week_label})</div>
       </div>
       <div class='kpi-card' style='--accent:{acolor}'>
-        <div class='kpi-label'>W{CURRENT_WEEK} Strategy</div>
-        <div class='kpi-value' style='font-size:0.85rem;color:{acolor}'>{action.split()[0]}</div>
-        <div class='kpi-sub'>{action}</div>
+        <div class='kpi-label'>{week_label} Strategy</div>
+        <div class='kpi-value' style='font-size:0.85rem;color:{acolor}'>{wk_action.split()[0]}</div>
+        <div class='kpi-sub'>{wk_action}</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -122,21 +139,21 @@ def render(fn, wk_idx):
     with col1:
         # ── Trajectory chart ──────────────────────────────────────────────────
         st.markdown('<div class="sec-head">Week-on-Week Trajectory</div>', unsafe_allow_html=True)
-        week_labels = [f"W{i+1}" for i in range(len(actuals))]
+        week_labels = [f"W{i+1}" for i in range(len(actuals_display))]
         bar_colors = ["#7a8fbb"]
-        for i in range(1, len(actuals)):
-            imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
+        for i in range(1, len(actuals_display)):
+            imp = (actuals_display[i] > actuals_display[i-1]) if maximize else (actuals_display[i] < actuals_display[i-1])
             bar_colors.append("#22c55e" if imp else "#ef4444")
-        # Highlight selected week
-        if wk_idx < len(bar_colors):
-            bar_colors[wk_idx] = "#2563eb"
+        # Highlight selected week (always the last bar shown)
+        if actuals_display:
+            bar_colors[-1] = "#2563eb"
 
-        rb_vals = [r for r in rb if r is not None][:len(actuals)]
+        rb_vals = [r for r in rb if r is not None][:len(actuals_display)]
         fig = go.Figure()
         fig.add_trace(go.Bar(
-            x=week_labels, y=actuals, marker_color=bar_colors,
+            x=week_labels, y=actuals_display, marker_color=bar_colors,
             marker_line_width=0, opacity=0.9, name="Score",
-            text=[fmt(v) for v in actuals], textposition="outside",
+            text=[fmt(v) for v in actuals_display], textposition="outside",
             textfont=dict(size=10, color="white"),
             hovertemplate="%{x}: <b>%{y:.4g}</b><extra></extra>",
         ))
@@ -146,8 +163,9 @@ def render(fn, wk_idx):
             marker=dict(size=5, color="#f59e0b"),
             name="Running best",
         ))
-        if wk_idx < len(actuals):
-            fig.add_vline(x=wk_idx, line_dash="dot", line_color="#2563eb",
+        if actuals_display:
+            last_idx = len(actuals_display) - 1
+            fig.add_vline(x=last_idx, line_dash="dot", line_color="#2563eb",
                           line_width=1.5, annotation_text=f"← {week_label}",
                           annotation_font_color="#2563eb", annotation_font_size=10)
         fig.update_layout(

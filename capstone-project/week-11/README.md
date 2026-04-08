@@ -19,10 +19,12 @@ A 13-week Black-Box Optimisation challenge. Each week one new data point is reve
 
 ## Module 21 Documentation
 
+> **Examiners:** The model card and datasheet required for Module 21 Part 3 are linked directly below.
+
 | Document | Link |
 |----------|------|
-| **Model Card** — BBO pipeline (Mitchell et al. 2019 framework) | [capstone-project/week-11/model_card_bbo_w11.md](capstone-project/week-11/model_card_bbo_w11.md) |
-| **Datasheet** — BBO oracle dataset (Gebru et al. 2021 framework) | [capstone-project/week-11/datasheet_bbo_w11.md](capstone-project/week-11/datasheet_bbo_w11.md) |
+| **Model Card** — BBO pipeline (Mitchell et al. 2019) | [week-11/model_card_bbo_w11.md](week-11/model_card_bbo_w11.md) |
+| **Datasheet** — BBO oracle dataset (Gebru et al. 2021) | [week-11/datasheet_bbo_w11.md](week-11/datasheet_bbo_w11.md) |
 
 ---
 
@@ -39,7 +41,7 @@ A 13-week Black-Box Optimisation challenge. Each week one new data point is reve
 | F7 | 6D | **2.7201** | W10 ★ | 2.7201 | `0.165978-0.338682-0.444076-0.255770-0.300940-0.704355` | **GP pipeline** |
 | F8 | 8D | 9.8320 | W2 | 9.8013 | `0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262` | GP Run 1 (submitted) |
 
-**★** All-time best still standing — F5 (W9), F6 (W9), F7 (W10)
+**★** All-time best still standing — F5 (W9), F6 (W9), F7 (W10)  
 **F7 bold** = GP pipeline trusted — 5-week consecutive improvement streak, GP mu exceeds ATB
 
 ---
@@ -80,7 +82,7 @@ W11 introduces a formal override rule: when GP training R²=1.0 AND fewer than 5
 
 ## W12 Plan (Final Query)
 
-**General rule:** If W11 portal result improves on ATB → exploit around new best with tight ANISO_SIGMA. If W11 does not improve → submit exact ATB coordinates. F7: run GP pipeline on W11 result before deciding. F5: always all-ones.
+**General rule:** If W11 portal result improves on ATB → exploit around new best. If not → submit exact ATB coordinates. F7: run GP pipeline on W11 result. F5: always all-ones.
 
 | Fn | Default W12 String | Decision Rule |
 |----|-------------------|---------------|
@@ -119,16 +121,16 @@ Each week follows a 15-step notebook pipeline. W11 adds the ATB override check a
 
 ## Module 21 Deliverables
 
-| File | Description | Location |
-|------|-------------|----------|
-| [`model_card_bbo_w11.md`](capstone-project/week-11/model_card_bbo_w11.md) | Model card — Mini-lesson 21.2 framework | `/week-11/` |
-| [`datasheet_bbo_w11.md`](capstone-project/week-11/datasheet_bbo_w11.md) | Dataset datasheet — Gebru et al. 2021 | `/week-11/` |
-| [`capstone_21_1_reflection.md`](capstone-project/week-11/capstone_21_1_reflection.md) | W11 strategy reflection (700 words) | `/week-11/` |
-| [`capstone_21_2_datasheet_modelcard.md`](capstone-project/week-11/capstone_21_2_datasheet_modelcard.md) | Combined capstone datasheet + model card | `/week-11/` |
-| [`discussion_21_1_datasheet_pima.md`](capstone-project/week-11/discussion_21_1_datasheet_pima.md) | Discussion board — Pima datasheet | `/week-11/` |
-| [`discussion_21_2_model_card.md`](capstone-project/week-11/discussion_21_2_model_card.md) | Discussion board — model card analysis | `/week-11/` |
-| [`discussion_21_3_tradeoffs.md`](capstone-project/week-11/discussion_21_3_tradeoffs.md) | Discussion board — explainability trade-offs | `/week-11/` |
-| [`BBO_W11_Submissions.txt`](capstone-project/week-11/BBO_W11_Submissions.txt) | All 8 W11 submission strings with rationale | `/week-11/` |
+| File | Description |
+|------|-------------|
+| [week-11/model_card_bbo_w11.md](week-11/model_card_bbo_w11.md) | Model card — Mini-lesson 21.2 framework (Mitchell et al. 2019) |
+| [week-11/datasheet_bbo_w11.md](week-11/datasheet_bbo_w11.md) | Dataset datasheet — Gebru et al. 2021 |
+| [week-11/capstone_21_1_reflection.md](week-11/capstone_21_1_reflection.md) | W11 strategy reflection — 700 words |
+| [week-11/capstone_21_2_datasheet_modelcard.md](week-11/capstone_21_2_datasheet_modelcard.md) | Combined capstone datasheet + model card |
+| [week-11/discussion_21_1_datasheet_pima.md](week-11/discussion_21_1_datasheet_pima.md) | Discussion board — Pima datasheet |
+| [week-11/discussion_21_2_model_card.md](week-11/discussion_21_2_model_card.md) | Discussion board — model card analysis |
+| [week-11/discussion_21_3_tradeoffs.md](week-11/discussion_21_3_tradeoffs.md) | Discussion board — explainability trade-offs |
+| [week-11/BBO_W11_Submissions.txt](week-11/BBO_W11_Submissions.txt) | All 8 W11 submission strings with rationale |
 
 ---
 
@@ -167,16 +169,16 @@ capstone-project/
     ├── discussion_21_2_model_card.md
     ├── discussion_21_3_tradeoffs.md
     ├── BBO_W11_Submissions.txt
-    ├── Capstone_F1_W11_run2.ipynb
-    ├── Capstone_F2_W11_run2.ipynb
+    ├── BBO_W11_Strategy_Summary.docx
+    ├── BBO_W11_Final_Submission.docx
+    ├── Capstone_F1_W11.ipynb / _run2.ipynb
+    ├── Capstone_F2_W11.ipynb / _run2.ipynb
     ├── Capstone_F3_W11.ipynb
-    ├── Capstone_F4_W11_run2.ipynb
-    ├── Capstone_F5_W11_run2.ipynb
-    ├── Capstone_F6_W11_run2.ipynb
+    ├── Capstone_F4_W11.ipynb / _run2.ipynb
+    ├── Capstone_F5_W11.ipynb / _run2.ipynb
+    ├── Capstone_F6_W11.ipynb / _run2.ipynb
     ├── Capstone_F7_W11.ipynb
-    ├── Capstone_F8_W11.ipynb
-    ├── f1_w11_inputs.npy … f8_w11_inputs.npy
-    └── f1_w11_outputs.npy … f8_w11_outputs.npy
+    └── Capstone_F8_W11.ipynb
 ```
 
 ---

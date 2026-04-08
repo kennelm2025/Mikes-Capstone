@@ -138,7 +138,8 @@ def render():
             info     = FUNCTIONS[fn]
             maximize = info["objective"] == "MAXIMISE"
             scores   = SCORES[fn]
-            actuals  = [s for s in scores if s is not None]
+            actuals_raw = scores  # keep None for pending weeks
+            actuals      = [s for s in scores if s is not None]  # for ATB calc
             atb      = get_all_time_best(fn)
             strat    = STRATEGY[fn]
             action   = strat["action"]
@@ -148,18 +149,33 @@ def render():
             else:                     acolor, abg = "#60a5fa", "rgba(59,130,246,0.12)"
 
             rb = running_best(scores, maximize)
+            # Build chart data preserving pending week as placeholder
+            pending_h = max(abs(v) for v in actuals) * 0.08 if actuals else 1.0
+            chart_actuals = [v if v is not None else pending_h for v in actuals_raw]
             rb_vals = [r for r in rb if r is not None][:len(actuals)]
-            week_labels = [f"W{i+1}" for i in range(len(actuals))]
+            if len(chart_actuals) > len(rb_vals) and rb_vals:
+                rb_vals = rb_vals + [rb_vals[-1]]
+            week_labels = [f"W{i+1}" for i in range(len(chart_actuals))]
 
             bar_colors = ["#7a8fbb"]
-            for i in range(1, len(actuals)):
-                imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
-                bar_colors.append("#22c55e" if imp else "#ef4444")
+            for i in range(1, len(chart_actuals)):
+                if actuals_raw[i] is None:
+                    bar_colors.append("#2563eb")
+                else:
+                    prev = next((actuals_raw[j] for j in range(i-1,-1,-1) if actuals_raw[j] is not None), None)
+                    if prev is None:
+                        bar_colors.append("#7a8fbb")
+                    else:
+                        imp = (chart_actuals[i] > prev) if maximize else (chart_actuals[i] < prev)
+                        bar_colors.append("#22c55e" if imp else "#ef4444")
 
-            # Highlight best week
+            # Highlight all-time best week gold
             best_val = max(actuals) if maximize else min(actuals)
             best_idx_local = actuals.index(best_val)
             bar_colors[best_idx_local] = "#f59e0b"
+            # Pending week always blue (overrides gold if applicable)
+            if actuals_raw[-1] is None:
+                bar_colors[-1] = "#2563eb"
 
             w7_score = actuals[-1] if actuals else None
             is_best = (w7_score == atb) if w7_score is not None else False
@@ -204,16 +220,18 @@ def render():
 
                 # Trajectory chart — enlarged
                 fig = go.Figure()
+                bar_text = [fmt(v) if v is not None else "⏳" for v in actuals_raw]
                 fig.add_trace(go.Bar(
-                    x=week_labels, y=actuals,
+                    x=week_labels, y=chart_actuals,
                     marker_color=bar_colors,
                     marker_line_width=0,
                     opacity=0.9,
                     name="Score",
-                    text=[fmt(v) for v in actuals],
+                    text=bar_text,
                     textposition="outside",
                     textfont=dict(size=11, color="white", family="IBM Plex Mono"),
-                    hovertemplate="%{x}: <b>%{y:.4g}</b><extra></extra>",
+                    customdata=bar_text,
+                    hovertemplate="%{x}: <b>%{customdata}</b><extra></extra>",
                 ))
                 fig.add_trace(go.Scatter(
                     x=week_labels, y=rb_vals,

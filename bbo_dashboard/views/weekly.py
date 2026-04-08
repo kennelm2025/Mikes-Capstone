@@ -13,8 +13,8 @@ def render(fn, wk_idx):
     maximize = info["objective"] == "MAXIMISE"
     scores   = SCORES[fn]
     actuals  = [s for s in scores if s is not None]  # full list for ATB calc
-    # Slice to selected week for chart — only show data up to wk_idx
-    actuals_display = actuals[:wk_idx+1]
+    # Slice to selected week for chart — use raw scores so None (pending) is preserved
+    actuals_display = [scores[i] if i < len(scores) else None for i in range(wk_idx + 1)]
     atb      = get_all_time_best(fn)   # all-time (used for ATB card)
     strat    = STRATEGY[fn]
     clf      = CLASSIFIERS[fn]
@@ -139,23 +139,45 @@ def render(fn, wk_idx):
     with col1:
         # ── Trajectory chart ──────────────────────────────────────────────────
         st.markdown('<div class="sec-head">Week-on-Week Trajectory</div>', unsafe_allow_html=True)
+
+        # Build chart data — actuals_display may contain None for pending week
+        is_pending = score_this_wk is None
+        # Replace None with a small placeholder height so bar is visible
+        actuals_only = [v for v in actuals_display if v is not None]
+        pending_height = max(abs(v) for v in actuals_only) * 0.08 if actuals_only else 1.0
+        chart_scores = [v if v is not None else pending_height for v in actuals_display]
+
         week_labels = [f"W{i+1}" for i in range(len(actuals_display))]
         bar_colors = ["#7a8fbb"]
-        for i in range(1, len(actuals_display)):
-            imp = (actuals_display[i] > actuals_display[i-1]) if maximize else (actuals_display[i] < actuals_display[i-1])
-            bar_colors.append("#22c55e" if imp else "#ef4444")
-        # Highlight selected week (always the last bar shown)
-        if actuals_display:
+        for i in range(1, len(chart_scores)):
+            if actuals_display[i] is None:
+                bar_colors.append("#2563eb")  # pending week always blue
+            else:
+                prev = next((actuals_display[j] for j in range(i-1, -1, -1) if actuals_display[j] is not None), None)
+                if prev is None:
+                    bar_colors.append("#7a8fbb")
+                else:
+                    imp = (chart_scores[i] > prev) if maximize else (chart_scores[i] < prev)
+                    bar_colors.append("#22c55e" if imp else "#ef4444")
+        # Always highlight the selected (last) week blue
+        if bar_colors:
             bar_colors[-1] = "#2563eb"
 
-        rb_vals = [r for r in rb if r is not None][:len(actuals_display)]
+        bar_text = [fmt(v) if v is not None else "⏳ pending" for v in actuals_display]
+
+        rb_vals = [r for r in rb if r is not None][:len(actuals_only)]
+        # Extend running best line to pending week at same level
+        if is_pending and rb_vals:
+            rb_vals = rb_vals + [rb_vals[-1]]
+
         fig = go.Figure()
         fig.add_trace(go.Bar(
-            x=week_labels, y=actuals_display, marker_color=bar_colors,
+            x=week_labels, y=chart_scores, marker_color=bar_colors,
             marker_line_width=0, opacity=0.9, name="Score",
-            text=[fmt(v) for v in actuals_display], textposition="outside",
+            text=bar_text, textposition="outside",
             textfont=dict(size=10, color="white"),
-            hovertemplate="%{x}: <b>%{y:.4g}</b><extra></extra>",
+            hovertemplate="%{x}: <b>%{customdata}</b><extra></extra>",
+            customdata=bar_text,
         ))
         fig.add_trace(go.Scatter(
             x=week_labels, y=rb_vals, mode="lines+markers",
@@ -163,9 +185,8 @@ def render(fn, wk_idx):
             marker=dict(size=5, color="#f59e0b"),
             name="Running best",
         ))
-        if actuals_display:
-            last_idx = len(actuals_display) - 1
-            fig.add_vline(x=last_idx, line_dash="dot", line_color="#2563eb",
+        if chart_scores:
+            fig.add_vline(x=week_label, line_dash="dot", line_color="#2563eb",
                           line_width=1.5, annotation_text=f"← {week_label}",
                           annotation_font_color="#2563eb", annotation_font_size=10)
         fig.update_layout(

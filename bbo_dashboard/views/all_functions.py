@@ -74,24 +74,39 @@ def render(wk_idx=None):
         maximize = info["objective"] == "MAXIMISE"
         scores   = SCORES[fid]
         all_actuals = [s for s in scores if s is not None]
-        pred        = W7_PRED[fid]
         rb_all      = running_best(scores, maximize)
-        # Slice to selected week — only show data up to wk_idx
-        n_show      = min(wk_idx + 1, len(all_actuals))
-        actuals     = all_actuals[:n_show]
-        rb_vals     = [r for r in rb_all if r is not None][:n_show]
+        # Build display slice preserving None for pending week
+        n_show      = min(wk_idx + 1, len(scores))
+        actuals_raw = [scores[i] for i in range(n_show)]   # may contain None at end
+        actuals_only = [v for v in actuals_raw if v is not None]
+        # Placeholder height for pending bar = 8% of max actual
+        pending_h = max(abs(v) for v in actuals_only) * 0.08 if actuals_only else 1.0
+        actuals   = [v if v is not None else pending_h for v in actuals_raw]
+        rb_vals   = [r for r in rb_all if r is not None][:len(actuals_only)]
+        if len(actuals) > len(rb_vals) and rb_vals:
+            rb_vals = rb_vals + [rb_vals[-1]]  # extend rb line to pending bar
         week_labels = [f"W{i+1}" for i in range(n_show)]
 
         bar_colors = ["#6070a0"]
         for i in range(1, len(actuals)):
-            imp = (actuals[i] > actuals[i-1]) if maximize else (actuals[i] < actuals[i-1])
-            bar_colors.append("#22c55e" if imp else "#ef4444")
-        # Highlight selected week (last bar shown)
-        if actuals: bar_colors[-1] = "#2563eb"
+            if actuals_raw[i] is None:
+                bar_colors.append("#2563eb")  # pending = blue
+            else:
+                prev = next((actuals_raw[j] for j in range(i-1,-1,-1) if actuals_raw[j] is not None), None)
+                if prev is None:
+                    bar_colors.append("#6070a0")
+                else:
+                    imp = (actuals[i] > prev) if maximize else (actuals[i] < prev)
+                    bar_colors.append("#22c55e" if imp else "#ef4444")
+        # Always highlight selected (last) bar blue
+        if bar_colors: bar_colors[-1] = "#2563eb"
 
+        hover = [f"{v:.4g}" if actuals_raw[i] is not None else "⏳ pending"
+                 for i, v in enumerate(actuals)]
         fig.add_trace(go.Bar(x=week_labels, y=actuals, marker_color=bar_colors,
                              marker_line_width=0, opacity=0.85, showlegend=False,
-                             hovertemplate="%{x}: <b>%{y:.4g}</b><extra>" + fid + "</extra>"),
+                             customdata=hover,
+                             hovertemplate="%{x}: <b>%{customdata}</b><extra>" + fid + "</extra>"),
                       row=row, col=col)
         fig.add_trace(go.Scatter(x=week_labels, y=rb_vals, mode="lines",
                                  line=dict(color="#f59e0b", width=1.5, dash="dash"), showlegend=False),

@@ -186,7 +186,7 @@ def render(fn, wk_idx):
             name="Running best",
         ))
         if chart_scores:
-            fig.add_vline(x=week_label, line_dash="dot", line_color="#2563eb",
+            fig.add_vline(x=len(chart_scores) - 1, line_dash="dot", line_color="#2563eb",
                           line_width=1.5, annotation_text=f"← {week_label}",
                           annotation_font_color="#2563eb", annotation_font_size=10)
         fig.update_layout(

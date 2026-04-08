@@ -255,4 +255,4 @@ elif "Weekly Analysis" in page:
 elif "Source Code" in page:
     _v_source.render(fn, wk_idx)
 elif "Pipeline" in page:
-    _v_pipeline.render(fn)
+    _v_pipeline.render(fn, wk_idx)

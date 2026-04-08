@@ -1,0 +1,118 @@
+BBO CAPSTONE — WEEK 11 SUBMISSIONS
+Mike Kennelly | Imperial College | April 8, 2026
+============================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.684200-0.704200
+Function 2:  0.710068-0.161630
+Function 3:  0.998126-0.621218-0.453080
+Function 4:  0.439249-0.414994-0.384687-0.397917
+Function 5:  1.000000-1.000000-1.000000-1.000000
+Function 6:  0.406643-0.339495-0.634775-0.769397-0.115269
+Function 7:  0.165978-0.338682-0.444076-0.255770-0.300940-0.704355
+Function 8:  *** ALREADY SUBMITTED ***
+
+============================================================
+DETAIL (for reference)
+============================================================
+
+F1 (2D)
+  Strategy        : ATB OVERRIDE -- replicate W2 best
+  W10 Result      : 4.11e-58 -- 10th consecutive near-zero
+  True best used  : 8.84e-07 (W2) @ [0.684, 0.704]
+  EXPLOIT_RATIO   : N/A  |  EXPLOIT_SIGMA : N/A  |  TuRBO: OVERRIDE
+  UCB_KAPPA       : N/A
+  Model           : Random Forest CV=79.4%  |  GP R2=1.0000
+  GP mu=-0.000187  sigma=0.000819  EI=0.000000
+  ATB best=8.84e-07  delta=-0.000187
+  Note            : GP R2=1.0 unreliable. 10 weeks near-zero. Replicate W2 ATB exactly.
+  Submission      : 0.684200-0.704200
+
+F2 (2D)
+  Strategy        : ATB OVERRIDE -- replicate W9 best
+  W10 Result      : 0.1636 -- regression from W9 ATB
+  True best used  : 0.6497 (W9) @ [0.710, 0.162]
+  EXPLOIT_RATIO   : N/A  |  EXPLOIT_SIGMA : N/A  |  TuRBO: OVERRIDE
+  UCB_KAPPA       : N/A
+  Model           : Random Forest CV=84.9%  |  GP R2=1.0000
+  GP mu=0.660588  sigma=0.070482  EI=0.028564
+  ATB best=0.6497  delta=+0.011
+  Note            : GP R2=1.0, only 3 positives -- surrogate untrustworthy. ATB W9 coords safer.
+  Submission      : 0.710068-0.161630
+
+F3 (3D)
+  Strategy        : ATB OVERRIDE -- replicate W6 best
+  W10 Result      : -0.090154 -- X1 drifted to 0.929
+  True best used  : -0.000707 (W6) @ [0.998, 0.621, 0.453]
+  EXPLOIT_RATIO   : 0.92  |  EXPLOIT_SIGMA : ANISO [0.005, 0.020, 0.025]  |  TuRBO: OVERRIDE
+  UCB_KAPPA       : 2.0
+  Model           : NN-Small (16,8) CV=70.8%  |  GP R2=1.0000
+  GP mu=-0.073147  sigma=0.079641  EI=0.006203
+  ATB best=-0.000707  delta=-0.072
+  Note            : GP output had X1=0.266 -- completely wrong direction. X1 near 1.0 is critical.
+  Submission      : 0.998126-0.621218-0.453080
+
+F4 (4D)
+  Strategy        : ATB OVERRIDE -- replicate W2 best
+  W10 Result      : -1.8014 -- 4th consecutive negative
+  True best used  : 0.2376 (W2) @ [0.439, 0.415, 0.385, 0.398]
+  EXPLOIT_RATIO   : N/A  |  EXPLOIT_SIGMA : N/A  |  TuRBO: OVERRIDE
+  UCB_KAPPA       : N/A
+  Model           : Random Forest CV=87.5%  |  GP R2=1.0000
+  GP mu=0.234176  sigma=2.250621  EI=0.891172
+  ATB best=0.2376  delta=-0.003
+  Note            : GP mu within 0.003 of ATB. GP R2=1.0 unreliable. Known coords are safer.
+  Submission      : 0.439249-0.414994-0.384687-0.397917
+
+F5 (4D)
+  Strategy        : ATB OVERRIDE -- all-ones corner
+  W10 Result      : 8471.33 -- below W9 ATB
+  True best used  : 8662.48 (W9) @ [1.0, 1.0, 1.0, 1.0]
+  EXPLOIT_RATIO   : N/A  |  EXPLOIT_SIGMA : N/A  |  TuRBO: OVERRIDE
+  UCB_KAPPA       : N/A
+  Model           : Linear SVM CV=96.9%  |  GP R2=1.0000
+  GP mu=8595.947  sigma=37.920  EI=0.606
+  ATB best=8662.48  delta=-66.5
+  Note            : Structurally maximised at corner [1,1,1,1]. Always all-ones regardless of GP.
+  Submission      : 1.000000-1.000000-1.000000-1.000000
+
+F6 (5D)
+  Strategy        : ATB OVERRIDE -- replicate W9 best
+  W10 Result      : -0.1443 -- regression from W9 ATB
+  True best used  : 0.0360 (W9) @ [0.407, 0.339, 0.635, 0.769, 0.115]
+  EXPLOIT_RATIO   : N/A  |  EXPLOIT_SIGMA : N/A  |  TuRBO: OVERRIDE
+  UCB_KAPPA       : N/A
+  Model           : Linear SVM CV=79.5%  |  GP R2=1.0000
+  GP mu=0.074247  sigma=0.149434  EI=0.074791
+  ATB best=0.0360  delta=+0.038
+  Note            : GP R2=1.0 unreliable. GP string close to ATB -- ATB coords are safer.
+  Submission      : 0.406643-0.339495-0.634775-0.769397-0.115269
+
+F7 (6D)
+  Strategy        : GP PIPELINE -- continue gradient  [EXCEPTION]
+  W10 Result      : 2.7201 -- 5th consecutive improvement
+  True best used  : 2.7201 (W10) @ [0.125, 0.359, 0.441, 0.283, 0.331, 0.703]
+  EXPLOIT_RATIO   : 0.92  |  EXPLOIT_SIGMA : 0.018 isotropic  |  TuRBO: HOLD
+  UCB_KAPPA       : 2.0
+  Model           : Logistic Regression CV=82.1%  |  GP R2=1.0000
+  GP mu=2.766966  sigma=0.088386  EI=0.056691
+  ATB best=2.7201  delta=+0.047
+  Note            : 5 consecutive improvements W6-W10. GP mu=2.767 > ATB=2.720. Trust the gradient.
+  Submission      : 0.165978-0.338682-0.444076-0.255770-0.300940-0.704355
+
+F8 (8D)
+  Strategy        : ALREADY SUBMITTED -- GP Run 1
+  W10 Result      : 9.8013 -- near W2 ATB
+  True best used  : 9.8320 (W2) @ [0.000, 0.179, 0.000, 0.071, 0.929, 0.460, 0.000, 0.541]
+  EXPLOIT_RATIO   : 0.92  |  EXPLOIT_SIGMA : 0.015 isotropic  |  TuRBO: HOLD
+  UCB_KAPPA       : 2.0
+  Model           : Random Forest CV=87.3%  |  GP R2=1.0000
+  GP mu=9.799766  sigma=0.205373  EI=0.065476
+  ATB best=9.8320  delta=-0.032
+  Note            : GP Run 1 was highest mu across 3 runs. Submitted. No further action needed.
+  Submission      : 0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262
+
+============================================================
+END OF W11 SUBMISSIONS
+============================================================

@@ -1,5 +1,5 @@
 """
-BBO Capstone — all historical data baked in.
+BBO Capstone — all historical data is baked in.
 No external files needed — works standalone on GitHub / Streamlit Cloud.
 Updated: W11 — W10 actuals filled in, W11 submissions made (F8 already submitted).
 

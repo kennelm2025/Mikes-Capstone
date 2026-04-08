@@ -13,8 +13,8 @@ def render(fn, wk_idx):
     maximize = info["objective"] == "MAXIMISE"
     scores   = SCORES[fn]
     actuals  = [s for s in scores if s is not None]  # full list for ATB calc
-    # Slice to selected week for chart — only show data up to wk_idx
-    actuals_display = actuals[:wk_idx+1]
+    # Slice to selected week for chart — use raw scores so None (pending) is preserved
+    actuals_display = [scores[i] if i < len(scores) else None for i in range(wk_idx + 1)]
     atb      = get_all_time_best(fn)   # all-time (used for ATB card)
     strat    = STRATEGY[fn]
     clf      = CLASSIFIERS[fn]
@@ -140,33 +140,33 @@ def render(fn, wk_idx):
         # ── Trajectory chart ──────────────────────────────────────────────────
         st.markdown('<div class="sec-head">Week-on-Week Trajectory</div>', unsafe_allow_html=True)
 
-        # Build chart data — include pending week as a placeholder bar
-        # so the selected week always appears as the last (blue) bar
+        # Build chart data — actuals_display may contain None for pending week
         is_pending = score_this_wk is None
-        chart_scores = list(actuals_display)  # actual scores up to last non-None
-        if is_pending:
-            # Add a zero placeholder so the selected week shows as a bar
-            pending_height = max(abs(v) for v in chart_scores) * 0.08 if chart_scores else 1.0
-            chart_scores = chart_scores + [pending_height]
+        # Replace None with a small placeholder height so bar is visible
+        actuals_only = [v for v in actuals_display if v is not None]
+        pending_height = max(abs(v) for v in actuals_only) * 0.08 if actuals_only else 1.0
+        chart_scores = [v if v is not None else pending_height for v in actuals_display]
 
-        week_labels = [f"W{i+1}" for i in range(wk_idx + 1)]
+        week_labels = [f"W{i+1}" for i in range(len(actuals_display))]
         bar_colors = ["#7a8fbb"]
         for i in range(1, len(chart_scores)):
-            if i == len(chart_scores) - 1 and is_pending:
+            if actuals_display[i] is None:
                 bar_colors.append("#2563eb")  # pending week always blue
             else:
-                imp = (chart_scores[i] > chart_scores[i-1]) if maximize else (chart_scores[i] < chart_scores[i-1])
-                bar_colors.append("#22c55e" if imp else "#ef4444")
-        # Highlight selected week (always the last bar shown)
-        if chart_scores:
+                prev = next((actuals_display[j] for j in range(i-1, -1, -1) if actuals_display[j] is not None), None)
+                if prev is None:
+                    bar_colors.append("#7a8fbb")
+                else:
+                    imp = (chart_scores[i] > prev) if maximize else (chart_scores[i] < prev)
+                    bar_colors.append("#22c55e" if imp else "#ef4444")
+        # Always highlight the selected (last) week blue
+        if bar_colors:
             bar_colors[-1] = "#2563eb"
 
-        bar_text = [fmt(v) for v in actuals_display]
-        if is_pending:
-            bar_text = bar_text + ["⏳ pending"]
+        bar_text = [fmt(v) if v is not None else "⏳ pending" for v in actuals_display]
 
-        rb_vals = [r for r in rb if r is not None][:len(actuals_display)]
-        # Pad running best line to match chart length if pending
+        rb_vals = [r for r in rb if r is not None][:len(actuals_only)]
+        # Extend running best line to pending week at same level
         if is_pending and rb_vals:
             rb_vals = rb_vals + [rb_vals[-1]]
 

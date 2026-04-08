@@ -139,23 +139,45 @@ def render(fn, wk_idx):
     with col1:
         # ── Trajectory chart ──────────────────────────────────────────────────
         st.markdown('<div class="sec-head">Week-on-Week Trajectory</div>', unsafe_allow_html=True)
-        week_labels = [f"W{i+1}" for i in range(len(actuals_display))]
+
+        # Build chart data — include pending week as a placeholder bar
+        # so the selected week always appears as the last (blue) bar
+        is_pending = score_this_wk is None
+        chart_scores = list(actuals_display)  # actual scores up to last non-None
+        if is_pending:
+            # Add a zero placeholder so the selected week shows as a bar
+            pending_height = max(abs(v) for v in chart_scores) * 0.08 if chart_scores else 1.0
+            chart_scores = chart_scores + [pending_height]
+
+        week_labels = [f"W{i+1}" for i in range(wk_idx + 1)]
         bar_colors = ["#7a8fbb"]
-        for i in range(1, len(actuals_display)):
-            imp = (actuals_display[i] > actuals_display[i-1]) if maximize else (actuals_display[i] < actuals_display[i-1])
-            bar_colors.append("#22c55e" if imp else "#ef4444")
+        for i in range(1, len(chart_scores)):
+            if i == len(chart_scores) - 1 and is_pending:
+                bar_colors.append("#2563eb")  # pending week always blue
+            else:
+                imp = (chart_scores[i] > chart_scores[i-1]) if maximize else (chart_scores[i] < chart_scores[i-1])
+                bar_colors.append("#22c55e" if imp else "#ef4444")
         # Highlight selected week (always the last bar shown)
-        if actuals_display:
+        if chart_scores:
             bar_colors[-1] = "#2563eb"
 
+        bar_text = [fmt(v) for v in actuals_display]
+        if is_pending:
+            bar_text = bar_text + ["⏳ pending"]
+
         rb_vals = [r for r in rb if r is not None][:len(actuals_display)]
+        # Pad running best line to match chart length if pending
+        if is_pending and rb_vals:
+            rb_vals = rb_vals + [rb_vals[-1]]
+
         fig = go.Figure()
         fig.add_trace(go.Bar(
-            x=week_labels, y=actuals_display, marker_color=bar_colors,
+            x=week_labels, y=chart_scores, marker_color=bar_colors,
             marker_line_width=0, opacity=0.9, name="Score",
-            text=[fmt(v) for v in actuals_display], textposition="outside",
+            text=bar_text, textposition="outside",
             textfont=dict(size=10, color="white"),
-            hovertemplate="%{x}: <b>%{y:.4g}</b><extra></extra>",
+            hovertemplate="%{x}: <b>%{customdata}</b><extra></extra>",
+            customdata=bar_text,
         ))
         fig.add_trace(go.Scatter(
             x=week_labels, y=rb_vals, mode="lines+markers",
@@ -163,8 +185,8 @@ def render(fn, wk_idx):
             marker=dict(size=5, color="#f59e0b"),
             name="Running best",
         ))
-        if actuals_display:
-            last_idx = len(actuals_display) - 1
+        if chart_scores:
+            last_idx = len(chart_scores) - 1
             fig.add_vline(x=last_idx, line_dash="dot", line_color="#2563eb",
                           line_width=1.5, annotation_text=f"← {week_label}",
                           annotation_font_color="#2563eb", annotation_font_size=10)

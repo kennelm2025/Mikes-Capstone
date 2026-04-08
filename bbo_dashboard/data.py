@@ -1,7 +1,7 @@
 """
 BBO Capstone — all historical data baked in.
 No external files needed — works standalone on GitHub / Streamlit Cloud.
-Updated: W9 — W8 actuals filled in, W9 submissions pending.
+Updated: W11 — W10 actuals filled in, W11 submissions made (F8 already submitted).
 
 HOW TO UPDATE EACH WEEK:
   1. Increment CURRENT_WEEK.
@@ -13,7 +13,7 @@ HOW TO UPDATE EACH WEEK:
 """
 
 # ── Single source-of-truth: update this every week ───────────────────────────
-CURRENT_WEEK = 10  # ← increment after each portal result
+CURRENT_WEEK = 11  # ← increment after each portal result
 
 # ── Function metadata ─────────────────────────────────────────────────────────
 FUNCTIONS = {
@@ -37,14 +37,14 @@ FUNCTIONS = {
 
 # ── Week-by-week scores (W1–W7 actuals) ──────────────────────────────────────
 SCORES = {
-    "F1": [0.0,        8.84e-7,    5.17e-96,   1.66e-9,    -5.44e-7,   1.67e-85,   -2.22e-17,  1.26e-49,   -2.447e-183, None],
-    "F2": [0.5246,     0.2847,     -0.0298,    0.0188,     0.6497,     0.5844,     0.5338,     0.4926,     0.6497,     None],
-    "F3": [-0.01358,   -0.03277,   -0.08337,   -0.13795,   -0.05900,   -0.000707,  -0.00534,   -0.1132,    -0.01348,   None],
-    "F4": [-2.6271,    0.2376,     -0.9620,    -0.5268,    -2.4571,    -0.1294,    -0.2651,    -0.5542,    -1.4047,    None],
-    "F5": [60.07,      4062.1,     4890.6,     2913.0,     24.48,      5875.1,     7596.79,    8382.47,    8662.48,    None],
-    "F6": [-1.3389,    -0.2372,    -0.8835,    -0.3630,    -1.7662,    -0.1727,    -0.3422,    -0.4006,    0.0360,     None],
-    "F7": [0.8085,     1.7392,     1.7358,     1.1399,     0.5763,     2.1190,     2.4134,     2.5982,     2.5968,     None],
-    "F8": [9.0093,     9.8320,     9.8188,     9.3341,     8.9560,     9.7741,     9.8251,     9.8021,     9.8115,     None],
+    "F1": [0.0,        8.84e-7,    5.17e-96,   1.66e-9,    -5.44e-7,   1.67e-85,   -2.22e-17,  1.26e-49,   -2.447e-183, 4.109e-58,  None],
+    "F2": [0.5246,     0.2847,     -0.0298,    0.0188,     0.6497,     0.5844,     0.5338,     0.4926,     0.6497,     0.1636,     None],
+    "F3": [-0.01358,   -0.03277,   -0.08337,   -0.13795,   -0.05900,   -0.000707,  -0.00534,   -0.1132,    -0.01348,   -0.090154,  None],
+    "F4": [-2.6271,    0.2376,     -0.9620,    -0.5268,    -2.4571,    -0.1294,    -0.2651,    -0.5542,    -1.4047,    -1.8014,    None],
+    "F5": [60.07,      4062.1,     4890.6,     2913.0,     24.48,      5875.1,     7596.79,    8382.47,    8662.48,    8471.33,    None],
+    "F6": [-1.3389,    -0.2372,    -0.8835,    -0.3630,    -1.7662,    -0.1727,    -0.3422,    -0.4006,    0.0360,     -0.1443,    None],
+    "F7": [0.8085,     1.7392,     1.7358,     1.1399,     0.5763,     2.1190,     2.4134,     2.5982,     2.5968,     2.7201,     None],
+    "F8": [9.0093,     9.8320,     9.8188,     9.3341,     8.9560,     9.7741,     9.8251,     9.8021,     9.8115,     9.8013,     None],
 }
 # W7 actuals will be filled in after Tudor portal results received
 # Submission strings:
@@ -57,16 +57,16 @@ SCORES = {
 # F7: 0.078067-0.385415-0.381193-0.266170-0.353901-0.693102  (anisotropic σ)
 # F8: 0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552
 
-# ── GP W7 predictions (mu, sigma from EI winner) ─────────────────────────────
+# ── GP W11 predictions (mu, sigma from EI winner) ────────────────────────────
 W7_PRED = {
-    "F1": {"mu": -0.000084, "sigma": 0.000686, "ucb": 0.001},
-    "F2": {"mu": 0.461298,  "sigma": 0.185262, "ucb": 0.832},
-    "F3": {"mu": -0.040244, "sigma": 0.064640, "ucb": 0.089},
-    "F4": {"mu": -0.109687, "sigma": 3.128594, "ucb": 6.147},
-    "F5": {"mu": 8604.07,   "sigma": 39.636,   "ucb": 8683.3},
-    "F6": {"mu": 0.141165,  "sigma": 0.037502, "ucb": 0.216},
-    "F7": {"mu": 2.689531,  "sigma": 0.050331, "ucb": 2.815},
-    "F8": {"mu": 9.895287,  "sigma": 0.161139, "ucb": 10.218},
+    "F1": {"mu": -0.000187, "sigma": 0.000819, "ucb": 0.001451},
+    "F2": {"mu": 0.660588,  "sigma": 0.070482, "ucb": 0.801551},
+    "F3": {"mu": -0.073147, "sigma": 0.079641, "ucb": 0.086135},
+    "F4": {"mu": 0.234176,  "sigma": 2.250621, "ucb": 4.735419},
+    "F5": {"mu": 8595.947,  "sigma": 37.920,   "ucb": 8671.788},
+    "F6": {"mu": 0.074247,  "sigma": 0.149434, "ucb": 0.373116},
+    "F7": {"mu": 2.766966,  "sigma": 0.088386, "ucb": 2.943737},
+    "F8": {"mu": 9.799766,  "sigma": 0.205373, "ucb": 10.210512},
 }
 
 # ── Submitted coordinates per week (W1–W7) ───────────────────────────────────
@@ -80,7 +80,9 @@ COORDS = {
         [0.0739, 0.4071],
         [0.582827, 0.482269],
         [0.887104, 0.668800],
-        None,  # W9 — pending
+        [0.979878, 1.000000],   # W9 actual
+        [0.911939, 0.661887],   # W10 actual
+        [0.684200, 0.704200],   # W11 ATB override
     ],
     "F2": [
         [0.5, 0.5],
@@ -91,7 +93,9 @@ COORDS = {
         [0.703, 0.927],
         [0.688952, 0.168811],
         [0.712753, 0.042543],
-        [0.710, 0.162],  # W9 — target coords
+        [0.710068, 0.161630],   # W9 actual (ATB match)
+        [0.640219, 0.040241],   # W10 actual
+        [0.710068, 0.161630],   # W11 ATB override
     ],
     "F3": [
         [0.40, 0.55, 0.50],
@@ -102,7 +106,9 @@ COORDS = {
         [0.998, 0.621, 0.453],
         [1.000000, 0.571651, 0.503999],
         [0.981542, 0.540570, 0.192008],
-        [1.000, 0.572, 0.504],  # W9 — target coords
+        [0.750421, 0.591494, 0.448064],  # W9 actual
+        [0.929491, 0.684416, 0.621434],  # W10 actual
+        [0.998126, 0.621218, 0.453080],  # W11 ATB override
     ],
     "F4": [
         [0.50, 0.50, 0.50, 0.50],
@@ -113,7 +119,9 @@ COORDS = {
         [0.410, 0.438, 0.456, 0.350],
         [0.451762, 0.438642, 0.400163, 0.395091],
         [0.353438, 0.477554, 0.423301, 0.418067],
-        None,  # W9 — pending
+        [0.522075, 0.389882, 0.430921, 0.356775],  # W9 actual
+        [0.476870, 0.494027, 0.420410, 0.346682],  # W10 actual
+        [0.439249, 0.414994, 0.384687, 0.397917],  # W11 ATB override
     ],
     "F5": [
         [0.1199, 0.4986, 0.4779, 0.4947],
@@ -124,7 +132,9 @@ COORDS = {
         [0.7810, 1.0,    1.0,    1.0   ],
         [0.937682, 1.000000, 1.000000, 1.000000],
         [0.985104, 1.000000, 1.000000, 1.000000],
-        [1.000, 1.000, 1.000, 1.000],  # W9 — target coords
+        [1.000, 1.000, 1.000, 1.000],  # W9 actual (ATB)
+        [1.000000, 1.000000, 0.989930, 1.000000],  # W10 actual
+        [1.000000, 1.000000, 1.000000, 1.000000],  # W11 ATB override
     ],
     "F6": [
         [0.50, 0.50, 0.50, 0.50, 0.50],
@@ -135,7 +145,9 @@ COORDS = {
         [0.427, 0.326, 0.598, 0.780, 0.144],
         [0.497320, 0.294798, 0.563080, 0.684981, 0.129206],
         [0.460210, 0.301460, 0.549552, 0.839145, 0.200664],
-        [0.427, 0.326, 0.598, 0.780, 0.144],  # W9 — target coords
+        [0.406643, 0.339495, 0.634775, 0.769397, 0.115269],  # W9 actual (ATB)
+        [0.389852, 0.333817, 0.652408, 0.764251, 0.078672],  # W10 actual
+        [0.406643, 0.339495, 0.634775, 0.769397, 0.115269],  # W11 ATB override
     ],
     "F7": [
         [0.50, 0.40, 0.35, 0.25, 0.38, 0.65],
@@ -146,7 +158,9 @@ COORDS = {
         [0.055, 0.407, 0.341, 0.242, 0.375, 0.685],
         [0.078067, 0.385415, 0.381193, 0.266170, 0.353901, 0.693102],
         [0.096399, 0.368153, 0.413112, 0.285892, 0.336821, 0.699617],
-        [0.096, 0.368, 0.413, 0.286, 0.337, 0.700],  # W9 — target coords
+        [0.096000, 0.368000, 0.413000, 0.286000, 0.337000, 0.700000],  # W9 actual
+        [0.125051, 0.359133, 0.441354, 0.282350, 0.330896, 0.702888],  # W10 actual (ATB)
+        [0.165978, 0.338682, 0.444076, 0.255770, 0.300940, 0.704355],  # W11 GP pipeline
     ],
     "F8": [
         [0.009077, 0.47215,  0.51597,  0.430449, 0.468951, 0.460126, 0.579196, 0.50672 ],
@@ -157,167 +171,169 @@ COORDS = {
         [0.0,      0.387061, 0.068459, 0.146466, 0.368072, 0.66282,  0.291841, 0.727685],
         [0.040422, 0.331667, 0.003668, 0.158463, 0.396893, 0.509806, 0.16649,  0.780552],
         [0.008368, 0.331528, 0.000000, 0.160107, 0.374002, 0.541189, 0.166880, 0.765946],
-        [0.000, 0.179, 0.000, 0.071, 0.929, 0.460, 0.000, 0.541],  # W9 — target coords (W2 ATB inject)
+        [0.040831, 0.318869, 0.000000, 0.292836, 0.417265, 0.522722, 0.161505, 0.827640],  # W9 actual
+        [0.043512, 0.408722, 0.007093, 0.181174, 0.420743, 0.529348, 0.164598, 0.795731],  # W10 actual
+        [0.031481, 0.311811, 0.010280, 0.180196, 0.397721, 0.420494, 0.162029, 0.787262],  # W11 GP Run1 (submitted)
     ],
 }
 
-# ── W8 Strategy per function ──────────────────────────────────────────────────
+# ── W11 Strategy per function ──────────────────────────────────────────────────
 STRATEGY = {
     "F1": {
-        "action": "EXPLORE — NEAR-UNIFORM RANDOM",
-        "exploit_ratio": 0.10,
-        "sigma": 0.45,
-        "sigma_type": "isotropic",
-        "ucb_kappa": 4.0,
-        "gp_restarts": 5,
-        "turbo": "EXPAND",
+        "action": "ATB OVERRIDE — W2 COORDS",
+        "exploit_ratio": None,
+        "sigma": None,
+        "sigma_type": "override",
+        "ucb_kappa": None,
+        "gp_restarts": 10,
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W9 = -2.45e-183 — 9 consecutive near-zero. Near-uniform random sigma=0.45, ratio=0.10. "
-            "Ollama 3-run plan: explore W10, return to ATB region [0.684,0.704] in W11-W12. "
-            "Wei et al. (2022) / Module 20: high-temperature sampling."
+            "W10 = 4.11e-58 — 10 consecutive near-zero. GP R²=1.0, mu=-0.000187 far below ATB. "
+            "Ollama W10 3-run plan: return to W2 ATB [0.684,0.704] for W11. "
+            "ATB override: exact W2 coordinates submitted."
         ),
         "best_week": "W2 (8.84e-7)",
-        "pattern": "Flat — no dominant region after 9 weeks",
-        "w9_submission": "0.979878-1.000000",
+        "pattern": "Flat near-zero — only W2 meaningful result in 10 weeks",
         "w10_submission": "0.911939-0.661887",
+        "w11_submission": "0.684200-0.704200",
     },
     "F2": {
-        "action": "RETURN TO ATB — ANISO X2 LOCK LOW X2 REGION",
-        "exploit_ratio": 0.95,
-        "sigma": [0.012, 0.007],
-        "sigma_type": "anisotropic",
-        "ucb_kappa": 2.0,
-        "gp_restarts": 5,
-        "turbo": "SHRINK",
+        "action": "ATB OVERRIDE — W9 COORDS",
+        "exploit_ratio": None,
+        "sigma": None,
+        "sigma_type": "override",
+        "ucb_kappa": None,
+        "gp_restarts": 10,
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W9 = 0.6497 (matched ATB). Ollama 4-run unanimous: X2=0.007 lock LOW X2 region. "
-            "Bimodal landscape — LOW X2 (~0.16) yields ATB, HIGH X2 (~0.93) inferior. "
-            "Kaplan et al. (2020) / Module 20: low-temperature precision sampling."
+            "W10 = 0.1636 — regression from W9 ATB. GP R²=1.0, only 3 positives — untrustworthy. "
+            "GP predicts 0.661 but surrogate cannot navigate bimodal landscape reliably. "
+            "ATB override: exact W9 ATB coordinates [0.710, 0.162] submitted."
         ),
         "best_week": "W5 / W9 (0.6497)",
         "pattern": "Bimodal: LOW X2 (~0.16) = ATB region; HIGH X2 (~0.93) = inferior",
-        "w9_submission": "0.710000-0.162000",
         "w10_submission": "0.640219-0.040241",
+        "w11_submission": "0.710068-0.161630",
     },
     "F3": {
-        "action": "EXPLOIT W6 ATB — ANISO X1 GRADIENT RECOVERY",
+        "action": "ATB OVERRIDE — W6 COORDS",
         "exploit_ratio": 0.92,
-        "sigma": [0.010, 0.018, 0.018],
+        "sigma": [0.005, 0.020, 0.025],
         "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
-        "gp_restarts": 6,
-        "turbo": "SHRINK",
+        "gp_restarts": 10,
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W9 = -0.01348 (recovery). Ollama 4-run unanimous: X1=0.010 recover W1-W6 gradient toward 1.0. "
-            "Full 9-week history sent to LLM. Gradient language in all 4 runs. "
-            "Shannon (1948) / Module 20: delimiting context to confirmed ATB region."
+            "W10 = -0.090154 — X1 drifted to 0.929, causing regression. "
+            "GP std output had X1=0.266 — completely wrong direction. "
+            "X1 near 1.0 is the critical driver. ATB override: exact W6 coords [0.998,0.621,0.453]."
         ),
         "best_week": "W6 (-0.000707)",
-        "pattern": "X1 gradient toward 1.0 established W1-W6; X2/X3 free",
-        "w9_submission": "0.750421-0.591494-0.448064",
+        "pattern": "X1 gradient toward 1.0 — W6 ATB only near-zero result in 10 weeks",
         "w10_submission": "0.929491-0.684416-0.621434",
+        "w11_submission": "0.998126-0.621218-0.453080",
     },
     "F4": {
-        "action": "RETURN TO W2 ATB — ANISO EXPLOIT",
-        "exploit_ratio": 0.60,
-        "sigma": [0.060, 0.050, 0.100, 0.070],
-        "sigma_type": "anisotropic",
-        "ucb_kappa": 3.0,
-        "gp_restarts": 8,
-        "turbo": "SHRINK",
+        "action": "ATB OVERRIDE — W2 COORDS",
+        "exploit_ratio": None,
+        "sigma": None,
+        "sigma_type": "override",
+        "ucb_kappa": None,
+        "gp_restarts": 10,
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W9 = -1.4047 — corner exploration failed. Return to W2 ATB [0.439,0.415,0.385,0.398]. "
-            "Ollama 3-run: X1/X4 unanimous, X2/X3 non-stationary flip resolved at midpoints. "
-            "Vaswani et al. (2017) / Module 20: anisotropic sigma per-dim structure."
+            "W10 = -1.8014 — 4th consecutive negative. GP mu=0.234 only 0.003 below ATB=0.2376. "
+            "GP R²=1.0, sigma=2.25 enormous uncertainty — prediction meaningless. "
+            "ATB override: exact W2 ATB coordinates submitted."
         ),
         "best_week": "W2 (+0.2376)",
-        "pattern": "Non-stationary — returning to W2 ATB region [0.439,0.415,0.385,0.398]",
-        "w9_submission": "0.522075-0.389882-0.430921-0.356775",
+        "pattern": "Non-stationary — only W2 produced positive result",
         "w10_submission": "0.476870-0.494027-0.420410-0.346682",
+        "w11_submission": "0.439249-0.414994-0.384687-0.397917",
     },
     "F5": {
-        "action": "EXPLOIT BOUNDARY [1,1,1,1] — ANISO PROBE",
-        "exploit_ratio": 0.92,
-        "sigma": [0.010, 0.015, 0.025, 0.010],
-        "sigma_type": "anisotropic",
-        "ucb_kappa": 2.0,
-        "gp_restarts": 8,
-        "turbo": "SHRINK",
+        "action": "ATB OVERRIDE — ALL-ONES CORNER",
+        "exploit_ratio": None,
+        "sigma": None,
+        "sigma_type": "override",
+        "ucb_kappa": None,
+        "gp_restarts": 10,
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W9 = 8662.48 NEW ATB. Ollama 4-run unanimous: X1/X4 tight boundary, X3=0.025 free probe. "
-            "4 consecutive new bests W6-W9. X3 relaxation may unlock further improvement. "
-            "Kaplan et al. (2020) / Module 20: gradient commit to confirmed boundary."
+            "W10 = 8471.33 — slight drop from W9 ATB. Structurally maximised at [1,1,1,1]. "
+            "Both GP runs (std and run 2) confirmed near-all-ones candidates. "
+            "ATB override: exact all-ones boundary submitted."
         ),
         "best_week": "W9 (8662.48)",
-        "pattern": "All dims at boundary 1.0 — probing X3 relaxation this week",
-        "w9_submission": "1.000000-1.000000-1.000000-1.000000",
+        "pattern": "All dims at boundary 1.0 — confirmed global maximum at corner",
         "w10_submission": "1.000000-1.000000-0.989930-1.000000",
+        "w11_submission": "1.000000-1.000000-1.000000-1.000000",
     },
     "F6": {
-        "action": "EXPLOIT W9 ATB — ANISO LOCK",
-        "exploit_ratio": 0.92,
-        "sigma": [0.015, 0.012, 0.010, 0.020, 0.013],
-        "sigma_type": "anisotropic",
-        "ucb_kappa": 2.0,
-        "gp_restarts": 8,
-        "turbo": "SHRINK",
+        "action": "ATB OVERRIDE — W9 COORDS",
+        "exploit_ratio": None,
+        "sigma": None,
+        "sigma_type": "override",
+        "ucb_kappa": None,
+        "gp_restarts": 10,
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W9 = 0.0360 NEW ATB — first positive F6 result. "
-            "Ollama 6-run converged: X3 dominant (sensitivity 3.11), tightest sigma. "
-            "GP predicts new best mu=0.141. Vaswani et al. (2017) / Module 20."
+            "W10 = -0.1443 — regression from W9 ATB. GP R²=1.0 unreliable despite positive delta. "
+            "Only 3 positives in classifier — surrogate untrustworthy. "
+            "ATB override: exact W9 ATB coordinates [0.407,0.339,0.635,0.769,0.115] submitted."
         ),
         "best_week": "W9 (0.0360)",
-        "pattern": "X3 dominant — first positive result W9; X4 high, X5 low confirmed",
-        "w9_submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        "pattern": "First positive W9; X3 dominant; ATB override protects result",
         "w10_submission": "0.389852-0.333817-0.652408-0.764251-0.078672",
+        "w11_submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
     },
     "F7": {
-        "action": "EXPLOIT W8 ATB — ANISO X3 DOMINANT",
+        "action": "GP PIPELINE — CONTINUE GRADIENT",
         "exploit_ratio": 0.92,
         "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030],
         "sigma_type": "anisotropic",
-        "ucb_kappa": 2.5,
-        "gp_restarts": 8,
-        "turbo": "SHRINK",
+        "ucb_kappa": 2.0,
+        "gp_restarts": 10,
+        "turbo": "HOLD",
         "rationale": (
-            "W9 = 2.5968 (slight regression from W8 ATB 2.5982). "
-            "Ollama 4-run unanimous: X3=0.018 dominant — strongest consensus in capstone. "
-            "GP predicts new best mu=2.690. Vaswani et al. (2017) / Module 20."
+            "W10 = 2.7201 — NEW ALL-TIME BEST! 5 consecutive improvements W6-W10. "
+            "GP mu=2.767 > ATB=2.720 (+0.047). Logistic Regression CV=82.1%. "
+            "Only function where GP pipeline is trusted. Continue the gradient."
         ),
-        "best_week": "W8 (2.5982)",
-        "pattern": "X1 near-zero anchor (~0.09); X3 dominant; X6 elevated (~0.70)",
-        "w9_submission": "0.096000-0.368000-0.413000-0.286000-0.337000-0.700000",
+        "best_week": "W10 (2.7201)",
+        "pattern": "X1 near-zero anchor; 5-week improvement streak W6-W10; GP trusted",
         "w10_submission": "0.125051-0.359133-0.441354-0.282350-0.330896-0.702888",
+        "w11_submission": "0.165978-0.338682-0.444076-0.255770-0.300940-0.704355",
     },
     "F8": {
-        "action": "EXPLOIT ATB — ANISO ZERO-BOUNDARY LOCK",
+        "action": "SUBMITTED — GP RUN 1",
         "exploit_ratio": 0.92,
         "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020],
         "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 10,
-        "turbo": "SHRINK",
+        "turbo": "HOLD",
         "rationale": (
-            "W9 = 9.8115. Ollama 4-run iterative: X4/X5/X6 unanimous; zero-boundary X1/X3/X7 locked. "
-            "GP predicts new best mu=9.895. CNN-1D won CV=89.3%. "
-            "Vaswani et al. (2017) / Module 20: zero-boundary dims = zero-attention heads."
+            "W10 = 9.8013. GP Run 1 produced highest mu=9.800 across 3 independent runs. "
+            "Run 2 and Run 3 had lower GP mu values. Zero-boundary X1/X3/X7≈0 confirmed. "
+            "Already submitted before W11 portal results — no further action needed."
         ),
         "best_week": "W2 (9.8320)",
-        "pattern": "X1/X3/X7 zero-boundary locked; X5/X8 free; closing gap to W2 ATB",
-        "w9_submission": "0.040831-0.318869-0.000000-0.292836-0.417265-0.522722-0.161505-0.827640",
+        "pattern": "X1/X3/X7 zero-boundary locked; closing gap to W2 ATB",
         "w10_submission": "0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731",
+        "w11_submission": "0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262",
     },
 }
-# ── W9 Summary at a glance ────────────────────────────────────────────────────
+# ── W11 Summary at a glance ────────────────────────────────────────────────────
 W7_GLANCE = {
-    "F1": {"true_best": "8.84e-7",   "best_wk": "W2", "w7_score": "-2.22e-17", "strategy": "EXPLORE",                          "override": False},
-    "F2": {"true_best": "0.6497",    "best_wk": "W5", "w7_score": "0.5338",    "strategy": "EXPLOIT W5 BEST — PRECISION TIGHTEN","override": False},
-    "F3": {"true_best": "-0.00534",  "best_wk": "W7", "w7_score": "-0.00534",  "strategy": "EXPLOIT W7 NEW BEST — TIGHTEN",     "override": False},
-    "F4": {"true_best": "+0.2376",   "best_wk": "W2", "w7_score": "-0.2651",   "strategy": "ABANDON INJECT — EXPLORE NEW REGIONS","override": False},
-    "F5": {"true_best": "7,596",     "best_wk": "W7", "w7_score": "7,596",     "strategy": "EXPLOIT W7 NEW BEST — PUSH X1 HIGHER","override": False},
-    "F6": {"true_best": "-0.1727",   "best_wk": "W6", "w7_score": "-0.3422",   "strategy": "EXPLOIT W6 BEST — RETURN AND TIGHTEN","override": False},
-    "F7": {"true_best": "2.4134",    "best_wk": "W7", "w7_score": "2.4134",    "strategy": "EXPLOIT W7 NEW BEST — ANISOTROPIC σ", "override": False},
-    "F8": {"true_best": "9.8320",    "best_wk": "W2", "w7_score": "9.8251",    "strategy": "EXPLOIT W2 BEST — PRECISION INJECT",  "override": True},
+    "F1": {"true_best": "8.84e-7",   "best_wk": "W2",  "w7_score": "4.11e-58",  "strategy": "ATB OVERRIDE — W2 coords [0.684,0.704]",          "override": True},
+    "F2": {"true_best": "0.6497",    "best_wk": "W9",  "w7_score": "0.1636",    "strategy": "ATB OVERRIDE — W9 coords [0.710,0.162]",           "override": True},
+    "F3": {"true_best": "-0.000707", "best_wk": "W6",  "w7_score": "-0.0902",   "strategy": "ATB OVERRIDE — W6 coords [0.998,0.621,0.453]",     "override": True},
+    "F4": {"true_best": "+0.2376",   "best_wk": "W2",  "w7_score": "-1.8014",   "strategy": "ATB OVERRIDE — W2 coords",                         "override": True},
+    "F5": {"true_best": "8,662",     "best_wk": "W9",  "w7_score": "8,471",     "strategy": "ATB OVERRIDE — all-ones [1,1,1,1]",                "override": True},
+    "F6": {"true_best": "0.0360",    "best_wk": "W9",  "w7_score": "-0.1443",   "strategy": "ATB OVERRIDE — W9 coords",                         "override": True},
+    "F7": {"true_best": "2.7201",    "best_wk": "W10", "w7_score": "2.7201",    "strategy": "GP PIPELINE — 5-week streak, mu=2.767 > ATB",      "override": False},
+    "F8": {"true_best": "9.8320",    "best_wk": "W2",  "w7_score": "9.8013",    "strategy": "SUBMITTED — GP Run 1, mu=9.800",                   "override": False},
 }
 
 # ── TuRBO sigma adaptation summary (W7→W8) ───────────────────────────────────
@@ -333,16 +349,16 @@ TURBO_SUMMARY = {
     "F8": {"sigma_prev": 0.012, "sigma_cur": "aniso [0.008,0.015,0.008,0.030,0.020,0.015,0.008,0.030]", "direction": "SHRINK",
            "note": "First anisotropic F8 — per-dim zero-boundary structure (Vaswani et al. 2017)"},
 }
-# ── Winning classifiers per function (W7) ────────────────────────────────────
+# ── Winning classifiers per function (W11) ───────────────────────────────────
 CLASSIFIERS = {
-    "F1": {"name": "Random Forest",      "cv": 0.778, "std": 0.12, "family": "RF"},
-    "F2": {"name": "CNN-1D",             "cv": 0.746, "std": 0.11, "family": "CNN"},
-    "F3": {"name": "Decision Tree",      "cv": 0.821, "std": 0.10, "family": "DT"},
-    "F4": {"name": "Random Forest",      "cv": 0.868, "std": 0.09, "family": "RF"},
-    "F5": {"name": "Linear SVM",         "cv": 1.000, "std": 0.00, "family": "SVM"},
-    "F6": {"name": "Random Forest",      "cv": 0.821, "std": 0.10, "family": "RF"},
-    "F7": {"name": "Linear SVM",         "cv": 0.739, "std": 0.18, "family": "SVM"},
-    "F8": {"name": "CNN-1D",             "cv": 0.893, "std": 0.08, "family": "CNN"},
+    "F1": {"name": "Random Forest",        "cv": 0.794, "std": 0.10, "family": "RF"},
+    "F2": {"name": "Random Forest",        "cv": 0.849, "std": 0.09, "family": "RF"},
+    "F3": {"name": "NN-Small (16,8)",      "cv": 0.708, "std": 0.12, "family": "NN"},
+    "F4": {"name": "Random Forest",        "cv": 0.875, "std": 0.09, "family": "RF"},
+    "F5": {"name": "Linear SVM",           "cv": 0.969, "std": 0.04, "family": "SVM"},
+    "F6": {"name": "Linear SVM",           "cv": 0.795, "std": 0.10, "family": "SVM"},
+    "F7": {"name": "Logistic Regression",  "cv": 0.821, "std": 0.09, "family": "LR"},
+    "F8": {"name": "Random Forest",        "cv": 0.873, "std": 0.08, "family": "RF"},
 }
 
 # ── All 8 model CV results per function (W8 actuals for F1-F3, W7 for F4-F8) ─
@@ -560,10 +576,17 @@ WEEKLY = {
         },
         {  # W10
             "hyperparams": {"exploit_ratio": 0.10, "sigma": 0.45, "ucb_kappa": 4.0, "gp_restarts": 5},
-            "hp_rationale": "Near-uniform random sigma=0.45, ratio=0.10. Ollama 3-run strategic plan: W10 explore, W11 return to ATB region, W12 tight exploit.",
-            "learned": "W10 submitted — awaiting portal result.",
+            "hp_rationale": "Near-uniform random sigma=0.45, ratio=0.10. Ollama 3-run strategic plan: W10 explore, W11 return to ATB region.",
+            "learned": "Score 4.11e-58 — 10th consecutive near-zero. Ollama plan confirmed: W11 return to W2 ATB [0.684,0.704].",
             "experiment": "Module 20 Ollama Step 11B: strategic history reasoning (temp=0.7). Phased 3-query plan for F1 remaining budget.",
             "submission": "0.911939-0.661887",
+        },
+        {  # W11
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override — GP R2=1.0 unreliable. 10 consecutive near-zero. Submitting exact W2 ATB coordinates.",
+            "learned": "W11 submitted — awaiting portal result.",
+            "experiment": "ATB override rule: R2=1.0 + n_positives<5 → bypass GP, submit known best. W2 ATB [0.684,0.704] is the only meaningful result.",
+            "submission": "0.684200-0.704200",
         },
     ],
     "F2": [
@@ -637,6 +660,13 @@ WEEKLY = {
             "experiment": "Module 20 Ollama Step 11B: 4-run unanimous. Two-region landscape context produced zero divergence. X2 drift 0.777 flagged all runs.",
             "submission": "0.640219-0.040241",
         },
+        {  # W11
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override — GP R2=1.0, only 3 positives. Submitting exact W9 ATB coordinates.",
+            "learned": "W11 submitted — awaiting portal result.",
+            "experiment": "ATB override: bimodal landscape, GP untrustworthy. W9 ATB [0.710,0.162] submitted.",
+            "submission": "0.710068-0.161630",
+        },
     ],
     "F3": [
         {  # W1
@@ -708,6 +738,13 @@ WEEKLY = {
             "learned": "W10 submitted — awaiting portal result.",
             "experiment": "Module 20 Ollama Step 11B: 4-run unanimous (4th run confirmed free for X3). All runs used gradient language.",
             "submission": "0.929491-0.684416-0.621434",
+        },
+        {  # W11
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.005, 0.020, 0.025], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "ATB override — GP std output X1=0.266, completely wrong direction. X1 near 1.0 is critical.",
+            "learned": "W11 submitted — awaiting portal result.",
+            "experiment": "ATB override: GP output X1=0.266 vs required X1≈1.0. W6 ATB [0.998,0.621,0.453] submitted directly.",
+            "submission": "0.998126-0.621218-0.453080",
         },
     ],
     "F4": [
@@ -781,6 +818,13 @@ WEEKLY = {
             "experiment": "Module 20 Ollama Step 11B: 3-run non-stationary. X2/X3 flip is key Module 20 finding — non-stationary GP gives Ollama contradictory data.",
             "submission": "0.476870-0.494027-0.420410-0.346682",
         },
+        {  # W11
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override — GP mu=0.234 within 0.003 of ATB but sigma=2.25 enormous. Exact W2 coords safer.",
+            "learned": "W11 submitted — awaiting portal result.",
+            "experiment": "ATB override: GP R2=1.0 with sigma=2.25 = no genuine prediction. W2 ATB [0.439,0.415,0.385,0.398] submitted.",
+            "submission": "0.439249-0.414994-0.384687-0.397917",
+        },
     ],
     "F5": [
         {  # W1
@@ -852,6 +896,13 @@ WEEKLY = {
             "learned": "W10 submitted — awaiting portal result.",
             "experiment": "Module 20 Ollama Step 11B: 4-run unanimous. X3 given free sigma to probe relaxation below boundary. CV=100% is capstone first.",
             "submission": "1.000000-1.000000-0.989930-1.000000",
+        },
+        {  # W11
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override — structurally maximised at corner [1,1,1,1]. Always all-ones.",
+            "learned": "W11 submitted — awaiting portal result.",
+            "experiment": "ATB override: W10 X3 probe confirmed [1,1,1,1] is global maximum. All-ones every remaining week.",
+            "submission": "1.000000-1.000000-1.000000-1.000000",
         },
     ],
     "F6": [
@@ -925,6 +976,13 @@ WEEKLY = {
             "experiment": "Module 20 Ollama Step 11B: 6 iterative rounds. X3 dominant every run. Strongest GP prediction of W10 (+0.105).",
             "submission": "0.389852-0.333817-0.652408-0.764251-0.078672",
         },
+        {  # W11
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override — GP R2=1.0, only 3 positives. W9 ATB coords submitted.",
+            "learned": "W11 submitted — awaiting portal result.",
+            "experiment": "ATB override: 3 positive class labels — classifier cannot learn boundary reliably. ATB [0.407,0.339,0.635,0.769,0.115] submitted.",
+            "submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        },
     ],
     "F7": [
         {  # W1
@@ -992,10 +1050,17 @@ WEEKLY = {
         },
         {  # W10
             "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030], "ucb_kappa": 2.5, "gp_restarts": 8},
-            "hp_rationale": "Anisotropic: X1=0.010 anchor, X3=0.018 dominant, X2/X6=0.030 free. Ollama 4-run unanimous — strongest capstone consensus.",
-            "learned": "W10 submitted — awaiting portal result. GP predicts new best mu=2.690 vs ATB=2.598.",
-            "experiment": "Module 20 Ollama Step 11B: 4-run unanimous. X3=0.018 strongest sigma consensus in entire capstone. GP +0.091 prediction.",
+            "hp_rationale": "Aniso X3=0.018 dominant — Ollama 4-run unanimous. Strongest consensus in capstone.",
+            "learned": "Score 2.7201 — NEW ALL-TIME BEST! 5th consecutive improvement. ATB up from 2.5982 to 2.7201.",
+            "experiment": "Module 20 Ollama — X3=0.018 unanimous 4/4. 5-week improvement streak confirmed. GP pipeline trusted for W11.",
             "submission": "0.125051-0.359133-0.441354-0.282350-0.330896-0.702888",
+        },
+        {  # W11
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "GP pipeline — only function where surrogate is trusted. 5-week streak, GP mu=2.767 > ATB=2.720.",
+            "learned": "W11 submitted — awaiting portal result. GP predicts +0.047 above ATB.",
+            "experiment": "GP pipeline exception: Logistic Regression CV=82.1%, GP mu=2.767 > ATB=2.720. 5 consecutive improvements justify trust.",
+            "submission": "0.165978-0.338682-0.444076-0.255770-0.300940-0.704355",
         },
     ],
     "F8": [
@@ -1064,10 +1129,17 @@ WEEKLY = {
         },
         {  # W10
             "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020], "ucb_kappa": 2.0, "gp_restarts": 10},
-            "hp_rationale": "Anisotropic: X1/X3/X7=0.006 zero-boundary locks, X5=0.025, X6=0.030 free, X8=0.020. Ollama 4-run iterative.",
-            "learned": "W10 submitted — awaiting portal result. GP predicts new best mu=9.895 vs ATB=9.825.",
-            "experiment": "Module 20 Ollama Step 11B: 4-run iterative. X4/X5/X6 unanimous. X8 settled at 0.020 (overcorrected R1). CNN-1D CV=89.3%.",
+            "hp_rationale": "Anisotropic: X1/X3/X7=0.006 zero-boundary locks. Ollama 4-run iterative.",
+            "learned": "Score 9.8013 — close to W2 ATB 9.8320. Gap = 0.031. GP Run 1 selected for W11.",
+            "experiment": "Module 20 Ollama — 4-run iterative. X4/X5/X6 unanimous. Three GP runs compared for W11: Run 1 highest mu=9.800.",
             "submission": "0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731",
+        },
+        {  # W11
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "GP Run 1 — highest mu=9.800 across 3 independent runs. Zero-boundary X1/X3/X7 locked.",
+            "learned": "W11 ALREADY SUBMITTED — awaiting portal result.",
+            "experiment": "3 GP runs compared: Run 1 mu=9.800 (highest), Run 2 lower, Run 3 lower. Run 1 submitted before W11 portal results.",
+            "submission": "0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262",
         },
     ],
 }

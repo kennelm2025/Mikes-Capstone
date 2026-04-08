@@ -13,6 +13,17 @@ A 13-week Black-Box Optimisation challenge. Each week one new data point is reve
 
 **Live dashboard:** [mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app)
 
+**GitHub repository:** [github.com/kennelm2025/Mikes-Capstone](https://github.com/kennelm2025/Mikes-Capstone)
+
+---
+
+## Module 21 Documentation
+
+| Document | Link |
+|----------|------|
+| **Model Card** — BBO pipeline (Mitchell et al. 2019 framework) | [capstone-project/week-11/model_card_bbo_w11.md](capstone-project/week-11/model_card_bbo_w11.md) |
+| **Datasheet** — BBO oracle dataset (Gebru et al. 2021 framework) | [capstone-project/week-11/datasheet_bbo_w11.md](capstone-project/week-11/datasheet_bbo_w11.md) |
+
 ---
 
 ## Results (W1–W11)
@@ -106,18 +117,18 @@ Each week follows a 15-step notebook pipeline. W11 adds the ATB override check a
 
 ---
 
-## Module 21 Deliverables (This Week)
+## Module 21 Deliverables
 
 | File | Description | Location |
 |------|-------------|----------|
-| `model_card_bbo_w11_final.md` | Model card following Mini-lesson 21.2 framework | `/week-11/` |
-| `datasheet_bbo_w11.md` | Dataset datasheet (Gebru et al. 2021) | `/week-11/` |
-| `capstone_21_1_reflection.md` | W11 strategy reflection (700 words) | `/week-11/` |
-| `capstone_21_2_datasheet_modelcard.md` | Combined capstone datasheet + model card | `/week-11/` |
-| `discussion_21_1_datasheet_pima.md` | Discussion board post — Pima datasheet | `/week-11/` |
-| `discussion_21_2_model_card.md` | Discussion board post — model card analysis | `/week-11/` |
-| `discussion_21_3_tradeoffs.md` | Discussion board post — explainability trade-offs | `/week-11/` |
-| `BBO_W11_Submissions.txt` | All 8 W11 submission strings with rationale | `/week-11/` |
+| [`model_card_bbo_w11.md`](capstone-project/week-11/model_card_bbo_w11.md) | Model card — Mini-lesson 21.2 framework | `/week-11/` |
+| [`datasheet_bbo_w11.md`](capstone-project/week-11/datasheet_bbo_w11.md) | Dataset datasheet — Gebru et al. 2021 | `/week-11/` |
+| [`capstone_21_1_reflection.md`](capstone-project/week-11/capstone_21_1_reflection.md) | W11 strategy reflection (700 words) | `/week-11/` |
+| [`capstone_21_2_datasheet_modelcard.md`](capstone-project/week-11/capstone_21_2_datasheet_modelcard.md) | Combined capstone datasheet + model card | `/week-11/` |
+| [`discussion_21_1_datasheet_pima.md`](capstone-project/week-11/discussion_21_1_datasheet_pima.md) | Discussion board — Pima datasheet | `/week-11/` |
+| [`discussion_21_2_model_card.md`](capstone-project/week-11/discussion_21_2_model_card.md) | Discussion board — model card analysis | `/week-11/` |
+| [`discussion_21_3_tradeoffs.md`](capstone-project/week-11/discussion_21_3_tradeoffs.md) | Discussion board — explainability trade-offs | `/week-11/` |
+| [`BBO_W11_Submissions.txt`](capstone-project/week-11/BBO_W11_Submissions.txt) | All 8 W11 submission strings with rationale | `/week-11/` |
 
 ---
 
@@ -145,29 +156,27 @@ Each week follows a 15-step notebook pipeline. W11 adds the ATB override check a
 
 ```
 capstone-project/
-├── README.md                          ← This file
-├── model_card.md                      ← Top-level model card (links to week-11 version)
-├── datasheet.md                       ← Top-level datasheet (links to week-11 version)
-├── week-01/ … week-10/                ← Historical weekly notebooks and data
+├── README.md                               ← This file
+├── week-01/ … week-10/                     ← Historical weekly notebooks and data
 └── week-11/
-    ├── Capstone_F1_W11_run2.ipynb     ← ATB override notebook
-    ├── Capstone_F2_W11_run2.ipynb
-    ├── Capstone_F3_W11.ipynb          ← GP pipeline (rebuilt from W10 template)
-    ├── Capstone_F4_W11_run2.ipynb
-    ├── Capstone_F5_W11_run2.ipynb
-    ├── Capstone_F6_W11_run2.ipynb
-    ├── Capstone_F7_W11.ipynb          ← GP pipeline (trusted)
-    ├── Capstone_F8_W11.ipynb          ← GP pipeline (already submitted)
-    ├── f1_w11_inputs.npy … f8_w11_inputs.npy
-    ├── f1_w11_outputs.npy … f8_w11_outputs.npy
-    ├── BBO_W11_Submissions.txt
-    ├── model_card_bbo_w11_final.md
-    ├── datasheet_bbo_w11.md
+    ├── model_card_bbo_w11.md               ← Model card (Module 21)
+    ├── datasheet_bbo_w11.md                ← Datasheet (Module 21)
     ├── capstone_21_1_reflection.md
     ├── capstone_21_2_datasheet_modelcard.md
     ├── discussion_21_1_datasheet_pima.md
     ├── discussion_21_2_model_card.md
-    └── discussion_21_3_tradeoffs.md
+    ├── discussion_21_3_tradeoffs.md
+    ├── BBO_W11_Submissions.txt
+    ├── Capstone_F1_W11_run2.ipynb
+    ├── Capstone_F2_W11_run2.ipynb
+    ├── Capstone_F3_W11.ipynb
+    ├── Capstone_F4_W11_run2.ipynb
+    ├── Capstone_F5_W11_run2.ipynb
+    ├── Capstone_F6_W11_run2.ipynb
+    ├── Capstone_F7_W11.ipynb
+    ├── Capstone_F8_W11.ipynb
+    ├── f1_w11_inputs.npy … f8_w11_inputs.npy
+    └── f1_w11_outputs.npy … f8_w11_outputs.npy
 ```
 
 ---

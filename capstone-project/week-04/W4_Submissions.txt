@@ -1,0 +1,78 @@
+BBO CAPSTONE — WEEK 4 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.688418-0.724106
+Function 2:  0.780933-0.991508
+Function 3:  0.994895-0.923048-0.002025
+Function 4:  0.416942-0.375701-0.349851-0.307692
+Function 5:  0.354704-0.918228-0.996554-0.945368
+Function 6:  0.389668-0.198001-0.587627-0.826307-0.048870
+Function 7:  0.100466-0.554392-0.327801-0.220568-0.466257-0.666497
+Function 8:  0.069272-0.717004-0.001256-0.001021-0.132919-0.479931-0.048004-0.722152
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  Strategy   : EXPLORE
+  Note       : Multi-model CV — spatial targeting
+  Result     : 1.658e-09
+  Submission : 0.688418-0.724106
+
+F2 (2D)
+  Strategy   : EXPLOIT
+  Note       : RF → GP — recover from W3 regression
+  Result     : 0.018786
+  Submission : 0.780933-0.991508
+
+F3 (3D)
+  Strategy   : RECOVER W1
+  Note       : DT → GP — X1 boundary focus
+  Result     : -0.13795
+  Submission : 0.994895-0.923048-0.002025
+
+F4 (4D)
+  Strategy   : RECOVER W2
+  Note       : NN-Small → GP — edging back to [0.4]^4
+  Result     : -0.52679
+  Submission : 0.416942-0.375701-0.349851-0.307692
+
+F5 (4D)
+  Strategy   : EXPLOIT
+  Note       : RF → GP — X1 drift to 0.355, W3 best missed
+  Result     : 2913
+  Submission : 0.354704-0.918228-0.996554-0.945368
+
+F6 (5D)
+  Strategy   : RECOVER W2
+  Note       : LR → GP — X4/X5 pattern partially recovered
+  Result     : -0.36301
+  Submission : 0.389668-0.198001-0.587627-0.826307-0.048870
+
+F7 (6D)
+  Strategy   : EXPLOIT
+  Note       : SVM → GP — X1 drift to 0.10, regression
+  Result     : 1.1399
+  Submission : 0.100466-0.554392-0.327801-0.220568-0.466257-0.666497
+
+F8 (8D)
+  Strategy   : EXPLOIT
+  Note       : DT → GP — slight drift from W2 pattern
+  Result     : 9.3341
+  Submission : 0.069272-0.717004-0.001256-0.001021-0.132919-0.479931-0.048004-0.722152
+
+=======================================================
+RUNNING BEST TO DATE (after this week)
+=======================================================
+  F1: best = 8.838e-07  (W2)
+  F2: best = 0.52462  (W1)
+  F3: best = -0.013577  (W1)
+  F4: best = 0.23759  (W2)
+  F5: best = 4890.6  (W3)
+  F6: best = -0.2372  (W2)
+  F7: best = 1.7392  (W2)
+  F8: best = 9.832  (W2)

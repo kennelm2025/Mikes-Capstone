@@ -1,0 +1,11 @@
+F2 WEEK 3
+================================================================================
+
+1.000000-1.000000
+
+Strategy: Model Testing + Focus on BEST
+Best model: Decision Tree (d=2)
+Model CV: 75.0%
+Prediction: 0.345636 +/- 0.211759
+Source: LOCAL (BEST point)
+Focus: BEST point (not W2)

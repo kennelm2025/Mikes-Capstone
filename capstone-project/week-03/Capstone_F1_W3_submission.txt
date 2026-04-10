@@ -1,0 +1,11 @@
+F1 WEEK 3
+================================================================================
+
+0.901038-0.877039
+
+Strategy: Model Testing + Local Exploitation
+Best model: Decision Tree (d=2)
+Model CV: 83.3%
+Prediction: -0.00030043 +/- 0.00099669
+Source: Decision Tree (d=2)
+Week 2: rank 1 (refining success)

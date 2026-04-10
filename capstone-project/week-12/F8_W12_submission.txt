@@ -1,0 +1,4 @@
+# F8 Week 12 | ATB OVERRIDE | MAXIMIZE
+# ATB: 9.826891 @ W2 -- exact replication
+# Zero-boundary (X1=X3=X7=0) confirmed across 10 attempts. W11 9.827 still below W2 ATB.
+0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212

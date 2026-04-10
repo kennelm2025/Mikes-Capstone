@@ -1,0 +1,5 @@
+# F6 Week 8 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: CNN-1D (learning) CV=76.2% | GP R2=1.0000
+# mu=-0.184183 sigma=0.141243 EI=0.046246
+# best=-0.172677 delta=-0.011506
+0.460210-0.301460-0.549552-0.839145-0.200664

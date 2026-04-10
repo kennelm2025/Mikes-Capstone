@@ -1,0 +1,19 @@
+F7 WEEK 4: Adaptive Model Selection -> GP
+================================================================================
+
+Submission:
+0.100466-0.554392-0.327801-0.220568-0.466257-0.666497
+
+SELECTED MODEL: Small NN
+  CV: 75.8%
+  Type: neural_network
+
+POINT ANALYSIS:
+  Source: Small NN-APPROVED
+  Model confidence: 53.6%
+  GP prediction: 0.819382 +/- 0.300700
+  Distance from W3: 0.1359
+
+Key Insights:
+  Top 3 dimensions (NN): X5, X6, X1
+  Steepest gradient: X5 (-0.8571)

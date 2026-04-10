@@ -1,0 +1,19 @@
+WEEK 4: Adaptive Model Selection -> GP
+================================================================================
+
+Submission:
+0.416942-0.375701-0.349851-0.307692
+
+SELECTED MODEL: Large NN
+  CV: 84.8%
+  Type: neural_network
+
+POINT ANALYSIS:
+  Source: Large NN-APPROVED
+  Model confidence: 93.7%
+  GP prediction: -5.503580 +/- 3.268194
+  Distance from W3: 0.2280
+
+Key Insights:
+  Top 3 dimensions (NN): X3, X4, X2
+  Steepest gradient: X3 (-0.0636)

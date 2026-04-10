@@ -1,0 +1,6 @@
+BBO Run Report -- F1 Week 12
+============================================================
+Strategy  : ATB OVERRIDE -- replicate W11 ATB [0.684200, 0.704200]
+Clustering: TIGHT ATTRACTOR
+ATB       : 0.000001 @ W11
+Submit    : 0.684200-0.704200

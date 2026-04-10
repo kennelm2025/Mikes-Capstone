@@ -1,0 +1,5 @@
+# F1 Week 10 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Random Forest CV=77.8% | GP R2=1.0000
+# mu=-0.000084 sigma=0.000686 EI=0.000000
+# best=0.000000 delta=-0.000084
+0.911939-0.661887

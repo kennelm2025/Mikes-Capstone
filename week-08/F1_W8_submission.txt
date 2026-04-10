@@ -1,0 +1,5 @@
+# F1 Week 8 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Random Forest CV=87.5% | GP R2=1.0000
+# mu=-0.000220 sigma=0.000883 EI=0.000000
+# best=0.000000 delta=-0.000220
+0.887104-0.668800

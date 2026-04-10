@@ -25,7 +25,7 @@ A 13-week Black-Box Optimisation challenge. Each week one new data point is reve
 |Document|Link|
 |-|-|
 |**Model Card** — BBO pipeline (Mitchell et al. 2019)|[week-11/model\_card\_bbo\_w11.md](week-11/model_card_bbo_w11.md)|
-|**Datasheet** — BBO oracle dataset (Gebru et al. 2021)|[week-11/datasheet\_bbo\_w11.md](week-11/datasheet_bbo_w11.md)|
+|**Datasheet** — BBO oracle dataset (Gebru et al. 2021)|[week-11/datasheet_bbo_w11.md](week-11/datasheet_bbo_w11.md)
 |**Live Dashboard for BBO Capstone**|**mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app**|
 
 \---

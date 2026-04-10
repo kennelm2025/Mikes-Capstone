@@ -1,0 +1,6 @@
+BBO Run Report -- F5 Week 12
+============================================================
+Strategy  : ATB OVERRIDE -- corner maximum [1,1,1,1] confirmed
+Clustering: CORNER ATTRACTOR (tightest of all 8 functions)
+ATB       : 8662.482500 @ W9
+Submit    : 1.000000-1.000000-1.000000-1.000000

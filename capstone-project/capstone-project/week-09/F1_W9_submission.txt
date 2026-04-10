@@ -1,0 +1,5 @@
+# F1 Week 9 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: Random Forest CV=94.4% | GP R2=1.0000
+# mu=-0.000212 sigma=0.000858 EI=0.000000
+# best=0.000000 delta=-0.000212
+0.979878-1.000000

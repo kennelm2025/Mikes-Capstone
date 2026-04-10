@@ -1,0 +1,66 @@
+BBO CAPSTONE — WEEK 6 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.073922-0.407137
+Function 2:  0.700809-0.126122
+Function 3:  0.998126-0.621218-0.453080
+Function 4:  0.409880-0.438300-0.455827-0.349885
+Function 5:  0.780996-1.000000-1.000000-1.000000
+Function 6:  0.427085-0.325768-0.598116-0.780155-0.143939
+Function 7:  0.055152-0.406993-0.341295-0.241517-0.375251-0.684958
+Function 8:  0.000000-0.387061-0.068459-0.146466-0.368072-0.662820-0.291841-0.727685
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  True best used  : 1.658e-09
+  Classifier      : SVM (CV=0.667)
+  GP prediction   : -0.00020946 ± 0.00091236
+  Submission      : 0.073922-0.407137
+
+F2 (2D)
+  True best used  : 0.6497
+  Classifier      : RF (CV=0.800)
+  GP prediction   : 0.60911 ± 0.13248
+  Submission      : 0.700809-0.126122
+
+F3 (3D)
+  True best used  : -0.013577
+  Classifier      : DT (CV=0.750)
+  GP prediction   : -0.049104 ± 0.0704
+  Submission      : 0.998126-0.621218-0.453080
+
+F4 (4D)
+  True best used  : 0.2376
+  Classifier      : RF (CV=0.857)
+  GP prediction   : 2.7341 ± 4.1084
+  Submission      : 0.409880-0.438300-0.455827-0.349885
+
+F5 (4D)
+  True best used  : 4890.6
+  Classifier      : RF (CV=0.880)
+  GP prediction   : 4994.3 ± 158.06
+  Submission      : 0.780996-1.000000-1.000000-1.000000
+
+F6 (5D)
+  True best used  : -0.2372
+  Classifier      : RF (CV=0.720)
+  GP prediction   : -0.22875 ± 0.14837
+  Submission      : 0.427085-0.325768-0.598116-0.780155-0.143939
+
+F7 (6D)
+  True best used  : 1.7392
+  Classifier      : NNs (CV=0.857)
+  GP prediction   : 1.6997 ± 0.15065
+  Submission      : 0.055152-0.406993-0.341295-0.241517-0.375251-0.684958
+
+F8 (8D)
+  True best used  : 9.8188
+  Classifier      : DT (CV=0.864)
+  GP prediction   : 9.8919 ± 0.53301
+  Submission      : 0.000000-0.387061-0.068459-0.146466-0.368072-0.662820-0.291841-0.727685

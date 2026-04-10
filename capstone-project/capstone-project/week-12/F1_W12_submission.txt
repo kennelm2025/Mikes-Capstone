@@ -1,0 +1,4 @@
+# F1 Week 12 | ATB OVERRIDE | MAXIMIZE
+# ATB: 0.000001 @ W11 -- exact replication
+# W11 = new ATB. GP R2=1.0 flat landscape, EI~0. Override to W11 ATB coords.
+0.684200-0.704200

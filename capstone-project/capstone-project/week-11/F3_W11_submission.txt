@@ -1,0 +1,5 @@
+# F3 Week 11 | Method: Adaptive+GP/EI | MAXIMIZE
+# Model: NN-Small (16, 8) CV=70.8% | GP R2=1.0000
+# mu=-0.073147 sigma=0.079641 EI=0.006203
+# best=-0.000707 delta=-0.072440
+0.266359-0.069372-0.313759

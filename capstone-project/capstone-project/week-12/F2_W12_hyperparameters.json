@@ -1,0 +1,29 @@
+{
+  "function": "F2",
+  "week": 12,
+  "timestamp": "2026-04-10 01:01:21",
+  "strategy": "ATB OVERRIDE -- replicate W5 ATB [0.710068, 0.161630]",
+  "cluster_type": "* TWO-ZONE HIERARCHICAL CLUSTER (Module 22 primary showcase)",
+  "atb_value": 0.6497,
+  "atb_week": 5,
+  "override_str": "0.710068-0.161630",
+  "hyperparameters": {
+    "EXPLOIT_RATIO": 0.92,
+    "EXPLOIT_SIGMA": 0.015,
+    "ANISO_SIGMA": [
+      0.012,
+      0.008
+    ],
+    "EI_XI": 0.01,
+    "UCB_KAPPA": 2.0,
+    "GP_RESTARTS": 10,
+    "TOP_PERCENTILE": 30,
+    "FILTER_PERCENTILE": 50
+  },
+  "gp_kernel": "1**2 * Matern(length_scale=0.01, nu=2.5)",
+  "gp_r2": 1.0,
+  "gp_rmse": 7.6e-07,
+  "best_model": "Decision Tree",
+  "best_model_cv": 0.8571,
+  "submission_string": "0.710068-0.161630"
+}

@@ -1,0 +1,31 @@
+{
+  "function": "F4",
+  "week": 12,
+  "timestamp": "2026-04-10 01:02:58",
+  "strategy": "ATB OVERRIDE -- replicate W2 ATB [0.439249, 0.414994, 0.384687, 0.397917]",
+  "cluster_type": "ISOLATED ATTRACTOR",
+  "atb_value": 0.23759,
+  "atb_week": 2,
+  "override_str": "0.439249-0.414994-0.384687-0.397917",
+  "hyperparameters": {
+    "EXPLOIT_RATIO": 0.92,
+    "EXPLOIT_SIGMA": 0.012,
+    "ANISO_SIGMA": [
+      0.012,
+      0.012,
+      0.012,
+      0.012
+    ],
+    "EI_XI": 0.01,
+    "UCB_KAPPA": 2.0,
+    "GP_RESTARTS": 10,
+    "TOP_PERCENTILE": 30,
+    "FILTER_PERCENTILE": 50
+  },
+  "gp_kernel": "0.869**2 * Matern(length_scale=0.709, nu=2.5)",
+  "gp_r2": 1.0,
+  "gp_rmse": 2.688e-05,
+  "best_model": "Random Forest",
+  "best_model_cv": 0.95,
+  "submission_string": "0.439249-0.414994-0.384687-0.397917"
+}

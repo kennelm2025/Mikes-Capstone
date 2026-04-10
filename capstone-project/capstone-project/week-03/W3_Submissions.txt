@@ -1,0 +1,78 @@
+BBO CAPSTONE — WEEK 3 SUBMISSIONS
+Mike Kennelly
+=======================================================
+
+COPY-PASTE READY:
+
+Function 1:  0.901038-0.877039
+Function 2:  1.000000-1.000000
+Function 3:  0.445674-0.067500-0.478844
+Function 4:  0.433865-0.401407-0.305160-0.392809
+Function 5:  0.803046-0.945451-0.997548-0.976270
+Function 6:  0.211471-0.061090-0.455131-0.905520-0.004030
+Function 7:  0.000000-0.426480-0.305686-0.172140-0.357890-0.637217
+Function 8:  0.012005-0.365808-0.002051-0.165458-0.447850-0.535087-0.152929-0.745216
+
+=======================================================
+DETAIL (for reference)
+=======================================================
+
+F1 (2D)
+  Strategy   : EXPLORE
+  Note       : SVM pre-filter introduced — flat landscape
+  Result     : 5.167e-96
+  Submission : 0.901038-0.877039
+
+F2 (2D)
+  Strategy   : EXPLOIT
+  Note       : SVM → GP — boundary push
+  Result     : -0.029819
+  Submission : 1.000000-1.000000
+
+F3 (3D)
+  Strategy   : RECOVER W1
+  Note       : SVM → GP — attempt to return to W1 region
+  Result     : -0.083372
+  Submission : 0.445674-0.067500-0.478844
+
+F4 (4D)
+  Strategy   : RECOVER W2
+  Note       : SVM → GP — W2 peak (+0.238) not replicated
+  Result     : -0.96202
+  Submission : 0.433865-0.401407-0.305160-0.392809
+
+F5 (4D)
+  Strategy   : EXPLOIT
+  Note       : SVM → GP — all dims high, X1 pushed higher
+  Result     : 4890.6
+  Submission : 0.803046-0.945451-0.997548-0.976270
+
+F6 (5D)
+  Strategy   : RECOVER W2
+  Note       : Conditional SVM → GP — X4/X5 pattern partial
+  Result     : -0.88345
+  Submission : 0.211471-0.061090-0.455131-0.905520-0.004030
+
+F7 (6D)
+  Strategy   : RECOVER W2
+  Note       : Pure GP — W2/W3 peak confirmed, X1=0
+  Result     : 1.7358
+  Submission : 0.000000-0.426480-0.305686-0.172140-0.357890-0.637217
+
+F8 (8D)
+  Strategy   : EXPLOIT
+  Note       : SVM → GP — boundary pattern X1≈0 X3≈0 X5↑
+  Result     : 9.8188
+  Submission : 0.012005-0.365808-0.002051-0.165458-0.447850-0.535087-0.152929-0.745216
+
+=======================================================
+RUNNING BEST TO DATE (after this week)
+=======================================================
+  F1: best = 8.838e-07  (W2)
+  F2: best = 0.52462  (W1)
+  F3: best = -0.013577  (W1)
+  F4: best = 0.23759  (W2)
+  F5: best = 4890.6  (W3)
+  F6: best = -0.2372  (W2)
+  F7: best = 1.7392  (W2)
+  F8: best = 9.832  (W2)

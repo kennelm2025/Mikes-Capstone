@@ -1,0 +1,31 @@
+{
+  "function": "F5",
+  "week": 12,
+  "timestamp": "2026-04-10 01:03:49",
+  "strategy": "ATB OVERRIDE -- corner maximum [1,1,1,1] confirmed",
+  "cluster_type": "CORNER ATTRACTOR (tightest of all 8 functions)",
+  "atb_value": 8662.48,
+  "atb_week": 9,
+  "override_str": "1.000000-1.000000-1.000000-1.000000",
+  "hyperparameters": {
+    "EXPLOIT_RATIO": 0.95,
+    "EXPLOIT_SIGMA": 0.005,
+    "ANISO_SIGMA": [
+      0.005,
+      0.005,
+      0.005,
+      0.005
+    ],
+    "EI_XI": 0.01,
+    "UCB_KAPPA": 2.0,
+    "GP_RESTARTS": 10,
+    "TOP_PERCENTILE": 30,
+    "FILTER_PERCENTILE": 50
+  },
+  "gp_kernel": "5.49**2 * Matern(length_scale=6.66, nu=2.5)",
+  "gp_r2": 1.0,
+  "gp_rmse": 0.61742777,
+  "best_model": "Linear SVM",
+  "best_model_cv": 0.9688,
+  "submission_string": "1.000000-1.000000-1.000000-1.000000"
+}

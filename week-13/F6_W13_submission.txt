@@ -1,5 +1,0 @@
-# F6 Week 13 | ATB OVERRIDE | MAXIMIZE | FINAL ROUND
-# ATB: 0.036017 @ W9 -- only positive result in 12 weeks; W11/W12 regressed at same coords.
-# Oracle noise sigma ~ 0.06 at replay coords (HIGHEST of all 8 functions).
-# PCA lens: threshold / dominant-PC case (Module 23 V2); X5 narrow-active at 0.115, effective dim = 5.
-0.406643-0.339495-0.634775-0.769397-0.115269

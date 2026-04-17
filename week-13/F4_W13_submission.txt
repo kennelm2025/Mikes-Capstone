@@ -1,5 +1,0 @@
-# F4 Week 13 | ATB OVERRIDE | MAXIMIZE | FINAL ROUND
-# ATB: 0.237591 @ W2 -- triple-confirmed by W11 + W12 exact matches (deterministic)
-# 9 of 12 weeks negative; single isolated positive basin; GP sigma=2.25 non-stationary.
-# PCA lens: isolated-basin case (Module 23 V2+V5); all 4 PCs active, no removable dim.
-0.439249-0.414994-0.384687-0.397917

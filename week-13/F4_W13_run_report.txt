@@ -1,8 +1,0 @@
-BBO Run Report -- F4 Week 13 (FINAL ROUND)
-============================================================
-Strategy   : ATB OVERRIDE -- replicate W2 ATB [0.439249, 0.414994, 0.384687, 0.397917]
-Clustering : ISOLATED POSITIVE BASIN (single positive across 12 weeks)
-PCA lens   : Isolated-basin case (Module 23 V2+V5) -- all 4 PCs active, no removable dim
-ATB        : 0.237591 @ W2 (triple-confirmed by W11 + W12 exact matches)
-Oracle     : deterministic (identical coords -> identical scores)
-Submit     : 0.439249-0.414994-0.384687-0.397917

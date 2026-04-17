@@ -1,7 +1,0 @@
-BBO Run Report -- F1 Week 13 (FINAL SUBMISSION)
-============================================================
-Strategy  : ATB OVERRIDE -- replicate W11/W12 ATB [0.684200, 0.704200]
-Clustering: TIGHT ATTRACTOR
-PCA       : PC1=53.1%  (full), narrow basin confirmed
-ATB       : 8.968178e-07 @ W11 (W12 exact match)
-Submit    : 0.684200-0.704200

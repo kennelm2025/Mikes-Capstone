@@ -1,4 +1,4 @@
-# BBO Capstone — Black-Box Optimisation
+# BBO Capstone — Week 12 Submission
 
 ### Mike Kennelly · Professional Certificate in ML & AI · Imperial College London · DATA 2026 Cohort
 
@@ -9,13 +9,18 @@
 
 ---
 
+## What's in this folder
+
+This is the **Week 12** submission folder.
+
+**Parent repository:** [github.com/kennelm2025/Mikes-Capstone](https://github.com/kennelm2025/Mikes-Capstone)  
+**Live dashboard:** [mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app)
+
+---
+
 ## Project Overview
 
 A 13-week Black-Box Optimisation challenge. Each week one new data point is revealed per function — the goal is to predict the global maximum of 8 unknown functions using Gaussian Processes, classifier-guided candidate filtering and adaptive hyperparameter strategies.
-
-**Live dashboard:** [mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app)
-
-**GitHub repository:** [github.com/kennelm2025/Mikes-Capstone](https://github.com/kennelm2025/Mikes-Capstone)
 
 ---
 
@@ -25,8 +30,8 @@ A 13-week Black-Box Optimisation challenge. Each week one new data point is reve
 
 | Document | Link |
 |----------|------|
-| **Model Card** — BBO pipeline W12 (Mitchell et al. 2019) | [week-12/BBO_W12_Model_Card.md](week-12/BBO_W12_Model_Card.md) |
-| **Datasheet** — BBO oracle dataset W12 (Gebru et al. 2021) | [week-12/BBO_W12_Data_Card.md](week-12/BBO_W12_Data_Card.md) |
+| **Model Card** — BBO pipeline W12 (Mitchell et al. 2019) | [BBO_W12_Model_Card.md](BBO_W12_Model_Card.md) |
+| **Datasheet** — BBO oracle dataset W12 (Gebru et al. 2021) | [BBO_W12_Data_Card.md](BBO_W12_Data_Card.md) |
 | **Live Dashboard for BBO Capstone** | [mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app) |
 
 ---
@@ -156,20 +161,20 @@ Each week follows a 15-step notebook pipeline. W12 adds the Module 22 clustering
 
 ---
 
-## Module 22 Deliverables
+## Module 22 Deliverables (this folder)
 
 | File | Description |
 |------|-------------|
-| [week-12/BBO_W12_Model_Card.md](week-12/BBO_W12_Model_Card.md) | Model card — Mitchell et al. 2019 framework, W12 final |
-| [week-12/BBO_W12_Data_Card.md](week-12/BBO_W12_Data_Card.md) | Data card — Gebru et al. 2021 framework, W12 final |
-| [week-12/Capstone_F1_W12.ipynb](week-12/Capstone_F1_W12.ipynb) | F1 W12 notebook — Tight Attractor, ATB override |
-| [week-12/Capstone_F2_W12.ipynb](week-12/Capstone_F2_W12.ipynb) | F2 W12 notebook — **Two-Zone Cluster**, ATB override |
-| [week-12/Capstone_F3_W12.ipynb](week-12/Capstone_F3_W12.ipynb) | F3 W12 notebook — Tight Attractor, ATB override |
-| [week-12/Capstone_F4_W12.ipynb](week-12/Capstone_F4_W12.ipynb) | F4 W12 notebook — Isolated Attractor, ATB override |
-| [week-12/Capstone_F5_W12.ipynb](week-12/Capstone_F5_W12.ipynb) | F5 W12 notebook — Corner Attractor, ATB override |
-| [week-12/Capstone_F6_W12.ipynb](week-12/Capstone_F6_W12.ipynb) | F6 W12 notebook — Tight Attractor, ATB override |
-| [week-12/Capstone_F7_W12.ipynb](week-12/Capstone_F7_W12.ipynb) | F7 W12 notebook — **Trending Cluster**, GP pipeline |
-| [week-12/Capstone_F8_W12.ipynb](week-12/Capstone_F8_W12.ipynb) | F8 W12 notebook — Zero-Boundary, ATB override |
+| [BBO_W12_Model_Card.md](BBO_W12_Model_Card.md) | Model card — Mitchell et al. 2019 framework, W12 final |
+| [BBO_W12_Data_Card.md](BBO_W12_Data_Card.md) | Data card — Gebru et al. 2021 framework, W12 final |
+| [Capstone_F1_W12.ipynb](Capstone_F1_W12.ipynb) | F1 W12 notebook — Tight Attractor, ATB override |
+| [Capstone_F2_W12.ipynb](Capstone_F2_W12.ipynb) | F2 W12 notebook — **Two-Zone Cluster**, ATB override |
+| [Capstone_F3_W12.ipynb](Capstone_F3_W12.ipynb) | F3 W12 notebook — Tight Attractor, ATB override |
+| [Capstone_F4_W12.ipynb](Capstone_F4_W12.ipynb) | F4 W12 notebook — Isolated Attractor, ATB override |
+| [Capstone_F5_W12.ipynb](Capstone_F5_W12.ipynb) | F5 W12 notebook — Corner Attractor, ATB override |
+| [Capstone_F6_W12.ipynb](Capstone_F6_W12.ipynb) | F6 W12 notebook — Tight Attractor, ATB override |
+| [Capstone_F7_W12.ipynb](Capstone_F7_W12.ipynb) | F7 W12 notebook — **Trending Cluster**, GP pipeline |
+| [Capstone_F8_W12.ipynb](Capstone_F8_W12.ipynb) | F8 W12 notebook — Zero-Boundary, ATB override |
 
 ---
 
@@ -194,31 +199,29 @@ Each week follows a 15-step notebook pipeline. W12 adds the Module 22 clustering
 
 ---
 
-## Repository Structure
+## Files in this folder
 
 ```
-capstone-project/
-├── README.md                                   <- This file (W12 final)
-├── week-01/ ... week-11/                       <- Historical weekly notebooks and data
-└── week-12/
-    ├── BBO_W12_Model_Card.md                   <- Model card (Module 22)
-    ├── BBO_W12_Data_Card.md                    <- Data card (Module 22)
-    ├── Capstone_F1_W12.ipynb                   <- Tight Attractor — ATB override
-    ├── Capstone_F2_W12.ipynb                   <- Two-Zone Cluster — ATB override
-    ├── Capstone_F3_W12.ipynb                   <- Tight Attractor — ATB override
-    ├── Capstone_F4_W12.ipynb                   <- Isolated Attractor — ATB override
-    ├── Capstone_F5_W12.ipynb                   <- Corner Attractor — ATB override
-    ├── Capstone_F6_W12.ipynb                   <- Tight Attractor — ATB override
-    ├── Capstone_F7_W12.ipynb                   <- Trending Cluster — GP pipeline
-    ├── Capstone_F8_W12.ipynb                   <- Zero-Boundary — ATB override
-    ├── f1_w12_inputs.npy / f1_w12_outputs.npy
-    ├── f2_w12_inputs.npy / f2_w12_outputs.npy
-    ├── f3_w12_inputs.npy / f3_w12_outputs.npy
-    ├── f4_w12_inputs.npy / f4_w12_outputs.npy
-    ├── f5_w12_inputs.npy / f5_w12_outputs.npy
-    ├── f6_w12_inputs.npy / f6_w12_outputs.npy
-    ├── f7_w12_inputs.npy / f7_w12_outputs.npy
-    └── f8_w12_inputs.npy / f8_w12_outputs.npy
+week-12/
+├── README.md                                   <- This file
+├── BBO_W12_Model_Card.md                       <- Model card (Module 22)
+├── BBO_W12_Data_Card.md                        <- Data card (Module 22)
+├── Capstone_F1_W12.ipynb                       <- Tight Attractor — ATB override
+├── Capstone_F2_W12.ipynb                       <- Two-Zone Cluster — ATB override
+├── Capstone_F3_W12.ipynb                       <- Tight Attractor — ATB override
+├── Capstone_F4_W12.ipynb                       <- Isolated Attractor — ATB override
+├── Capstone_F5_W12.ipynb                       <- Corner Attractor — ATB override
+├── Capstone_F6_W12.ipynb                       <- Tight Attractor — ATB override
+├── Capstone_F7_W12.ipynb                       <- Trending Cluster — GP pipeline
+├── Capstone_F8_W12.ipynb                       <- Zero-Boundary — ATB override
+├── f1_w12_inputs.npy / f1_w12_outputs.npy
+├── f2_w12_inputs.npy / f2_w12_outputs.npy
+├── f3_w12_inputs.npy / f3_w12_outputs.npy
+├── f4_w12_inputs.npy / f4_w12_outputs.npy
+├── f5_w12_inputs.npy / f5_w12_outputs.npy
+├── f6_w12_inputs.npy / f6_w12_outputs.npy
+├── f7_w12_inputs.npy / f7_w12_outputs.npy
+└── f8_w12_inputs.npy / f8_w12_outputs.npy
 ```
 
 ---

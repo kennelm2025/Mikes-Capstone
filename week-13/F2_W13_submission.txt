@@ -1,5 +1,0 @@
-# F2 Week 13 | ATB OVERRIDE | MAXIMIZE | FINAL ROUND
-# ATB: 0.688004 @ W12 (NEW ATB, +0.038 over W5) -- exact replication
-# Oracle noise sigma ~ 0.035 at replay coords; W12 most recent evaluation.
-# PCA lens: kernel-PCA case (Module 23 V6); LOW-X2 basin attractor, no removable dims.
-0.710068-0.161630

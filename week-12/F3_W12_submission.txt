@@ -1,4 +1,0 @@
-# F3 Week 12 | ATB OVERRIDE | MAXIMIZE
-# ATB: -0.000707 @ W11 -- exact replication
-# W11 new ATB (closest-to-zero in 11 weeks). X1=0.998 boundary anchor confirmed.
-0.998126-0.621218-0.453080

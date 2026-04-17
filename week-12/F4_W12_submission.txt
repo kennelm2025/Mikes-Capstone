@@ -1,4 +1,0 @@
-# F4 Week 12 | ATB OVERRIDE | MAXIMIZE
-# ATB: 0.237591 @ W2 -- exact replication
-# Only positive result in 11 weeks. W11 exact match confirmed coords correct. Narrow positive basin.
-0.439249-0.414994-0.384687-0.397917

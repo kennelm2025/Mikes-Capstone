@@ -1,8 +1,0 @@
-BBO Run Report -- F8 Week 13 (FINAL ROUND)
-============================================================
-Strategy   : ATB OVERRIDE -- replicate W2 ATB (double-confirmed by W12)
-Clustering : ZERO-BOUNDARY ATTRACTOR (X1=X3=X7=0 structural)
-PCA lens   : PRIMARY Module 23 showcase -- 3 flat PCs, effective dim = 5 (down from 8)
-ATB        : 9.831962 @ W2 (double-confirmed by W12 across 10-week gap)
-Oracle     : deterministic
-Submit     : 0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212

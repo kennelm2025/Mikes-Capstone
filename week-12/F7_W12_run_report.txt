@@ -1,6 +1,0 @@
-BBO Run Report -- F7 Week 12
-============================================================
-Strategy  : GP PIPELINE -- trending cluster, continue directional gradient
-Clustering: * TRENDING CLUSTER (Module 22 secondary showcase)
-ATB       : 2.850088 @ W11
-Submit    : 0.165978-0.338682-0.444076-0.255770-0.300940-0.704355

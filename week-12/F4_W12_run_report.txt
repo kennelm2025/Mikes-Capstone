@@ -1,6 +1,0 @@
-BBO Run Report -- F4 Week 12
-============================================================
-Strategy  : ATB OVERRIDE -- replicate W2 ATB [0.439249, 0.414994, 0.384687, 0.397917]
-Clustering: ISOLATED ATTRACTOR
-ATB       : 0.237591 @ W2
-Submit    : 0.439249-0.414994-0.384687-0.397917

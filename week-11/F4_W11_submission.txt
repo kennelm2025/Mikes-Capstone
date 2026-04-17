@@ -1,5 +1,0 @@
-# F4 Week 11 | Method: Adaptive+GP/EI | MAXIMIZE
-# Model: Random Forest CV=87.5% | GP R2=1.0000
-# mu=0.234176 sigma=2.250621 EI=0.891172
-# best=0.237600 delta=-0.003424
-0.415008-0.390453-0.410741-0.405312

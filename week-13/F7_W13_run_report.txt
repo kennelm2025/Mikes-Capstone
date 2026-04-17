@@ -1,9 +1,0 @@
-BBO Run Report -- F7 Week 13 (FINAL ROUND)
-============================================================
-Strategy   : GP PIPELINE with W12 ATB fallback
-Clustering : TRENDING RIDGE (7 consecutive improvements, 1-dominant-PC)
-PCA lens   : Trending-ridge case (Module 23 V2) -- ridge PC1 share = 0.900
-ATB        : 2.893857 @ W12 (NEW ATB, 7th consecutive improvement)
-GP mu      : 2.855935  sigma: 0.091220  (gain: -0.037923)
-Decision   : FALLBACK -- W12 ATB FALLBACK -- trust conditions not all met
-Submit     : 0.179941-0.306897-0.455194-0.249116-0.295985-0.730083

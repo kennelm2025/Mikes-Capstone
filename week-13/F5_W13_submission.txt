@@ -1,5 +1,0 @@
-# F5 Week 13 | ATB OVERRIDE (corner maximum) | MAXIMIZE | FINAL ROUND
-# ATB: 8662.482500 @ [1,1,1,1] -- triple-confirmed W9+W11+W12 (deterministic).
-# Tightest cluster in capstone (spread=0.007). W10 perturbation regressed to 8471.
-# PCA lens: cleanest flat-scree case (Module 23 V3); all 4 PCs flat in good cluster.
-1.000000-1.000000-1.000000-1.000000

@@ -1,6 +1,0 @@
-BBO Run Report -- F2 Week 12
-============================================================
-Strategy  : ATB OVERRIDE -- replicate W5 ATB [0.710068, 0.161630]
-Clustering: * TWO-ZONE HIERARCHICAL CLUSTER (Module 22 primary showcase)
-ATB       : 0.649700 @ W5
-Submit    : 0.710068-0.161630

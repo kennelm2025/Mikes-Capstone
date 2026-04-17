@@ -1,5 +1,0 @@
-# F8 Week 11 | Method: Adaptive+GP/EI | MAXIMIZE
-# Classifier: Random Forest CV=87.3% | Surrogate: GP Matern5/2 | R2=1.0000
-# mu=9.799766 sigma=0.205373 EI=0.065476
-# best=9.825098 delta=-0.025332
-0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262

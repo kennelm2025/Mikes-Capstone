@@ -1,4 +1,0 @@
-# F2 Week 12 | ATB OVERRIDE | MAXIMIZE
-# ATB: 0.649700 @ W5 -- exact replication
-# W5 ATB never beaten. LOW-X2 zone centroid confirmed by clustering (dist=0.012 from ATB).
-0.710068-0.161630

@@ -1,4 +1,0 @@
-# F6 Week 12 | ATB OVERRIDE | MAXIMIZE
-# ATB: 0.036017 @ W9 -- exact replication
-# Only positive result in 11 weeks. X5=0.115 threshold -- W10 X5=0.079 negative. ATB IS cluster centroid.
-0.406643-0.339495-0.634775-0.769397-0.115269

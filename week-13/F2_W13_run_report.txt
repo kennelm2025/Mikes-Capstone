@@ -1,8 +1,0 @@
-BBO Run Report -- F2 Week 13 (FINAL ROUND)
-============================================================
-Strategy   : ATB OVERRIDE -- replicate W12 ATB [0.710068, 0.161630]
-Clustering : * TWO-ZONE HIERARCHICAL CLUSTER (Module 22)
-PCA lens   : Kernel-PCA case (Module 23 Video 6) -- no removable dims
-ATB        : 0.688004 @ W12 (NEW ATB, +0.038 over W5)
-Noise      : oracle sigma ~ 0.035 at replay coords
-Submit     : 0.710068-0.161630

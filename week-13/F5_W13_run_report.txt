@@ -1,0 +1,9 @@
+BBO Run Report -- F5 Week 13 (FINAL ROUND)
+============================================================
+Strategy   : ATB OVERRIDE -- corner maximum [1,1,1,1]
+Clustering : CORNER ATTRACTOR (tightest of all 8 functions, spread=0.007)
+PCA lens   : Cleanest flat-scree case in capstone (Module 23 V3) -- all 4 PCs flat
+ATB        : 8662.482500 @ W9 (triple-confirmed by W11 + W12 exact matches)
+Oracle     : deterministic corner (identical coords -> identical scores)
+Data note  : n=30 unchanged from W12 (skip-append: W12 row was W9 duplicate)
+Submit     : 1.000000-1.000000-1.000000-1.000000

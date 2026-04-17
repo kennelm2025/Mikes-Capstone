@@ -1,13 +1,12 @@
 # BBO Capstone — Black-Box Optimisation
 
-### Mike Kennelly · Professional Certificate in ML & AI · Imperial College London · DATA 2026 Cohort
+### Mike Kennelly · Professional Certificate in ML \& AI · Imperial College London · DATA 2026 Cohort
 
-[![Dashboard](https://img.shields.io/badge/Dashboard-Live-brightgreen)](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app)
-[![Week](https://img.shields.io/badge/Week-12-blue)]()
-[![Functions](https://img.shields.io/badge/Functions-8-orange)]()
-[![Final](https://img.shields.io/badge/Query-Final-gold)]()
+[!\[Dashboard](https://img.shields.io/badge/Dashboard-Live-brightgreen)](https://mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app)
+\[!\[Week](https://img.shields.io/badge/Week-11-blue)]()
+\[!\[Functions](https://img.shields.io/badge/Functions-8-orange)]()
 
----
+\---
 
 ## Project Overview
 
@@ -17,184 +16,174 @@ A 13-week Black-Box Optimisation challenge. Each week one new data point is reve
 
 **GitHub repository:** [github.com/kennelm2025/Mikes-Capstone](https://github.com/kennelm2025/Mikes-Capstone)
 
----
-
-## Module 22 Documentation
-
-> **Examiners:** The model card and datasheet required for Module 22 Part 3 are linked directly below.
-
-| Document | Link |
-|----------|------|
-| **Model Card** — BBO pipeline W12 (Mitchell et al. 2019) | [week-12/BBO_W12_Model_Card.md](capstone-project/week-12/BBO_W12_Model_Card.md) |
-| **Datasheet** — BBO oracle dataset W12 (Gebru et al. 2021) | [week-12/BBO_W12_Data_Card.md](capstone-project/week-12/BBO_W12_Data_Card.md) |
-| **Live Dashboard for BBO Capstone** | **mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app** |
-
----
+\---
 
 ## Module 21 Documentation
 
-| Document | Link |
-|----------|------|
-| **Model Card** — BBO pipeline W11 (Mitchell et al. 2019) | [week-11/model_card_bbo_w11.md](capstone-project/week-11/model_card_bbo_w11.md) |
-| **Datasheet** — BBO oracle dataset W11 (Gebru et al. 2021) | [week-11/datasheet_bbo_w11.md](capstone-project/week-11/datasheet_bbo_w11.md) |
+> \\\*\\\*Examiners:\\\*\\\* The model card and datasheet required for Module 21 Part 3 are linked directly below.
 
----
+|Document|Link|
+|-|-|
+|**Model Card** — BBO pipeline (Mitchell et al. 2019)|[week-11/model\_card\_bbo\_w11.md](week-11/model_card_bbo_w11.md)|
+|**Datasheet** — BBO oracle dataset (Gebru et al. 2021)|[week-11/datasheet_bbo_w11.md](week-11/datasheet_bbo_w11.md)
+|**Live Dashboard for BBO Capstone**|**mikes-capstone-drgbnucptufy7tjbdrnvta.streamlit.app**|
 
-## Final Results (W1–W12)
+\---
 
-| Fn | Dims | ATB | ATB Week | W11 Score | W12 Submitted | Strategy |
-|----|------|-----|----------|-----------|---------------|----------|
-| F1 | 2D | **8.968e-07** | W11 ★ | 8.968e-07 | `0.684200-0.704200` | ATB override |
-| F2 | 2D | 0.6497 | W5 | 0.6090 | `0.710068-0.161630` | ATB override |
-| F3 | 3D | **-0.001285** | W11 ★ | -0.001285 | `0.998126-0.621218-0.453080` | ATB override |
-| F4 | 4D | 0.2376 | W2 | 0.23759 | `0.439249-0.414994-0.384687-0.397917` | ATB override |
-| F5 | 4D | **8662.48** | W9 ★ | 8662.48 | `1.000000-1.000000-1.000000-1.000000` | ATB override |
-| F6 | 5D | **0.0360** | W9 ★ | -0.0102 | `0.406643-0.339495-0.634775-0.769397-0.115269` | ATB override |
-| F7 | 6D | **2.8501** | W11 ★ | 2.8501 | `0.179941-0.306897-0.455194-0.249116-0.295985-0.730083` | **GP pipeline** |
-| F8 | 8D | 9.8320 | W2 | 9.8269 | `0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212` | ATB override |
+## Results (W1–W11)
 
-**★** New ATB set at W11 — F1, F3, F7  
-**F7 bold** = GP pipeline trusted — 6-week consecutive improvement streak, GP mu=2.857 > ATB=2.850
+|Fn|Dims|ATB|ATB Week|W10 Score|W11 Submitted|Strategy|
+|-|-|-|-|-|-|-|
+|F1|2D|8.84e-7|W2|4.11e-58|`0.684200-0.704200`|ATB override|
+|F2|2D|0.6497|W9|0.1636|`0.710068-0.161630`|ATB override|
+|F3|3D|-0.000707|W6|-0.090154|`0.998126-0.621218-0.453080`|ATB override|
+|F4|4D|0.2376|W2|-1.8014|`0.439249-0.414994-0.384687-0.397917`|ATB override|
+|F5|4D|**8662.48**|W9 ★|8471.33|`1.000000-1.000000-1.000000-1.000000`|ATB override|
+|F6|5D|**0.0360**|W9 ★|-0.1443|`0.406643-0.339495-0.634775-0.769397-0.115269`|ATB override|
+|F7|6D|**2.7201**|W10 ★|2.7201|`0.165978-0.338682-0.444076-0.255770-0.300940-0.704355`|**GP pipeline**|
+|F8|8D|9.8320|W2|9.8013|`0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262`|GP Run 1 (submitted)|
 
----
+**★** All-time best still standing — F5 (W9), F6 (W9), F7 (W10)  
+**F7 bold** = GP pipeline trusted — 5-week consecutive improvement streak, GP mu exceeds ATB
 
-## W12 Strategy Summary
+\---
 
-### The Final Query Decision
+## W11 Strategy Summary
 
-W12 is the last query for every function. The governing rule applied across all 8 functions:
+### The ATB Override Decision
 
-> **Rule:** If W11 did not beat the prior ATB → submit exact ATB coordinates unchanged.  
-> **Exception:** F7 only — run GP pipeline. GP mu=2.857 > ATB=2.850 → submitted GP EI candidate.  
-> **Module 22 applied:** Hierarchical clustering (centroid distance, top-cluster spread, zone separation) computed across all 11 rounds to validate every submission decision.
+W11 introduces a formal override rule: when GP training R²=1.0 AND fewer than 5 positive class labels exist in the binary classifier, the GP surrogate is memorising rather than generalising and cannot be trusted. All eight functions returned R²=1.0 in the W11 fit. Seven functions triggered the override; F7 passed (5-week improvement streak, GP mu=2.767 > ATB=2.720).
 
-| Fn | Strategy | ANISO sigma | Cluster Type | Override reason |
-|----|----------|-------------|--------------|-----------------|
-| F1 | ATB OVERRIDE — W11 coords | [0.015, 0.015] | Tight Attractor | W11 = new ATB. GP EI~0. Flat near-zero landscape. |
-| F2 | ATB OVERRIDE — W5 coords | [0.012, 0.008] | ★ Two-Zone Cluster | ATB = LOW-X2 zone centroid (dist=0.012). Zone separation=0.963. |
-| F3 | ATB OVERRIDE — W11 coords | [0.005, 0.020, 0.025] | Tight Attractor | W11 = new ATB. X1=0.998 boundary anchor confirmed. |
-| F4 | ATB OVERRIDE — W2 coords | [0.012×4] | Isolated Attractor | Only positive in 11 weeks. W11 exact match confirms coords. |
-| F5 | ATB OVERRIDE — all-ones | [0.005×4] | Corner Attractor | Tightest cluster (spread=0.007). Corner structurally confirmed. |
-| F6 | ATB OVERRIDE — W9 coords | [0.015×4, 0.008] | Tight Attractor | ATB IS cluster centroid (dist=0.013). X5=0.115 threshold. |
-| F7 | GP PIPELINE — EI candidate | [0.015, 0.012×4, 0.015] | ★ Trending Cluster | 6-week streak. Dynamic cluster validates GP extrapolation. |
-| F8 | ATB OVERRIDE — W2 coords | [0.006, 0.015, 0.006, 0.015×4, 0.006, 0.015] | Zero-Boundary | X1=X3=X7=0 confirmed. W11 9.827 still below W2 ATB. |
+|Fn|Strategy|ANISO sigma|Ratio|κ|Override reason|
+|-|-|-|-|-|-|
+|F1|ATB OVERRIDE — W2 coords|N/A|N/A|N/A|10 consecutive near-zero; GP mu far below ATB|
+|F2|ATB OVERRIDE — W9 coords|N/A|N/A|N/A|GP R²=1.0; only 3 positives|
+|F3|ATB OVERRIDE — W6 coords|\[0.005, 0.020, 0.025]|0.92|2.0|GP output X1=0.266 — wrong direction|
+|F4|ATB OVERRIDE — W2 coords|N/A|N/A|N/A|GP within 0.003 of ATB; known coords safer|
+|F5|ATB OVERRIDE — all-ones|N/A|N/A|N/A|Structurally maximised at corner \[1,1,1,1]|
+|F6|ATB OVERRIDE — W9 coords|N/A|N/A|N/A|GP R²=1.0; only 3 positives|
+|F7|GP PIPELINE — EI candidate|\[0.010, 0.030, 0.018, 0.020, 0.020, 0.030]|0.92|2.0|5-week streak; GP mu=2.767 > ATB=2.720|
+|F8|SUBMITTED — GP Run 1|\[0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020]|0.92|2.0|Highest mu across 3 GP runs|
 
----
+\---
 
-## W12 GP Diagnostics
+## W11 GP Diagnostics
 
-| Fn | CV Winner | CV Acc | GP mu | GP sigma | EI | Decision |
-|----|-----------|--------|-------|----------|----|----------|
-| F1 | Random Forest | ~80% | ~-0.0002 | ~0.0008 | ~0.0 | ATB override — flat landscape |
-| F2 | CNN-1D | ~77% | ~0.46 | ~0.19 | ~0.013 | ATB override — GP selects wrong X2 region |
-| F3 | NN-Small (16,8) | ~71% | ~-0.073 | ~0.080 | ~0.006 | ATB override — GP pulls X1 from boundary |
-| F4 | Random Forest | ~88% | ~0.234 | ~2.251 | ~0.891 | ATB override — sigma=2.25 unreliable |
-| F5 | Linear SVM | ~97% | ~8596 | ~37.9 | ~0.606 | ATB override — corner confirmed maximum |
-| F6 | Linear SVM | ~80% | ~0.074 | ~0.149 | ~0.075 | ATB override — X5 threshold fragile |
-| F7 | Logistic Regression | ~82% | **2.857** | 0.088 | 0.057 | **GP pipeline — mu=2.857 > ATB=2.850** |
-| F8 | Random Forest | ~87% | ~9.800 | ~0.205 | ~0.065 | ATB override — W11 9.827 below W2 ATB |
+|Fn|CV Winner|CV Acc|GP mu|GP sigma|EI|Decision|
+|-|-|-|-|-|-|-|
+|F1|Random Forest|79.4%|-0.000187|0.000819|0.000000|ATB override — mu far below ATB|
+|F2|Random Forest|84.9%|0.661|0.070|0.029|ATB override — R²=1.0, 3 positives|
+|F3|NN-Small (16,8)|70.8%|-0.073|0.080|0.006|ATB override — X1=0.266 wrong direction|
+|F4|Random Forest|87.5%|0.234|2.251|0.891|ATB override — sigma=2.25 unreliable|
+|F5|Linear SVM|96.9%|8595.95|37.92|0.606|ATB override — all-ones confirmed maximum|
+|F6|Linear SVM|79.5%|**0.074**|0.149|0.075|ATB override — R²=1.0 despite positive delta|
+|F7|Logistic Regression|82.1%|**2.767**|0.088|0.057|**GP pipeline — mu=2.767 > ATB=2.720**|
+|F8|Random Forest|87.3%|9.800|0.205|0.065|Submitted — GP Run 1 highest mu|
 
----
+\---
+
+## W12 Plan (Final Query)
+
+**General rule:** If W11 portal result improves on ATB → exploit around new best. If not → submit exact ATB coordinates. F7: run GP pipeline on W11 result. F5: always all-ones.
+
+|Fn|Default W12 String|Decision Rule|
+|-|-|-|
+|F1|`0.684200-0.704200`|If W11 > 8.84e-07 → exploit. Else → exact ATB.|
+|F2|`0.710068-0.161630`|If W11 > 0.6497 → exploit. Else → exact ATB.|
+|F3|`0.998126-0.621218-0.453080`|If W11 > -0.000707 → exploit. Else → exact ATB.|
+|F4|`0.439249-0.414994-0.384687-0.397917`|If W11 > 0.2376 → exploit. Else → exact ATB.|
+|F5|`1.000000-1.000000-1.000000-1.000000`|Always all-ones — no decision needed.|
+|F6|`0.406643-0.339495-0.634775-0.769397-0.115269`|If W11 > 0.0360 → exploit. Else → exact ATB.|
+|F7|Run GP on W11 result|W11 result → retrain GP → generate W12 EI candidate.|
+|F8|`0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212`|If W11 > 9.8320 → exploit. Else → exact W2 ATB.|
+
+\---
 
 ## Pipeline
 
-Each week follows a 15-step notebook pipeline. W12 adds Module 22 clustering analysis at Step 3 and the final ATB override / GP decision at Step 14:
+Each week follows a 15-step notebook pipeline. W11 adds the ATB override check at Step 14:
 
-| Step | Description |
-|------|-------------|
-| 0 | Config & Strategy |
-| 1–3 | Imports, Load, History + **Module 22 clustering analysis** |
-| 4 | Binary Labels |
-| 5 / 5B | CV Model Comparison + CNN Inspection (Module 17) |
-| 6–7B | Refit, CV Chart, Why-Winner |
-| 8 | Candidate Generation (anisotropic sigma) |
-| 9–10 | GP Fit + Acquisition Functions |
-| 11 | Acquisition Curves (Global + Per-Dimension) |
-| **11B** | **Ollama llama3.1 Sensitivity Interpretation (Module 20)** |
-| 12A / 12B | GP Surfaces + CNN Grid Scan (2D functions only) |
-| 13 / 13B | Dashboard + Week-on-Week Chart |
-| **14** | **Final Submission — ATB override (F1-F6, F8) or GP pipeline (F7)** |
-| 15 | Save Hyperparameter Record |
+|Step|Description|
+|-|-|
+|0|Config \& Strategy|
+|1–3|Imports, Load, History|
+|4|Binary Labels|
+|5/5B|CV Model Comparison + CNN Inspection|
+|6–7B|Refit, CV Chart, Why-Winner|
+|8|Candidate Generation (anisotropic sigma)|
+|9–10|GP Fit + Acquisition Functions|
+|11|Acquisition Curves (Global + Per-Dimension)|
+|**11B**|**Ollama llama3.1 Sensitivity Interpretation (Module 20)**|
+|12A/12B|GP Surfaces + CNN Grid Scan (N/A for 3D+)|
+|13/13B|Dashboard + Week-on-Week Chart|
+|**14**|**Final Submission + ATB Override Decision**|
+|15|Save Hyperparameter Record|
 
----
-
-## Module 22 Deliverables
-
-| File | Description |
-|------|-------------|
-| [week-12/BBO_W12_Model_Card.md](capstone-project/week-12/BBO_W12_Model_Card.md) | Model card — Mitchell et al. 2019 framework, W12 final |
-| [week-12/BBO_W12_Data_Card.md](capstone-project/week-12/BBO_W12_Data_Card.md) | Data card — Gebru et al. 2021 framework, W12 final |
-| [week-12/BBO_W11_Model_Card.md](capstone-project/week-12/BBO_W11_Model_Card.md) | Model card — W11 |
-| [week-12/BBO_W11_Data_Card.md](capstone-project/week-12/BBO_W11_Data_Card.md) | Data card — W11 |
-| [week-12/Capstone_F2_W12.ipynb](capstone-project/week-12/Capstone_F2_W12.ipynb) | F2 W12 notebook — Two-Zone Cluster showcase |
-| [week-12/Capstone_F7_W12.ipynb](capstone-project/week-12/Capstone_F7_W12.ipynb) | F7 W12 notebook — Trending Cluster showcase |
-| [week-12/W12_Submissions.txt](capstone-project/week-12/W12_Submissions.txt) | All 8 W12 submission strings |
-| [week-12/BBO_W12_Strategy_Summary.docx](capstone-project/week-12/BBO_W12_Strategy_Summary.docx) | Full W12 strategy document |
-
----
+\---
 
 ## Module 21 Deliverables
 
-| File | Description |
-|------|-------------|
-| [week-11/model_card_bbo_w11.md](capstone-project/week-11/model_card_bbo_w11.md) | Model card — Mini-lesson 21.2 framework (Mitchell et al. 2019) |
-| [week-11/datasheet_bbo_w11.md](capstone-project/week-11/datasheet_bbo_w11.md) | Dataset datasheet — Gebru et al. 2021 |
-| [week-11/BBO_W11_Submissions.txt](capstone-project/week-11/BBO_W11_Submissions.txt) | All 8 W11 submission strings with rationale |
+|File|Description|
+|-|-|
+|[week-11/model\_card\_bbo\_w11.md](week-11/model_card_bbo_w11.md)|Model card — Mini-lesson 21.2 framework (Mitchell et al. 2019)|
+|[week-11/datasheet\_bbo\_w11.md](week-11/datasheet_bbo_w11.md)|Dataset datasheet — Gebru et al. 2021|
+|[week-11/capstone\_21\_1\_reflection.md](week-11/capstone_21_1_reflection.md)|W11 strategy reflection — 700 words|
+|[week-11/capstone\_21\_2\_datasheet\_modelcard.md](week-11/capstone_21_2_datasheet_modelcard.md)|Combined capstone datasheet + model card|
+|[week-11/discussion\_21\_1\_datasheet\_pima.md](week-11/discussion_21_1_datasheet_pima.md)|Discussion board — Pima datasheet|
+|[week-11/discussion\_21\_2\_model\_card.md](week-11/discussion_21_2_model_card.md)|Discussion board — model card analysis|
+|[week-11/discussion\_21\_3\_tradeoffs.md](week-11/discussion_21_3_tradeoffs.md)|Discussion board — explainability trade-offs|
+|[week-11/BBO\_W11\_Submissions.txt](week-11/BBO_W11_Submissions.txt)|All 8 W11 submission strings with rationale|
 
----
+\---
 
 ## Academic Basis
 
-| Reference | Application |
-|-----------|-------------|
-| Jones et al. (1998) | Expected Improvement acquisition function |
-| Rasmussen & Williams (2006) | Gaussian Process fundamentals |
-| Srinivas et al. (2010) | GP-UCB acquisition |
-| Eriksson et al. (2019) | TuRBO trust regions — exploit ratio strategy |
-| Cybenko (1989) | Universal approximation — NN classifier |
-| Goodfellow et al. (2016) | CNN-1D foundations (Module 17) |
-| Kaplan et al. (2020) | Scaling laws — diminishing returns on F5/F7 |
-| Wei et al. (2022) | Emergent capabilities — F5 boundary emergence |
-| Hoffmann et al. (2022) | Compute-optimal scaling — query budget framing |
-| Mitchell et al. (2019) | Model Cards for Model Reporting — Module 21/22 |
-| Gebru et al. (2021) | Datasheets for Datasets — Module 21/22 |
-| Shannon (1948) | Information theory — uncertainty framing |
-| Bender et al. (2021) | Stochastic parrots — Module 20 LLM risks |
-| Ward et al. (2023) | Hierarchical clustering in optimisation landscapes — Module 22 |
+|Reference|Application|
+|-|-|
+|Jones et al. (1998)|Expected Improvement acquisition function|
+|Rasmussen \& Williams (2006)|Gaussian Process fundamentals|
+|Srinivas et al. (2010)|GP-UCB acquisition|
+|Eriksson et al. (2019)|TuRBO trust regions — exploit ratio strategy|
+|Cybenko (1989)|Universal approximation — NN classifier|
+|Goodfellow et al. (2016)|CNN-1D foundations|
+|Kaplan et al. (2020)|Scaling laws — diminishing returns on F5/F7|
+|Wei et al. (2022)|Emergent capabilities — F5 boundary emergence|
+|Hoffmann et al. (2022)|Compute-optimal scaling — query budget framing|
+|Mitchell et al. (2019)|Model Cards for Model Reporting — Module 21|
+|Gebru et al. (2021)|Datasheets for Datasets — Module 21|
+|Shannon (1948)|Information theory — uncertainty framing|
+|Bender et al. (2021)|Stochastic parrots — Module 20 LLM risks|
 
----
+\---
 
 ## Repository Structure
 
 ```
-Mikes-Capstone/
-├── README.md                               <- This file
-└── capstone-project/
-    ├── week-01/ ... week-10/               <- Historical weekly notebooks and data
-    ├── week-11/
-    │   ├── model_card_bbo_w11.md           <- Model card (Module 21)
-    │   ├── datasheet_bbo_w11.md            <- Datasheet (Module 21)
-    │   ├── BBO_W11_Strategy_Summary.docx
-    │   ├── BBO_W11_Final_Submission.docx
-    │   ├── BBO_W11_Submissions.txt
-    │   ├── Capstone_F1_W11.ipynb / _run2.ipynb
-    │   ├── Capstone_F2_W11.ipynb / _run2.ipynb
-    │   ├── Capstone_F3_W11.ipynb
-    │   ├── Capstone_F4_W11.ipynb / _run2.ipynb
-    │   ├── Capstone_F5_W11.ipynb / _run2.ipynb
-    │   ├── Capstone_F6_W11.ipynb / _run2.ipynb
-    │   ├── Capstone_F7_W11.ipynb
-    │   └── Capstone_F8_W11.ipynb
-    └── week-12/
-        ├── BBO_W12_Model_Card.md           <- Model card (Module 22)
-        ├── BBO_W12_Data_Card.md            <- Data card (Module 22)
-        ├── BBO_W12_Strategy_Summary.docx
-        ├── W12_Submissions.txt
-        ├── Capstone_F1_W12.ipynb ... Capstone_F8_W12.ipynb
-        ├── f1_w12_inputs.npy ... f8_w12_outputs.npy
-        └── README.md
+capstone-project/
+├── README.md                               ← This file
+├── week-01/ … week-10/                     ← Historical weekly notebooks and data
+└── week-11/
+    ├── model\\\_card\\\_bbo\\\_w11.md               ← Model card (Module 21)
+    ├── datasheet\\\_bbo\\\_w11.md                ← Datasheet (Module 21)
+    ├── capstone\\\_21\\\_1\\\_reflection.md
+    ├── capstone\\\_21\\\_2\\\_datasheet\\\_modelcard.md
+    ├── discussion\\\_21\\\_1\\\_datasheet\\\_pima.md
+    ├── discussion\\\_21\\\_2\\\_model\\\_card.md
+    ├── discussion\\\_21\\\_3\\\_tradeoffs.md
+    ├── BBO\\\_W11\\\_Submissions.txt
+    ├── BBO\\\_W11\\\_Strategy\\\_Summary.docx
+    ├── BBO\\\_W11\\\_Final\\\_Submission.docx
+    ├── Capstone\\\_F1\\\_W11.ipynb / \\\_run2.ipynb
+    ├── Capstone\\\_F2\\\_W11.ipynb / \\\_run2.ipynb
+    ├── Capstone\\\_F3\\\_W11.ipynb
+    ├── Capstone\\\_F4\\\_W11.ipynb / \\\_run2.ipynb
+    ├── Capstone\\\_F5\\\_W11.ipynb / \\\_run2.ipynb
+    ├── Capstone\\\_F6\\\_W11.ipynb / \\\_run2.ipynb
+    ├── Capstone\\\_F7\\\_W11.ipynb
+    └── Capstone\\\_F8\\\_W11.ipynb
 ```
 
----
+\---
 
-*W1–W12 · BBO Optimisation · Imperial College London · DATA 2026 Cohort*
+*W1–W11 · BBO Optimisation · Imperial College London · DATA 2026 Cohort*
+

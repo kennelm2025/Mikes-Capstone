@@ -1,7 +1,8 @@
 """
 BBO Capstone — all historical data is baked in.
 No external files needed — works standalone on GitHub / Streamlit Cloud.
-Updated: W11 — W10 actuals filled in, W11 submissions made (F8 already submitted).
+Updated: W13 FINAL — W11 + W12 actuals filled in, W13 submissions made.
+W13 is the final portal submission (Module 24 is reflection-only).
 
 HOW TO UPDATE EACH WEEK:
   1. Increment CURRENT_WEEK.
@@ -13,7 +14,7 @@ HOW TO UPDATE EACH WEEK:
 """
 
 # ── Single source-of-truth: update this every week ───────────────────────────
-CURRENT_WEEK = 11  # ← increment after each portal result
+CURRENT_WEEK = 13  # ← increment after each portal result. W13 = FINAL submission.
 
 # ── Function metadata ─────────────────────────────────────────────────────────
 FUNCTIONS = {
@@ -35,38 +36,43 @@ FUNCTIONS = {
            "desc": "8D maximisation — X1≈0, X3≈0, X8≈0.75 boundary pattern"},
 }
 
-# ── Week-by-week scores (W1–W7 actuals) ──────────────────────────────────────
+# ── Week-by-week scores (W1–W12 actuals, W13 pending) ────────────────────────
+# ATB values extracted from W13 notebook Step 2 / Step 13 dashboard execution.
+# F3 W11 and W6 both returned ~-0.000707 (stochastic oracle, sigma ~ 0.003).
+# F4/F5 exact replays across W2/W11/W12 (deterministic). F8 near-deterministic.
+# F2/F3/F6 confirmed stochastic at W12: sigma ~ 0.035 / 0.003 / 0.063.
 SCORES = {
-    "F1": [0.0,        8.84e-7,    5.17e-96,   1.66e-9,    -5.44e-7,   1.67e-85,   -2.22e-17,  1.26e-49,   -2.447e-183, 4.109e-58,  None],
-    "F2": [0.5246,     0.2847,     -0.0298,    0.0188,     0.6497,     0.5844,     0.5338,     0.4926,     0.6497,     0.1636,     None],
-    "F3": [-0.01358,   -0.03277,   -0.08337,   -0.13795,   -0.05900,   -0.000707,  -0.00534,   -0.1132,    -0.01348,   -0.090154,  None],
-    "F4": [-2.6271,    0.2376,     -0.9620,    -0.5268,    -2.4571,    -0.1294,    -0.2651,    -0.5542,    -1.4047,    -1.8014,    None],
-    "F5": [60.07,      4062.1,     4890.6,     2913.0,     24.48,      5875.1,     7596.79,    8382.47,    8662.48,    8471.33,    None],
-    "F6": [-1.3389,    -0.2372,    -0.8835,    -0.3630,    -1.7662,    -0.1727,    -0.3422,    -0.4006,    0.0360,     -0.1443,    None],
-    "F7": [0.8085,     1.7392,     1.7358,     1.1399,     0.5763,     2.1190,     2.4134,     2.5982,     2.5968,     2.7201,     None],
-    "F8": [9.0093,     9.8320,     9.8188,     9.3341,     8.9560,     9.7741,     9.8251,     9.8021,     9.8115,     9.8013,     None],
+    "F1": [0.0,        8.84e-7,    5.17e-96,   1.66e-9,    -5.44e-7,   1.67e-85,   -2.22e-17,  1.26e-49,   -2.447e-183, 4.109e-58,  8.968e-7,   8.968e-7,   None],
+    "F2": [0.5246,     0.2847,     -0.0298,    0.0188,     0.6497,     0.5844,     0.5338,     0.4926,     0.6497,     0.1636,     0.6090,     0.688004,   None],
+    "F3": [-0.01358,   -0.03277,   -0.08337,   -0.13795,   -0.05900,   -0.000707,  -0.00534,   -0.1132,    -0.01348,   -0.090154,  -0.000707,  -0.007130,  None],
+    "F4": [-2.6271,    0.2376,     -0.9620,    -0.5268,    -2.4571,    -0.1294,    -0.2651,    -0.5542,    -1.4047,    -1.8014,    0.237591,   0.237590,   None],
+    "F5": [60.07,      4062.1,     4890.6,     2913.0,     24.48,      5875.1,     7596.79,    8382.47,    8662.48,    8471.33,    8662.4825,  8662.4825,  None],
+    "F6": [-1.3389,    -0.2372,    -0.8835,    -0.3630,    -1.7662,    -0.1727,    -0.3422,    -0.4006,    0.0360,     -0.1443,    -0.010238,  -0.088265,  None],
+    "F7": [0.8085,     1.7392,     1.7358,     1.1399,     0.5763,     2.1190,     2.4134,     2.5982,     2.5968,     2.7201,     2.8501,     2.893857,   None],
+    "F8": [9.0093,     9.8320,     9.8188,     9.3341,     8.9560,     9.7741,     9.8251,     9.8021,     9.8115,     9.8013,     9.8269,     9.831962,   None],
 }
-# W7 actuals will be filled in after Tudor portal results received
-# Submission strings:
-# F1: 0.582827-0.482269
-# F2: 0.688952-0.168811
-# F3: 1.000000-0.571651-0.503999
-# F4: 0.451762-0.438642-0.400163-0.395091
-# F5: 0.937682-1.000000-1.000000-1.000000
-# F6: 0.497320-0.294798-0.563080-0.684981-0.129206
-# F7: 0.078067-0.385415-0.381193-0.266170-0.353901-0.693102  (anisotropic σ)
-# F8: 0.040422-0.331667-0.003668-0.158463-0.396893-0.509806-0.166490-0.780552
+# W13 actuals will be filled in after the portal result is received.
+# W13 submission strings (one per function):
+# F1: 0.684200-0.704200                                                          (ATB override)
+# F2: 0.710068-0.161630                                                          (ATB override, new W12 ATB 0.6880)
+# F3: 0.998126-0.621218-0.453080                                                 (ATB override, W11 ATB -0.000707)
+# F4: 0.439249-0.414994-0.384687-0.397917                                        (ATB override, triple-confirmed)
+# F5: 1.000000-1.000000-1.000000-1.000000                                        (ATB override, triple-confirmed corner)
+# F6: 0.406643-0.339495-0.634775-0.769397-0.115269                               (ATB override, highest-noise fn)
+# F7: 0.179941-0.306897-0.455194-0.249116-0.295985-0.730083                      (GP pipeline + W12 ATB fallback)
+# F8: 0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212    (ATB override, zero-boundary PRIMARY PCA)
 
-# ── GP W11 predictions (mu, sigma from EI winner) ────────────────────────────
+# ── GP W13 predictions (mu, sigma from Step 13 dashboard outputs) ─────────────
+# From actual W13 notebook execution against W13 npy files.
 W7_PRED = {
-    "F1": {"mu": -0.000187, "sigma": 0.000819, "ucb": 0.001451},
-    "F2": {"mu": 0.660588,  "sigma": 0.070482, "ucb": 0.801551},
-    "F3": {"mu": -0.073147, "sigma": 0.079641, "ucb": 0.086135},
-    "F4": {"mu": 0.234176,  "sigma": 2.250621, "ucb": 4.735419},
-    "F5": {"mu": 8595.947,  "sigma": 37.920,   "ucb": 8671.788},
-    "F6": {"mu": 0.074247,  "sigma": 0.149434, "ucb": 0.373116},
-    "F7": {"mu": 2.766966,  "sigma": 0.088386, "ucb": 2.943737},
-    "F8": {"mu": 9.799766,  "sigma": 0.205373, "ucb": 10.210512},
+    "F1": {"mu": -0.0001683, "sigma": 0.000797, "ucb": 0.001426},
+    "F2": {"mu": 0.643900,   "sigma": 0.115795, "ucb": 0.875489},
+    "F3": {"mu": 0.001287,   "sigma": 0.0166,   "ucb": 0.034487},
+    "F4": {"mu": 0.234000,   "sigma": 2.25,     "ucb": 4.734},
+    "F5": {"mu": 8595.9478,  "sigma": 37.9201,  "ucb": 8671.788},
+    "F6": {"mu": 0.047941,   "sigma": 0.1610,   "ucb": 0.369941},
+    "F7": {"mu": 2.855935,   "sigma": 0.091220, "ucb": 3.038374},
+    "F8": {"mu": 10.136423,  "sigma": 0.1800,   "ucb": 10.496423},
 }
 
 # ── Submitted coordinates per week (W1–W7) ───────────────────────────────────
@@ -83,6 +89,8 @@ COORDS = {
         [0.979878, 1.000000],   # W9 actual
         [0.911939, 0.661887],   # W10 actual
         [0.684200, 0.704200],   # W11 ATB override
+        [0.684200, 0.704200],   # W12 ATB override (replay W11)
+        [0.684200, 0.704200],   # W13 ATB override (FINAL)
     ],
     "F2": [
         [0.5, 0.5],
@@ -96,6 +104,8 @@ COORDS = {
         [0.710068, 0.161630],   # W9 actual (ATB match)
         [0.640219, 0.040241],   # W10 actual
         [0.710068, 0.161630],   # W11 ATB override
+        [0.710068, 0.161630],   # W12 ATB override (returned NEW ATB 0.6880)
+        [0.710068, 0.161630],   # W13 ATB override (replay W12 NEW ATB, FINAL)
     ],
     "F3": [
         [0.40, 0.55, 0.50],
@@ -109,6 +119,8 @@ COORDS = {
         [0.750421, 0.591494, 0.448064],  # W9 actual
         [0.929491, 0.684416, 0.621434],  # W10 actual
         [0.998126, 0.621218, 0.453080],  # W11 ATB override
+        [0.998126, 0.621218, 0.453080],  # W12 ATB override (regressed -0.00713, oracle noise)
+        [0.998126, 0.621218, 0.453080],  # W13 ATB override (FINAL)
     ],
     "F4": [
         [0.50, 0.50, 0.50, 0.50],
@@ -122,6 +134,8 @@ COORDS = {
         [0.522075, 0.389882, 0.430921, 0.356775],  # W9 actual
         [0.476870, 0.494027, 0.420410, 0.346682],  # W10 actual
         [0.439249, 0.414994, 0.384687, 0.397917],  # W11 ATB override
+        [0.439249, 0.414994, 0.384687, 0.397917],  # W12 ATB override (triple-confirmed)
+        [0.439249, 0.414994, 0.384687, 0.397917],  # W13 ATB override (FINAL, triple-confirmed)
     ],
     "F5": [
         [0.1199, 0.4986, 0.4779, 0.4947],
@@ -135,6 +149,8 @@ COORDS = {
         [1.000, 1.000, 1.000, 1.000],  # W9 actual (ATB)
         [1.000000, 1.000000, 0.989930, 1.000000],  # W10 actual
         [1.000000, 1.000000, 1.000000, 1.000000],  # W11 ATB override
+        [1.000000, 1.000000, 1.000000, 1.000000],  # W12 ATB override (npy skip-append: W12 row == W9 row)
+        [1.000000, 1.000000, 1.000000, 1.000000],  # W13 ATB override (FINAL, triple-confirmed corner)
     ],
     "F6": [
         [0.50, 0.50, 0.50, 0.50, 0.50],
@@ -148,6 +164,8 @@ COORDS = {
         [0.406643, 0.339495, 0.634775, 0.769397, 0.115269],  # W9 actual (ATB)
         [0.389852, 0.333817, 0.652408, 0.764251, 0.078672],  # W10 actual
         [0.406643, 0.339495, 0.634775, 0.769397, 0.115269],  # W11 ATB override
+        [0.406643, 0.339495, 0.634775, 0.769397, 0.115269],  # W12 ATB override (regressed -0.088 oracle noise)
+        [0.406643, 0.339495, 0.634775, 0.769397, 0.115269],  # W13 ATB override (FINAL, highest-noise fn)
     ],
     "F7": [
         [0.50, 0.40, 0.35, 0.25, 0.38, 0.65],
@@ -159,8 +177,10 @@ COORDS = {
         [0.078067, 0.385415, 0.381193, 0.266170, 0.353901, 0.693102],
         [0.096399, 0.368153, 0.413112, 0.285892, 0.336821, 0.699617],
         [0.096000, 0.368000, 0.413000, 0.286000, 0.337000, 0.700000],  # W9 actual
-        [0.125051, 0.359133, 0.441354, 0.282350, 0.330896, 0.702888],  # W10 actual (ATB)
-        [0.165978, 0.338682, 0.444076, 0.255770, 0.300940, 0.704355],  # W11 GP pipeline
+        [0.125051, 0.359133, 0.441354, 0.282350, 0.330896, 0.702888],  # W10 actual (ATB at time)
+        [0.165978, 0.338682, 0.444076, 0.255770, 0.300940, 0.704355],  # W11 GP pipeline (NEW ATB 2.8501)
+        [0.179941, 0.306897, 0.455194, 0.249116, 0.295985, 0.730083],  # W12 GP EI (NEW ATB 2.8939, 7th consec)
+        [0.179941, 0.306897, 0.455194, 0.249116, 0.295985, 0.730083],  # W13 FALLBACK (GP failed 3 trust conds)
     ],
     "F8": [
         [0.009077, 0.47215,  0.51597,  0.430449, 0.468951, 0.460126, 0.579196, 0.50672 ],
@@ -174,13 +194,16 @@ COORDS = {
         [0.040831, 0.318869, 0.000000, 0.292836, 0.417265, 0.522722, 0.161505, 0.827640],  # W9 actual
         [0.043512, 0.408722, 0.007093, 0.181174, 0.420743, 0.529348, 0.164598, 0.795731],  # W10 actual
         [0.031481, 0.311811, 0.010280, 0.180196, 0.397721, 0.420494, 0.162029, 0.787262],  # W11 GP Run1 (submitted)
+        [0.0, 0.179297, 0.0, 0.071406, 0.92927, 0.459981, 0.0, 0.541212],   # W12 ATB override (=ATB 9.83196)
+        [0.0, 0.179297, 0.0, 0.071406, 0.92927, 0.459981, 0.0, 0.541212],   # W13 ATB override (FINAL, zero-boundary 3 flat PCs)
     ],
 }
 
-# ── W11 Strategy per function ──────────────────────────────────────────────────
+# ── W13 Strategy per function (FINAL round; governing rule: if prior week did not beat ATB, ─
+# ── submit exact ATB coords unchanged. Exception: F7 GP pipeline with strict trust conditions.)
 STRATEGY = {
     "F1": {
-        "action": "ATB OVERRIDE — W2 COORDS",
+        "action": "ATB OVERRIDE — W11 COORDS (FINAL)",
         "exploit_ratio": None,
         "sigma": None,
         "sigma_type": "override",
@@ -188,17 +211,20 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = 4.11e-58 — 10 consecutive near-zero. GP R²=1.0, mu=-0.000187 far below ATB. "
-            "Ollama W10 3-run plan: return to W2 ATB [0.684,0.704] for W11. "
-            "ATB override: exact W2 coordinates submitted."
+            "W12 = 8.968e-07 — exact match of W11 ATB. Deterministic oracle at these coords. "
+            "GP R2=1.0 (memorising); mu=-1.68e-04 negative vs ATB=+8.97e-07. "
+            "Module 23 PCA: tight attractor near-zero landscape; no PC-level dim reduction. "
+            "W13 FINAL: replay W11/W12 coords for guaranteed-result submission."
         ),
-        "best_week": "W2 (8.84e-7)",
-        "pattern": "Flat near-zero — only W2 meaningful result in 10 weeks",
+        "best_week": "W11/W12 (8.968e-07, replayed deterministically)",
+        "pattern": "Flat near-zero — only 2 positive results (W2 8.84e-7, W11/W12 8.97e-7) in 12 weeks",
         "w10_submission": "0.911939-0.661887",
         "w11_submission": "0.684200-0.704200",
+        "w12_submission": "0.684200-0.704200",
+        "w13_submission": "0.684200-0.704200",
     },
     "F2": {
-        "action": "ATB OVERRIDE — W9 COORDS",
+        "action": "ATB OVERRIDE — W12 COORDS (NEW ATB, FINAL)",
         "exploit_ratio": None,
         "sigma": None,
         "sigma_type": "override",
@@ -206,17 +232,21 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = 0.1636 — regression from W9 ATB. GP R²=1.0, only 3 positives — untrustworthy. "
-            "GP predicts 0.661 but surrogate cannot navigate bimodal landscape reliably. "
-            "ATB override: exact W9 ATB coordinates [0.710, 0.162] submitted."
+            "W12 = 0.688004 — NEW ATB (+0.038 over W5). Same coords previously returned "
+            "0.6497, 0.6497, 0.6090 — stochastic oracle sigma ~ 0.035. W12 captured upside. "
+            "GP mu=0.6439 < ATB (wrong basin selected by surrogate). "
+            "Module 23 PCA: kernel case — linear PCA degenerate on two basins; KPC separation 0.58. "
+            "W13 FINAL: replay W12 NEW ATB coords — best-known input dominates by expected value."
         ),
-        "best_week": "W5 / W9 (0.6497)",
-        "pattern": "Bimodal: LOW X2 (~0.16) = ATB region; HIGH X2 (~0.93) = inferior",
+        "best_week": "W12 (0.6880 NEW ATB)",
+        "pattern": "Bimodal: LOW X2 (~0.16) = ATB region; HIGH X2 (~0.93) = inferior. Stochastic sigma~0.035.",
         "w10_submission": "0.640219-0.040241",
         "w11_submission": "0.710068-0.161630",
+        "w12_submission": "0.710068-0.161630",
+        "w13_submission": "0.710068-0.161630",
     },
     "F3": {
-        "action": "ATB OVERRIDE — W6 COORDS",
+        "action": "ATB OVERRIDE — W11 COORDS (FINAL)",
         "exploit_ratio": 0.92,
         "sigma": [0.005, 0.020, 0.025],
         "sigma_type": "anisotropic",
@@ -224,17 +254,20 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = -0.090154 — X1 drifted to 0.929, causing regression. "
-            "GP std output had X1=0.266 — completely wrong direction. "
-            "X1 near 1.0 is the critical driver. ATB override: exact W6 coords [0.998,0.621,0.453]."
+            "W12 = -0.00713 — regression at identical coords (W11 ATB=-0.000707). "
+            "Oracle stochasticity confirmed sigma ~ 0.003. GP predicts +0.002 gain with sigma=0.017 "
+            "— within noise. Module 23 PCA: scree / 1 flat PC (X1 locked ≈1.0 boundary anchor), "
+            "effective dim = 2. W13 FINAL: replay W11 ATB — noise is in oracle, not input."
         ),
-        "best_week": "W6 (-0.000707)",
-        "pattern": "X1 gradient toward 1.0 — W6 ATB only near-zero result in 10 weeks",
+        "best_week": "W11 (-0.000707)",
+        "pattern": "X1 boundary-anchor (≈1.0) = removable PC; stochastic sigma~0.003",
         "w10_submission": "0.929491-0.684416-0.621434",
         "w11_submission": "0.998126-0.621218-0.453080",
+        "w12_submission": "0.998126-0.621218-0.453080",
+        "w13_submission": "0.998126-0.621218-0.453080",
     },
     "F4": {
-        "action": "ATB OVERRIDE — W2 COORDS",
+        "action": "ATB OVERRIDE — W2 COORDS (TRIPLE-CONFIRMED, FINAL)",
         "exploit_ratio": None,
         "sigma": None,
         "sigma_type": "override",
@@ -242,17 +275,21 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = -1.8014 — 4th consecutive negative. GP mu=0.234 only 0.003 below ATB=0.2376. "
-            "GP R²=1.0, sigma=2.25 enormous uncertainty — prediction meaningless. "
-            "ATB override: exact W2 ATB coordinates submitted."
+            "W2 / W11 / W12 all returned 0.237591 / 0.237591 / 0.237590 at identical coords "
+            "— matches to 5 decimal places across three replays over 10+ weeks. "
+            "Deterministic isolated basin — only positive result in 12 weeks. "
+            "Module 23 PCA: isolated basin, all 4 dims narrow-active, no removable PC. "
+            "W13 FINAL: safest override of all 8 — guaranteed-result submission."
         ),
-        "best_week": "W2 (+0.2376)",
-        "pattern": "Non-stationary — only W2 produced positive result",
+        "best_week": "W2 / W11 / W12 (+0.2376, triple-confirmed)",
+        "pattern": "Isolated basin — deterministic, only positive in 12 weeks",
         "w10_submission": "0.476870-0.494027-0.420410-0.346682",
         "w11_submission": "0.439249-0.414994-0.384687-0.397917",
+        "w12_submission": "0.439249-0.414994-0.384687-0.397917",
+        "w13_submission": "0.439249-0.414994-0.384687-0.397917",
     },
     "F5": {
-        "action": "ATB OVERRIDE — ALL-ONES CORNER",
+        "action": "ATB OVERRIDE — ALL-ONES CORNER (TRIPLE-CONFIRMED, FINAL)",
         "exploit_ratio": None,
         "sigma": None,
         "sigma_type": "override",
@@ -260,17 +297,22 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = 8471.33 — slight drop from W9 ATB. Structurally maximised at [1,1,1,1]. "
-            "Both GP runs (std and run 2) confirmed near-all-ones candidates. "
-            "ATB override: exact all-ones boundary submitted."
+            "W9 / W11 / W12 all returned 8662.4825 at [1,1,1,1] — triple-confirmed corner. "
+            "W10 perturbation (X3=0.989) dropped to 8471 — the all-ones corner IS the max. "
+            "GP mu=8596 < ATB=8662 (GP cannot exceed the confirmed corner). "
+            "Module 23 PCA: flat-scree — confirmed-corner subset has total variance ~0.0001, "
+            "all 4 PCs effectively flat (cleanest flat-scree in capstone). "
+            "W13 FINAL: corner is structural — submit [1,1,1,1]."
         ),
-        "best_week": "W9 (8662.48)",
-        "pattern": "All dims at boundary 1.0 — confirmed global maximum at corner",
+        "best_week": "W9 / W11 / W12 (8662.4825, triple-confirmed)",
+        "pattern": "All dims at boundary 1.0 — structural global maximum at corner",
         "w10_submission": "1.000000-1.000000-0.989930-1.000000",
         "w11_submission": "1.000000-1.000000-1.000000-1.000000",
+        "w12_submission": "1.000000-1.000000-1.000000-1.000000",
+        "w13_submission": "1.000000-1.000000-1.000000-1.000000",
     },
     "F6": {
-        "action": "ATB OVERRIDE — W9 COORDS",
+        "action": "ATB OVERRIDE — W9 COORDS (FINAL)",
         "exploit_ratio": None,
         "sigma": None,
         "sigma_type": "override",
@@ -278,62 +320,80 @@ STRATEGY = {
         "gp_restarts": 10,
         "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = -0.1443 — regression from W9 ATB. GP R²=1.0 unreliable despite positive delta. "
-            "Only 3 positives in classifier — surrogate untrustworthy. "
-            "ATB override: exact W9 ATB coordinates [0.407,0.339,0.635,0.769,0.115] submitted."
+            "W9/W11/W12 at identical coords returned 0.036/-0.010/-0.088 — oracle noise sigma~0.063 "
+            "(HIGHEST of all 8 functions, range 0.124). Noise is in the oracle, not the input. "
+            "W9 remains the only positive result in 12 weeks. GP alpha raised 1e-6 → 1e-4 to absorb. "
+            "Module 23 PCA: threshold / dominant-PC case — X5 PC1 loading = +0.611, "
+            "effective dim = 5. X5 critical narrow band at ≈0.115. "
+            "W13 FINAL: replay W9 ATB coords — noise-agnostic strategy."
         ),
-        "best_week": "W9 (0.0360)",
-        "pattern": "First positive W9; X3 dominant; ATB override protects result",
+        "best_week": "W9 (0.03602)",
+        "pattern": "X5 threshold dominant; stochastic sigma~0.063 — highest-noise function",
         "w10_submission": "0.389852-0.333817-0.652408-0.764251-0.078672",
         "w11_submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        "w12_submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        "w13_submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
     },
     "F7": {
-        "action": "GP PIPELINE — CONTINUE GRADIENT",
+        "action": "GP PIPELINE + ATB FALLBACK (FALLBACK FIRED)",
         "exploit_ratio": 0.92,
-        "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030],
+        "sigma": [0.015, 0.012, 0.012, 0.012, 0.012, 0.015],
         "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 10,
-        "turbo": "HOLD",
+        "turbo": "GP PIPELINE",
         "rationale": (
-            "W10 = 2.7201 — NEW ALL-TIME BEST! 5 consecutive improvements W6-W10. "
-            "GP mu=2.767 > ATB=2.720 (+0.047). Logistic Regression CV=82.1%. "
-            "Only function where GP pipeline is trusted. Continue the gradient."
+            "W12 = 2.893857 — NEW ATB, 7th consecutive improvement. Step sizes decelerating "
+            "(W11→W12 step 0.044, smallest positive in streak — ridge saturating). "
+            "W13 Step 14 evaluated 3 trust conditions, ALL FAILED: "
+            "(1) GP mu=2.856 < ATB 2.894, (2) R2=1.000000 (pure memorisation), "
+            "(3) gain=-0.038 < sigma/2=0.046. Fallback to W12 ATB coords. "
+            "Module 23 PCA: trending ridge — ridge-subset PC1 share = 0.900, "
+            "|corr(PC1,y)| = 0.976 (effective dim = 1 in 6D). Only function with ridge geometry."
         ),
-        "best_week": "W10 (2.7201)",
-        "pattern": "X1 near-zero anchor; 5-week improvement streak W6-W10; GP trusted",
+        "best_week": "W12 (2.8939 NEW ATB, 7 consecutive)",
+        "pattern": "Trending ridge — 7-week streak W6→W12; saturating; 1-dominant-PC structure",
         "w10_submission": "0.125051-0.359133-0.441354-0.282350-0.330896-0.702888",
         "w11_submission": "0.165978-0.338682-0.444076-0.255770-0.300940-0.704355",
+        "w12_submission": "0.179941-0.306897-0.455194-0.249116-0.295985-0.730083",
+        "w13_submission": "0.179941-0.306897-0.455194-0.249116-0.295985-0.730083",
     },
     "F8": {
-        "action": "SUBMITTED — GP RUN 1",
+        "action": "ATB OVERRIDE — W2 COORDS (PRIMARY PCA SHOWCASE, FINAL)",
         "exploit_ratio": 0.92,
-        "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020],
+        "sigma": [0.006, 0.015, 0.006, 0.015, 0.015, 0.015, 0.006, 0.015],
         "sigma_type": "anisotropic",
         "ucb_kappa": 2.0,
         "gp_restarts": 10,
-        "turbo": "HOLD",
+        "turbo": "OVERRIDE",
         "rationale": (
-            "W10 = 9.8013. GP Run 1 produced highest mu=9.800 across 3 independent runs. "
-            "Run 2 and Run 3 had lower GP mu values. Zero-boundary X1/X3/X7≈0 confirmed. "
-            "Already submitted before W11 portal results — no further action needed."
+            "W12 = 9.831962 at replayed W2 coords — 10-week-gap near-exact match (prior W2=9.8320). "
+            "Near-deterministic zero-boundary oracle. GP mu=10.14 nominal gain +0.304 but top "
+            "candidate drifts X1 off zero (0.012) — breaks structural zero-boundary. "
+            "Module 23 PCA PRIMARY SHOWCASE: near-ATB subset has X1, X3, X7 ZERO-LOCKED "
+            "(variances 3e-4, 2e-5, 5e-3) → 3 flat PCs, effective dim = 5 (down from 8). "
+            "Scree: [0.928, 0.041, 0.029, 0.003, 0.000, 0.000, 0.000, 0.000]. "
+            "F8 ANISO_SIGMA operationalises the insight: locked dims σ=0.006, active dims σ=0.015. "
+            "W13 FINAL: three exact zeros preserved in submission — do not round X1, X3, X7."
         ),
-        "best_week": "W2 (9.8320)",
-        "pattern": "X1/X3/X7 zero-boundary locked; closing gap to W2 ATB",
+        "best_week": "W2 / W12 (9.83196, double-confirmed 10-week gap)",
+        "pattern": "Zero-boundary X1=X3=X7=0 structural; 3 flat PCs (PRIMARY Module 23 case)",
         "w10_submission": "0.043512-0.408722-0.007093-0.181174-0.420743-0.529348-0.164598-0.795731",
         "w11_submission": "0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262",
+        "w12_submission": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
+        "w13_submission": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
     },
 }
-# ── W11 Summary at a glance ────────────────────────────────────────────────────
+# ── W13 Summary at a glance ────────────────────────────────────────────────────
 W7_GLANCE = {
-    "F1": {"true_best": "8.84e-7",   "best_wk": "W2",  "w7_score": "4.11e-58",  "strategy": "ATB OVERRIDE — W2 coords [0.684,0.704]",          "override": True},
-    "F2": {"true_best": "0.6497",    "best_wk": "W9",  "w7_score": "0.1636",    "strategy": "ATB OVERRIDE — W9 coords [0.710,0.162]",           "override": True},
-    "F3": {"true_best": "-0.000707", "best_wk": "W6",  "w7_score": "-0.0902",   "strategy": "ATB OVERRIDE — W6 coords [0.998,0.621,0.453]",     "override": True},
-    "F4": {"true_best": "+0.2376",   "best_wk": "W2",  "w7_score": "-1.8014",   "strategy": "ATB OVERRIDE — W2 coords",                         "override": True},
-    "F5": {"true_best": "8,662",     "best_wk": "W9",  "w7_score": "8,471",     "strategy": "ATB OVERRIDE — all-ones [1,1,1,1]",                "override": True},
-    "F6": {"true_best": "0.0360",    "best_wk": "W9",  "w7_score": "-0.1443",   "strategy": "ATB OVERRIDE — W9 coords",                         "override": True},
-    "F7": {"true_best": "2.7201",    "best_wk": "W10", "w7_score": "2.7201",    "strategy": "GP PIPELINE — 5-week streak, mu=2.767 > ATB",      "override": False},
-    "F8": {"true_best": "9.8320",    "best_wk": "W2",  "w7_score": "9.8013",    "strategy": "SUBMITTED — GP Run 1, mu=9.800",                   "override": False},
+    "F1": {"true_best": "8.968e-7",  "best_wk": "W11", "w7_score": "8.968e-7",  "strategy": "ATB OVERRIDE — W11 coords [0.684,0.704] (deterministic)",       "override": True},
+    "F2": {"true_best": "0.6880",    "best_wk": "W12", "w7_score": "0.6880",    "strategy": "ATB OVERRIDE — W12 NEW ATB coords [0.710,0.162]",              "override": True},
+    "F3": {"true_best": "-0.000707", "best_wk": "W11", "w7_score": "-0.00713",  "strategy": "ATB OVERRIDE — W11 coords [0.998,0.621,0.453]; noise σ~0.003",  "override": True},
+    "F4": {"true_best": "+0.23759",  "best_wk": "W2",  "w7_score": "0.23759",   "strategy": "ATB OVERRIDE — W2 coords (triple-confirmed deterministic)",    "override": True},
+    "F5": {"true_best": "8662.48",   "best_wk": "W9",  "w7_score": "8662.48",   "strategy": "ATB OVERRIDE — corner [1,1,1,1] (triple-confirmed)",           "override": True},
+    "F6": {"true_best": "0.03602",   "best_wk": "W9",  "w7_score": "-0.08826",  "strategy": "ATB OVERRIDE — W9 coords; noise σ~0.063 HIGHEST",              "override": True},
+    "F7": {"true_best": "2.8939",    "best_wk": "W12", "w7_score": "2.8939",    "strategy": "GP PIPELINE — 3 trust conds FAILED → FALLBACK to W12 coords",  "override": False},
+    "F8": {"true_best": "9.83196",   "best_wk": "W2",  "w7_score": "9.83196",   "strategy": "ATB OVERRIDE — W2 coords (PRIMARY PCA 3 flat PCs)",            "override": True},
 }
 
 # ── TuRBO sigma adaptation summary (W7→W8) ───────────────────────────────────
@@ -349,16 +409,17 @@ TURBO_SUMMARY = {
     "F8": {"sigma_prev": 0.012, "sigma_cur": "aniso [0.008,0.015,0.008,0.030,0.020,0.015,0.008,0.030]", "direction": "SHRINK",
            "note": "First anisotropic F8 — per-dim zero-boundary structure (Vaswani et al. 2017)"},
 }
-# ── Winning classifiers per function (W11) ───────────────────────────────────
+# ── Winning classifiers per function (W13) ───────────────────────────────────
+# From W13 notebook Step 5 (5-fold CV, 8 models, stratified).
 CLASSIFIERS = {
-    "F1": {"name": "Random Forest",        "cv": 0.794, "std": 0.10, "family": "RF"},
-    "F2": {"name": "Random Forest",        "cv": 0.849, "std": 0.09, "family": "RF"},
-    "F3": {"name": "NN-Small (16,8)",      "cv": 0.708, "std": 0.12, "family": "NN"},
-    "F4": {"name": "Random Forest",        "cv": 0.875, "std": 0.09, "family": "RF"},
+    "F1": {"name": "Random Forest",        "cv": 0.905, "std": 0.08, "family": "RF"},
+    "F2": {"name": "Random Forest",        "cv": 0.864, "std": 0.09, "family": "RF"},
+    "F3": {"name": "NN-Small (16,8)",      "cv": 0.731, "std": 0.11, "family": "NN"},
+    "F4": {"name": "Random Forest",        "cv": 0.878, "std": 0.09, "family": "RF"},
     "F5": {"name": "Linear SVM",           "cv": 0.969, "std": 0.04, "family": "SVM"},
-    "F6": {"name": "Linear SVM",           "cv": 0.795, "std": 0.10, "family": "SVM"},
-    "F7": {"name": "Logistic Regression",  "cv": 0.821, "std": 0.09, "family": "LR"},
-    "F8": {"name": "Random Forest",        "cv": 0.873, "std": 0.08, "family": "RF"},
+    "F6": {"name": "Random Forest",        "cv": 0.905, "std": 0.09, "family": "RF"},
+    "F7": {"name": "Random Forest",        "cv": 0.878, "std": 0.09, "family": "RF"},
+    "F8": {"name": "Decision Tree",        "cv": 0.900, "std": 0.08, "family": "DT"},
 }
 
 # ── All 8 model CV results per function (W8 actuals for F1-F3, W7 for F4-F8) ─
@@ -461,6 +522,8 @@ PIPELINE_STEPS = [
      "desc": "Trains 8 models: Linear SVM, Decision Tree, Random Forest, Logistic Regression, NN-Small/Medium/Large, CNN-1D. 5-fold StratifiedKFold CV."},
     {"step": "Step 5B", "title": "CNN Inspection",          "icon": "🔍",
      "desc": "Module 17 learning exercise. Extracts learned Conv1d filter weights (8×2), plots feature map activations for best training point. Identifies which coord pairs CNN found most structurally significant."},
+    {"step": "Step 5C", "title": "PCA Variance Analysis",    "icon": "🧭",
+     "desc": "★ NEW at W13. Module 23 PCA: scree plot of full 12-round dataset + 'confirmed good' subset. Detects flat PCs (removable dims), computes effective dimensionality, and classifies each function into a Module 23 case (tight attractor / kernel-PCA / scree+1-flat / isolated / flat-scree corner / threshold-dominant / trending ridge / zero-boundary). F8 PRIMARY showcase (3 flat PCs); F5 SECONDARY; F7 TERTIARY."},
     {"step": "Step 6",  "title": "Refit & Visualise",       "icon": "🎨",
      "desc": "Refits all 8 models on full dataset. Plots P(class=1) distributions for each model across training data."},
     {"step": "Step 7",  "title": "CV Chart & Winner",       "icon": "📈",
@@ -468,11 +531,11 @@ PIPELINE_STEPS = [
     {"step": "Step 7B", "title": "Why This Classifier Won", "icon": "🧠",
      "desc": "Dynamic analysis box: winner family rationale, candidate filter quality stats, boundary dimension analysis, data geometry commentary."},
     {"step": "Step 8",  "title": "Candidate Generation",   "icon": "🎲",
-     "desc": "Generates 10,000 candidates: EXPLOIT_RATIO% from Gaussian(best_point, EXPLOIT_SIGMA) — isotropic or anisotropic array. Remainder uniform random. Classifier filters to top 50%."},
+     "desc": "Generates 10,000 candidates: EXPLOIT_RATIO% from Gaussian(best_point, EXPLOIT_SIGMA) — isotropic or anisotropic array. Remainder uniform random. Classifier filters to top 50%. F8 ANISO_SIGMA operationalises Module 23 PCA: locked PCs (X1/X3/X7) get σ=0.006, active dims get σ=0.015."},
     {"step": "Step 9",  "title": "GP Fit",                  "icon": "🌐",
-     "desc": "Fits Gaussian Process (Matérn 5/2 kernel) on scaled X_train→y_train. Reports GP R², kernel parameters, fitted length scales per dimension."},
+     "desc": "Fits Gaussian Process (Matérn 5/2 kernel) on scaled X_train→y_train. Reports GP R², kernel parameters, fitted length scales per dimension. F6 W13: GP alpha raised 1e-6→1e-4 to absorb oracle noise σ~0.063."},
     {"step": "Step 10", "title": "Acquisition Functions",   "icon": "🎯",
-     "desc": "Computes EI (Expected Improvement) and UCB (μ + κσ) over filtered candidates. Selects submission = argmax(norm(EI) + norm(UCB))."},
+     "desc": "Computes EI (Expected Improvement) and UCB (μ + κσ) over filtered candidates. Selects top-EI candidate for documentation."},
     {"step": "Step 11", "title": "Acquisition Curves",      "icon": "📉",
      "desc": "Per-dimension EI and UCB sweeps. Shows how each dimension contributes to acquisition signal."},
     {"step": "Step 11B","title": "Ollama LLM Advisor",      "icon": "🤖",
@@ -480,7 +543,11 @@ PIPELINE_STEPS = [
     {"step": "Step 12", "title": "GP Surfaces",             "icon": "🗺️",
      "desc": "2D contour plots of GP μ, σ, EI, UCB over top-2 sensitive dimensions. Best point (★) and submission (◆) overlaid."},
     {"step": "Step 13", "title": "Submission Dashboard",    "icon": "🏆",
-     "desc": "Full dashboard: trajectory, submission coords, EI decomposition, dimension sensitivity. Prints final submission string."},
+     "desc": "Full dashboard: trajectory, submission coords, EI decomposition, dimension sensitivity. Shows top-5 EI candidates vs ATB."},
+    {"step": "Step 14", "title": "Final Submission Decision","icon": "🏁",
+     "desc": "★ NEW at W13. ATB override for F1-F6, F8 (risk-minimising on FINAL round). F7 unique: evaluates 3 trust conditions (GP μ > ATB, R² < 0.999999, gain > σ/2). If ALL pass submit GP EI; if ANY fails fallback to W12 ATB coords. Author-execution: all 3 F7 conditions FAILED → FALLBACK."},
+    {"step": "Step 15", "title": "Hyperparameter Record",    "icon": "💾",
+     "desc": "★ NEW at W13. Saves hyperparameters + PCA analysis block (scree ratios, locked dims, effective dim, Module 23 case) to f{N}_w13_hyperparameters.json + .txt."},
 ]
 
 WEEKS = [f"W{i+1}" for i in range(CURRENT_WEEK)]
@@ -584,8 +651,22 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
             "hp_rationale": "ATB override — GP R2=1.0 unreliable. 10 consecutive near-zero. Submitting exact W2 ATB coordinates.",
-            "learned": "W11 submitted — awaiting portal result.",
+            "learned": "Score 8.968e-07 — NEW ATB, tiny positive exceeds W2's 8.84e-7. Replay of W2 coords validated.",
             "experiment": "ATB override rule: R2=1.0 + n_positives<5 → bypass GP, submit known best. W2 ATB [0.684,0.704] is the only meaningful result.",
+            "submission": "0.684200-0.704200",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override continued — W11 set new ATB 8.968e-07 at these coords. Replay for W12.",
+            "learned": "Score 8.968e-07 — exact match of W11. Deterministic oracle at these coords (1 confirmed replay).",
+            "experiment": "Module 22 clustering validates W11/W12 coords as tight attractor. GP would regress on the flat landscape.",
+            "submission": "0.684200-0.704200",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. ATB override — W11/W12 double-confirmed deterministic. GP mu=-1.68e-04 < ATB=8.97e-07.",
+            "learned": "W13 submitted — awaiting final portal result. Module 23 PCA: tight attractor, no dim reduction.",
+            "experiment": "W13 FINAL. Module 23 V2 (max-variance): no dominant PC structure in flat landscape. Safest possible override.",
             "submission": "0.684200-0.704200",
         },
     ],
@@ -663,8 +744,22 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
             "hp_rationale": "ATB override — GP R2=1.0, only 3 positives. Submitting exact W9 ATB coordinates.",
-            "learned": "W11 submitted — awaiting portal result.",
+            "learned": "Score 0.6090 — regressed from W5/W9 ATB 0.6497 at identical coords. First hint of oracle noise.",
             "experiment": "ATB override: bimodal landscape, GP untrustworthy. W9 ATB [0.710,0.162] submitted.",
+            "submission": "0.710068-0.161630",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override continued at W5/W9/W11 coords. Testing basin consistency.",
+            "learned": "Score 0.688004 — NEW ATB, +0.038 over W5. Oracle sigma ~ 0.035 quantified across W5/W9/W11/W12.",
+            "experiment": "4th exact replay of ATB coords: 0.6497 / 0.6497 / 0.6090 / 0.688004. Stochastic upside captured.",
+            "submission": "0.710068-0.161630",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. ATB override — W12 NEW ATB 0.688004 in LOW-X2 basin. GP mu=0.644 wrong basin.",
+            "learned": "W13 submitted — awaiting final portal result. Module 23 PCA: kernel case, two basins, KPC separation 0.58.",
+            "experiment": "Module 23 V1 (kernel PCA): linear PCA degenerate across both basins. Best-known input dominates.",
             "submission": "0.710068-0.161630",
         },
     ],
@@ -742,8 +837,22 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.005, 0.020, 0.025], "ucb_kappa": 2.0, "gp_restarts": 10},
             "hp_rationale": "ATB override — GP std output X1=0.266, completely wrong direction. X1 near 1.0 is critical.",
-            "learned": "W11 submitted — awaiting portal result.",
+            "learned": "Score -0.000707 — NEW ATB, slightly better than W6. Boundary anchor X1≈1.0 validated.",
             "experiment": "ATB override: GP output X1=0.266 vs required X1≈1.0. W6 ATB [0.998,0.621,0.453] submitted directly.",
+            "submission": "0.998126-0.621218-0.453080",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.005, 0.020, 0.025], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "ATB override continued at W11 coords. Same exact coords (0.998, 0.621, 0.453).",
+            "learned": "Score -0.00713 — regressed from W11 ATB at IDENTICAL coords. Oracle stochasticity sigma~0.003 quantified.",
+            "experiment": "Replay test: same coords as W11 → different score. Noise is in oracle, not input. W11 ATB still best-known.",
+            "submission": "0.998126-0.621218-0.453080",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.005, 0.020, 0.025], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. ATB override — W11 ATB -0.000707 still best. W12 regression = noise.",
+            "learned": "W13 submitted — awaiting final portal result. Module 23 PCA: 1 flat PC (X1 locked), effective dim = 2.",
+            "experiment": "Module 23 V3 (scree): X1 is removable PC (boundary anchor). W13 GP predicts +0.002 gain within noise.",
             "submission": "0.998126-0.621218-0.453080",
         },
     ],
@@ -821,8 +930,22 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
             "hp_rationale": "ATB override — GP mu=0.234 within 0.003 of ATB but sigma=2.25 enormous. Exact W2 coords safer.",
-            "learned": "W11 submitted — awaiting portal result.",
+            "learned": "Score 0.237591 — exact match of W2 ATB (to 5 d.p.). Deterministic isolated basin confirmed.",
             "experiment": "ATB override: GP R2=1.0 with sigma=2.25 = no genuine prediction. W2 ATB [0.439,0.415,0.385,0.398] submitted.",
+            "submission": "0.439249-0.414994-0.384687-0.397917",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override continued — testing deterministic basin with third exact replay.",
+            "learned": "Score 0.237590 — triple-confirmed (W2/W11/W12 all ~0.237591). Deterministic basin.",
+            "experiment": "Third replay test: 10-week gap W2→W11 matched; 1-week gap W11→W12 matched. Noise-free oracle at these coords.",
+            "submission": "0.439249-0.414994-0.384687-0.397917",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. Safest override of all 8 — triple-confirmed deterministic basin.",
+            "learned": "W13 submitted — guaranteed-result outcome. Module 23 PCA: isolated basin, all 4 dims narrow-active.",
+            "experiment": "W13 FINAL. Module 23 V5 (centring): isolated positive basin among 40 negatives. No flat PCs.",
             "submission": "0.439249-0.414994-0.384687-0.397917",
         },
     ],
@@ -900,8 +1023,22 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
             "hp_rationale": "ATB override — structurally maximised at corner [1,1,1,1]. Always all-ones.",
-            "learned": "W11 submitted — awaiting portal result.",
+            "learned": "Score 8662.4825 — exact match of W9 ATB. Corner structural maximum confirmed.",
             "experiment": "ATB override: W10 X3 probe confirmed [1,1,1,1] is global maximum. All-ones every remaining week.",
+            "submission": "1.000000-1.000000-1.000000-1.000000",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override continued — W12 submission row is exact duplicate of W9 in npy (skip-append rule).",
+            "learned": "Score 8662.4825 — triple-confirmed (W9/W11/W12 all exact). F5 W13 npy stays at n=30.",
+            "experiment": "Skip-append rule test: W12 submission [1,1,1,1] exactly matches W9 row → no new row added to npy.",
+            "submission": "1.000000-1.000000-1.000000-1.000000",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. Corner [1,1,1,1] triple-confirmed structural maximum.",
+            "learned": "W13 submitted — corner confirmed. Module 23 PCA SECONDARY SHOWCASE: all 4 PCs flat in confirmed corner.",
+            "experiment": "W13 FINAL. Module 23 V3 (scree): confirmed-corner subset has total variance ~0.0001 — cleanest flat-scree in capstone.",
             "submission": "1.000000-1.000000-1.000000-1.000000",
         },
     ],
@@ -979,8 +1116,22 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
             "hp_rationale": "ATB override — GP R2=1.0, only 3 positives. W9 ATB coords submitted.",
-            "learned": "W11 submitted — awaiting portal result.",
+            "learned": "Score -0.010238 — regressed from W9 ATB 0.036017 at identical coords. First noise signal.",
             "experiment": "ATB override: 3 positive class labels — classifier cannot learn boundary reliably. ATB [0.407,0.339,0.635,0.769,0.115] submitted.",
+            "submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB override continued at W9 coords. Third data point for oracle-noise characterisation.",
+            "learned": "Score -0.088265 — deepest regression yet at same coords. Sigma ~ 0.063 (HIGHEST of all 8).",
+            "experiment": "3 replays at W9 ATB coords: +0.036 / -0.010 / -0.088 (range 0.124). Noise is in oracle, not input.",
+            "submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. ATB override — W9 still only positive result in 12 weeks. GP alpha raised 1e-6→1e-4.",
+            "learned": "W13 submitted — awaiting portal result. Module 23 PCA: threshold / dominant-PC, X5 PC1 loading +0.611.",
+            "experiment": "W13 FINAL. Module 23 V2 (max-variance): X5 is dominant but not removable (active PC). Effective dim = 5.",
             "submission": "0.406643-0.339495-0.634775-0.769397-0.115269",
         },
     ],
@@ -1058,9 +1209,23 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.030, 0.018, 0.020, 0.020, 0.030], "ucb_kappa": 2.0, "gp_restarts": 10},
             "hp_rationale": "GP pipeline — only function where surrogate is trusted. 5-week streak, GP mu=2.767 > ATB=2.720.",
-            "learned": "W11 submitted — awaiting portal result. GP predicts +0.047 above ATB.",
+            "learned": "Score 2.8501 — NEW ATB, 6th consecutive improvement. Ridge climb continues.",
             "experiment": "GP pipeline exception: Logistic Regression CV=82.1%, GP mu=2.767 > ATB=2.720. 5 consecutive improvements justify trust.",
             "submission": "0.165978-0.338682-0.444076-0.255770-0.300940-0.704355",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.010, 0.025, 0.018, 0.020, 0.020, 0.025], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "GP pipeline continued. GP mu=2.856 > ATB=2.850 at W12 → W12 GP EI candidate submitted.",
+            "learned": "Score 2.893857 — NEW ATB, 7th consecutive improvement. Step size 0.044 (smallest — ridge saturating).",
+            "experiment": "W12 GP EI fired: mu=2.857 beats ATB=2.850 by 0.007. X1 and X6 step up along ridge direction.",
+            "submission": "0.179941-0.306897-0.455194-0.249116-0.295985-0.730083",
+        },
+        {  # W13 FINAL — FALLBACK
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.015, 0.012, 0.012, 0.012, 0.012, 0.015], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. 3 trust conditions required: (1) mu > 2.8939, (2) R2 < 0.999999, (3) gain > sigma/2. ALL FAILED.",
+            "learned": "W13 Step 14: GP mu=2.856 < ATB 2.894 FAIL; R2=1.000000 FAIL; gain=-0.038 < sigma/2=0.046 FAIL. FALLBACK fired.",
+            "experiment": "W13 FINAL. Module 23 V2+V7 ridge-subset PCA: PC1 share 0.900, |corr(PC1,y)|=0.976. Ridge saturated; fallback justified.",
+            "submission": "0.179941-0.306897-0.455194-0.249116-0.295985-0.730083",
         },
     ],
     "F8": [
@@ -1137,9 +1302,23 @@ WEEKLY = {
         {  # W11
             "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.006, 0.020, 0.006, 0.020, 0.025, 0.030, 0.006, 0.020], "ucb_kappa": 2.0, "gp_restarts": 10},
             "hp_rationale": "GP Run 1 — highest mu=9.800 across 3 independent runs. Zero-boundary X1/X3/X7 locked.",
-            "learned": "W11 ALREADY SUBMITTED — awaiting portal result.",
+            "learned": "Score 9.8269 — regressed from W2 ATB 9.8320. Sparsity hypothesis (X1,X3,X7 near but not exactly 0) failed.",
             "experiment": "3 GP runs compared: Run 1 mu=9.800 (highest), Run 2 lower, Run 3 lower. Run 1 submitted before W11 portal results.",
             "submission": "0.031481-0.311811-0.010280-0.180196-0.397721-0.420494-0.162029-0.787262",
+        },
+        {  # W12
+            "hyperparams": {"exploit_ratio": None, "sigma": "ATB override", "ucb_kappa": None, "gp_restarts": 10},
+            "hp_rationale": "ATB OVERRIDE — W11 regression confirmed that deviating from X1=X3=X7=0 loses value. Replay exact W2 coords.",
+            "learned": "Score 9.831962 — near-exact match of W2 ATB 9.8320 across 10-week gap. Zero-boundary structural confirmed.",
+            "experiment": "W2 ATB coords replayed with exact zeros on X1/X3/X7. Double-confirmed deterministic zero-boundary oracle.",
+            "submission": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
+        },
+        {  # W13 FINAL
+            "hyperparams": {"exploit_ratio": 0.92, "sigma": [0.006, 0.015, 0.006, 0.015, 0.015, 0.015, 0.006, 0.015], "ucb_kappa": 2.0, "gp_restarts": 10},
+            "hp_rationale": "FINAL round. ATB OVERRIDE — W2/W12 double-confirmed 9.83196. GP top candidate drifts X1 off zero (breaks boundary).",
+            "learned": "W13 submitted — awaiting final portal result. Module 23 PCA PRIMARY SHOWCASE: 3 flat PCs (X1,X3,X7), effective dim=5.",
+            "experiment": "W13 FINAL. Module 23 V3 (scree): near-ATB subset scree [0.928,0.041,0.029,0.003,0,0,0,0] — PCs 6/7/8 literally zero.",
+            "submission": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
         },
     ],
 }

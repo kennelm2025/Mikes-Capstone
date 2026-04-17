@@ -1,0 +1,9 @@
+BBO Run Report -- F6 Week 13 (FINAL ROUND)
+============================================================
+Strategy   : ATB OVERRIDE -- replicate W9 ATB coords
+Clustering : TIGHT ATTRACTOR with X5 threshold structure
+PCA lens   : Threshold / dominant-PC case (Module 23 V2); X5 at 0.115 band
+ATB        : 0.036017 @ W9 (only positive in 12 weeks)
+Noise      : oracle sigma ~ 0.06 -- HIGHEST of all 8 functions
+Evidence   : 3 rows at ATB coords -> +0.036 / -0.010 / -0.088
+Submit     : 0.406643-0.339495-0.634775-0.769397-0.115269

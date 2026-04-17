@@ -1,0 +1,5 @@
+# F8 Week 13 | ATB OVERRIDE | MAXIMIZE | FINAL ROUND
+# ATB: 9.831962 @ W2 -- double-confirmed by W12 exact match across 10-week gap (deterministic).
+# Zero-boundary (X1=X3=X7=0) structural; 3 exact zeros preserved in submission.
+# PCA lens: PRIMARY Module 23 showcase (V3 scree); 3 flat PCs; effective dim = 5.
+0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212

@@ -1,0 +1,337 @@
+import streamlit as st
+import plotly.graph_objects as go
+from data import FUNCTIONS, SCORES, STRATEGY, CLASSIFIERS, W7_PRED, COORDS, WEEKLY, TURBO_SUMMARY, CURRENT_WEEK, running_best, get_all_time_best, get_sigma_display
+
+def fmt(v):
+    if v is None: return "—"
+    if abs(v) >= 1000: return f"{v:,.1f}"
+    if v != 0 and abs(v) < 0.001: return f"{v:.2e}"
+    return f"{v:.4f}"
+
+def render(fn, wk_idx):
+    info     = FUNCTIONS[fn]
+    maximize = info["objective"] == "MAXIMISE"
+    scores   = SCORES[fn]
+    actuals  = [s for s in scores if s is not None]  # full list for ATB calc
+    # Slice to selected week for chart — use raw scores so None (pending) is preserved
+    actuals_display = [scores[i] if i < len(scores) else None for i in range(wk_idx + 1)]
+    atb      = get_all_time_best(fn)   # all-time (used for ATB card)
+    strat    = STRATEGY[fn]
+    clf      = CLASSIFIERS[fn]
+    weekly   = WEEKLY[fn][wk_idx]
+    week_label = f"W{wk_idx+1}"
+    score_this_wk = scores[wk_idx] if wk_idx < len(scores) else None
+    coords_this_wk = COORDS[fn][wk_idx] if wk_idx < len(COORDS[fn]) else None
+
+    # ── Page header ───────────────────────────────────────────────────────────
+    action = strat["action"]
+    if "EXPLORE" in action:   badge_cls, acolor = "badge-explore", "#34d399"
+    elif "RECOVER" in action: badge_cls, acolor = "badge-recover", "#fbbf24"
+    else:                     badge_cls, acolor = "badge-exploit", "#60a5fa"
+
+    st.markdown(f"""
+    <div class='page-hero'>
+      <div class='page-eyebrow'>{fn} · {week_label} · Weekly Analysis</div>
+      <div class='page-title'>{fn} — {info['dims']}D Function</div>
+      <div class='page-sub'>{info['desc']}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Week selector pills ───────────────────────────────────────────────────
+    n_actual = len(actuals)
+    tabs_html = '<div class="week-tabs">'
+    for i in range(CURRENT_WEEK):
+        available = i < n_actual or i == CURRENT_WEEK - 1
+        label = f"W{i+1}"
+        active = "wtab-active" if i == wk_idx else ""
+        dim = "" if available else " style='opacity:0.35'"
+        tabs_html += f'<span class="wtab {active}"{dim}>{label}</span>'
+    tabs_html += "</div>"
+    st.markdown(tabs_html + "<div style='font-size:0.65rem;color:#5a6a8a;font-family:IBM Plex Mono,monospace;margin-bottom:1rem'>← Use sidebar Week selector to navigate</div>", unsafe_allow_html=True)
+
+    # ── KPI row ───────────────────────────────────────────────────────────────
+    # ATB as of selected week (not all-time)
+    actuals_to_wk = [s for s in scores[:wk_idx+1] if s is not None]
+    atb_to_wk = (max(actuals_to_wk) if maximize else min(actuals_to_wk)) if actuals_to_wk else atb
+    best_wk_num = actuals_to_wk.index(atb_to_wk) + 1 if actuals_to_wk else '?'
+    is_best = (score_this_wk == atb_to_wk) if score_this_wk is not None else False
+    prev_score = scores[wk_idx-1] if wk_idx > 0 and scores[wk_idx-1] is not None else None
+    if prev_score is not None and score_this_wk is not None:
+        delta = score_this_wk - prev_score
+        delta_str = f"{'▲' if delta > 0 else '▼'} {fmt(abs(delta))}"
+        delta_col = "#34d399" if delta > 0 else "#ef4444"
+        if not maximize: delta_col = "#ef4444" if delta > 0 else "#34d399"
+    else:
+        delta_str, delta_col = "—", "#7a8fbb"
+
+    rb = running_best(scores, maximize)
+    rb_this = rb[wk_idx] if wk_idx < len(rb) and rb[wk_idx] is not None else None
+
+    # Use selected week's strategy label if available, else fall back to current
+    _wk_data = WEEKLY[fn][wk_idx] if wk_idx < len(WEEKLY[fn]) else {}
+    wk_action = _wk_data.get('hp_rationale', action)[:60] if _wk_data.get('submission','—') not in ('[PENDING]','—') else action
+    # For the strategy label use the week's submission status
+    if wk_idx == CURRENT_WEEK - 1:
+        wk_action = action  # current week always uses STRATEGY
+    elif wk_idx < CURRENT_WEEK - 1:
+        # Historical week -- derive action from what was submitted
+        wk_sigma = _wk_data.get('hyperparams', {}).get('sigma', '—')
+        wk_ratio = _wk_data.get('hyperparams', {}).get('exploit_ratio', '—')
+        wk_action = f"ratio={wk_ratio} | sigma={wk_sigma}"
+    st.markdown(f"""
+    <div class='kpi-grid'>
+      <div class='kpi-card' style='--accent:#2563eb'>
+        <div class='kpi-label'>{week_label} Score</div>
+        <div class='kpi-value'>{"★ " if is_best else ""}{fmt(score_this_wk)}</div>
+        <div class='kpi-sub'>{"All-time best!" if is_best else "Submitted result"}</div>
+      </div>
+      <div class='kpi-card' style='--accent:{delta_col}'>
+        <div class='kpi-label'>vs Prior Week</div>
+        <div class='kpi-value' style='color:{delta_col}'>{delta_str}</div>
+        <div class='kpi-sub'>{f"vs W{wk_idx} = {fmt(prev_score)}" if prev_score is not None else "No prior week"}</div>
+      </div>
+      <div class='kpi-card' style='--accent:#f59e0b'>
+        <div class='kpi-label'>Running Best</div>
+        <div class='kpi-value'>{fmt(rb_this)}</div>
+        <div class='kpi-sub'>Best so far through {week_label}</div>
+      </div>
+      <div class='kpi-card' style='--accent:#10b981'>
+        <div class='kpi-label'>All-Time Best</div>
+        <div class='kpi-value'>{fmt(atb_to_wk)}</div>
+        <div class='kpi-sub'>W{best_wk_num} best (through {week_label})</div>
+      </div>
+      <div class='kpi-card' style='--accent:{acolor}'>
+        <div class='kpi-label'>{week_label} Strategy</div>
+        <div class='kpi-value' style='font-size:0.85rem;color:{acolor}'>{wk_action.split()[0]}</div>
+        <div class='kpi-sub'>{wk_action}</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Submitted coordinates ─────────────────────────────────────────────────
+    sub_str = weekly.get("submission", "—")
+    if sub_str and sub_str not in ("[PENDING]", "—"):
+        label = f"{week_label} · {fn} · {'Strategy Target Coordinates' if score_this_wk is None else 'Submitted Coordinates'}"
+        border_col = "#f59e0b" if score_this_wk is None else "#22c55e"
+        st.markdown(f"""
+        <div style='background:#050810;border:1px solid #1e2d45;border-left:3px solid {border_col};
+                    border-radius:0 8px 8px 0;padding:10px 16px;margin:0.8rem 0;
+                    font-family:"IBM Plex Mono",monospace;font-size:0.88rem;
+                    color:{"#f59e0b" if score_this_wk is None else "#4ade80"}'>
+          <div style='font-size:0.60rem;color:#5a7a5a;text-transform:uppercase;
+                      letter-spacing:0.15em;margin-bottom:4px'>{label}</div>
+          {sub_str}{"&nbsp;&nbsp;<span style='font-size:0.65rem;color:#92400e'>⏳ awaiting portal result</span>" if score_this_wk is None else ""}
+        </div>
+        """, unsafe_allow_html=True)
+    elif sub_str == "[PENDING]":
+        st.markdown(f"""
+        <div style='background:#050810;border:1px solid #1e2d45;border-left:3px solid #38bdf8;
+                    border-radius:0 8px 8px 0;padding:10px 16px;margin:0.8rem 0;
+                    font-family:"IBM Plex Mono",monospace;font-size:0.85rem;color:#5a6a8a'>
+          <div style='font-size:0.60rem;color:#2d4a5a;text-transform:uppercase;
+                      letter-spacing:0.15em;margin-bottom:4px'>{week_label} · {fn} · Submission</div>
+          ⏳ Notebook not yet run — strategy target pending GP selection
+        </div>
+        """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns([3, 2])
+
+    with col1:
+        # ── Trajectory chart ──────────────────────────────────────────────────
+        st.markdown('<div class="sec-head">Week-on-Week Trajectory</div>', unsafe_allow_html=True)
+
+        # Build chart data — actuals_display may contain None for pending week
+        is_pending = score_this_wk is None
+        # Replace None with a small placeholder height so bar is visible
+        actuals_only = [v for v in actuals_display if v is not None]
+        pending_height = max(abs(v) for v in actuals_only) * 0.08 if actuals_only else 1.0
+        chart_scores = [v if v is not None else pending_height for v in actuals_display]
+
+        week_labels = [f"W{i+1}" for i in range(len(actuals_display))]
+        bar_colors = ["#7a8fbb"]
+        for i in range(1, len(chart_scores)):
+            if actuals_display[i] is None:
+                bar_colors.append("#2563eb")  # pending week always blue
+            else:
+                prev = next((actuals_display[j] for j in range(i-1, -1, -1) if actuals_display[j] is not None), None)
+                if prev is None:
+                    bar_colors.append("#7a8fbb")
+                else:
+                    imp = (chart_scores[i] > prev) if maximize else (chart_scores[i] < prev)
+                    bar_colors.append("#22c55e" if imp else "#ef4444")
+        # Always highlight the selected (last) week blue
+        if bar_colors:
+            bar_colors[-1] = "#2563eb"
+
+        bar_text = [fmt(v) if v is not None else "⏳ pending" for v in actuals_display]
+
+        rb_vals = [r for r in rb if r is not None][:len(actuals_only)]
+        # Extend running best line to pending week at same level
+        if is_pending and rb_vals:
+            rb_vals = rb_vals + [rb_vals[-1]]
+
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=week_labels, y=chart_scores, marker_color=bar_colors,
+            marker_line_width=0, opacity=0.9, name="Score",
+            text=bar_text, textposition="outside",
+            textfont=dict(size=10, color="white"),
+            hovertemplate="%{x}: <b>%{customdata}</b><extra></extra>",
+            customdata=bar_text,
+        ))
+        fig.add_trace(go.Scatter(
+            x=week_labels, y=rb_vals, mode="lines+markers",
+            line=dict(color="#f59e0b", width=2, dash="dash"),
+            marker=dict(size=5, color="#f59e0b"),
+            name="Running best",
+        ))
+        if chart_scores:
+            fig.add_vline(x=len(chart_scores) - 1, line_dash="dot", line_color="#2563eb",
+                          line_width=1.5, annotation_text=f"← {week_label}",
+                          annotation_font_color="#2563eb", annotation_font_size=10)
+        fig.update_layout(
+            paper_bgcolor="#080e1a", plot_bgcolor="#080e1a",
+            font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+            height=280, margin=dict(l=10, r=10, t=20, b=40),
+            showlegend=True,
+            legend=dict(bgcolor="rgba(0,0,0,0)", font_size=10,
+                        orientation="h", yanchor="bottom", y=1.02),
+            xaxis=dict(gridcolor="#0d1320", showgrid=False),
+            yaxis=dict(gridcolor="#0d1320", showgrid=True, gridwidth=0.5),
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
+        # ── Coordinate plot ───────────────────────────────────────────────────
+        if coords_this_wk and len(coords_this_wk) > 0:
+            chart_title = "Strategy Target Coordinates" if score_this_wk is None else "Submitted Coordinates"
+            st.markdown(f'<div class="sec-head">{chart_title}</div>', unsafe_allow_html=True)
+            if score_this_wk is None:
+                st.caption("⏳ Awaiting portal result — showing strategy target coordinates")
+            dims = [f"X{i+1}" for i in range(len(coords_this_wk))]
+            fig2 = go.Figure()
+            fig2.add_trace(go.Bar(
+                x=dims, y=coords_this_wk,
+                marker_color=["#2563eb" if abs(c) < 0.1 or abs(c-1) < 0.1 else "#6070a0" for c in coords_this_wk],
+                marker_line_width=0, opacity=0.9,
+                text=[f"{c:.4f}" for c in coords_this_wk],
+                textposition="outside", textfont=dict(size=10, color="white"),
+                hovertemplate="%{x}: <b>%{y:.4f}</b><extra></extra>",
+            ))
+            fig2.add_hline(y=0.5, line_dash="dot", line_color="#1a2540", line_width=1)
+            fig2.update_layout(
+                paper_bgcolor="#080e1a", plot_bgcolor="#080e1a",
+                font=dict(color="#7a8fbb", family="IBM Plex Mono"),
+                height=220, margin=dict(l=10, r=10, t=10, b=40),
+                showlegend=False,
+                xaxis=dict(gridcolor="#0d1320", showgrid=False),
+                yaxis=dict(gridcolor="#0d1320", showgrid=True, gridwidth=0.5, range=[-0.05, 1.15]),
+            )
+            st.caption("Blue = near-boundary (< 0.1 or > 0.9)")
+            st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
+
+    with col2:
+        # ── Hyperparameters ───────────────────────────────────────────────────
+        st.markdown('<div class="sec-head">Hyperparameters Used</div>', unsafe_allow_html=True)
+        hp = weekly["hyperparams"]
+        sigma_val = hp.get("sigma", "—")
+        if isinstance(sigma_val, list):
+            sigma_disp = f"[{', '.join(str(v) for v in sigma_val)}] ★"
+        else:
+            sigma_disp = str(sigma_val)
+
+        params = [
+            ("Exploit Ratio", f"{hp.get('exploit_ratio', '—'):.0%}" if isinstance(hp.get('exploit_ratio'), float) else "—"),
+            ("Sigma (σ)", sigma_disp),
+            ("UCB κ", str(hp.get("ucb_kappa", "—"))),
+            ("GP Restarts", str(hp.get("gp_restarts", "—"))),
+        ]
+        if wk_idx == CURRENT_WEEK - 1:  # latest week — show TuRBO
+            turbo = TURBO_SUMMARY[fn]
+            params.append(("TuRBO", turbo["direction"]))
+
+        for pname, pval in params:
+            color = "#fbbf24" if "★" in pval else ("#34d399" if pval == "EXPAND" else ("#ef4444" if pval == "SHRINK" else "#e8eeff"))
+            st.markdown(f"""
+            <div class='param-row'>
+              <span class='param-name'>{pname}</span>
+              <span class='param-val' style='color:{color}'>{pval}</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown(f"""
+        <div class='info-card' style='margin-top:10px'>
+          <div class='info-card-title'>Why These Parameters?</div>
+          <div class='info-card-body'>{weekly["hp_rationale"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ── What We Know / Learned ────────────────────────────────────────────────
+    st.markdown('<div class="sec-head">What We Know · What We Learned</div>', unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown(f"""
+        <div class='info-card'>
+          <div class='info-card-title'>🔎 Observations This Week</div>
+          <div class='info-card-body'>{weekly["learned"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        # Pattern from strategy
+        st.markdown(f"""
+        <div class='info-card'>
+          <div class='info-card-title'>📐 Known Pattern (Cumulative)</div>
+          <div class='info-card-body'>{strat["pattern"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with c2:
+        st.markdown(f"""
+        <div class='info-card'>
+          <div class='info-card-title'>🧪 Learning / Experiment</div>
+          <div class='info-card-body'>{weekly["experiment"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class='info-card'>
+          <div class='info-card-title'>🧭 W{CURRENT_WEEK} Strategy Rationale</div>
+          <div class='info-card-body'>{strat["rationale"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ── Score history table ───────────────────────────────────────────────────
+    st.markdown('<div class="sec-head">Full Score History — {fn}</div>'.format(fn=fn), unsafe_allow_html=True)
+    rows = ""
+    for i, (wl, sc) in enumerate(zip([f"W{j+1}" for j in range(CURRENT_WEEK)], scores)):
+        if sc is None:
+            sc_str, row_col = "Pending", "#5a6a8a"
+        else:
+            sc_str = fmt(sc)
+            rb_i = rb[i] if i < len(rb) and rb[i] is not None else None
+            is_rb = (sc == rb_i) and sc is not None
+            row_col = "#f59e0b" if is_rb else ("#34d399" if (i > 0 and scores[i-1] is not None and ((maximize and sc > scores[i-1]) or (not maximize and sc < scores[i-1]))) else "#7a8fbb")
+
+        highlight = "background:#0d1a30;" if i == wk_idx else ""
+        coords_i = COORDS[fn][i] if i < len(COORDS[fn]) and COORDS[fn][i] else []
+        coord_str = " · ".join(f"{c:.4f}" for c in coords_i) if coords_i else "—"
+        weekly_sub = WEEKLY[fn][i].get("submission", "—") if i < len(WEEKLY[fn]) else "—"
+        rows += f"""
+        <tr style='{highlight}'>
+          <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.78rem;color:#e8eeff;font-weight:{"700" if i==wk_idx else "400"}'>{wl}</td>
+          <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.85rem;color:{row_col}'>{sc_str}</td>
+          <td style='padding:8px 12px;font-family:"IBM Plex Mono",monospace;font-size:0.70rem;color:#5a6a8a'>{coord_str[:60]}</td>
+        </tr>"""
+
+    st.markdown(f"""
+    <table style='width:100%;border-collapse:collapse;background:#080e1a;
+                  border:1px solid #141e30;border-radius:10px;overflow:hidden'>
+      <thead>
+        <tr style='background:#0a1020'>
+          <th style='padding:8px 12px;text-align:left;font-family:"IBM Plex Mono",monospace;
+                     font-size:0.62rem;color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>Week</th>
+          <th style='padding:8px 12px;text-align:left;font-family:"IBM Plex Mono",monospace;
+                     font-size:0.62rem;color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>Score</th>
+          <th style='padding:8px 12px;text-align:left;font-family:"IBM Plex Mono",monospace;
+                     font-size:0.62rem;color:#5a6a8a;text-transform:uppercase;letter-spacing:0.15em'>Coordinates</th>
+        </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </table>
+    """, unsafe_allow_html=True)

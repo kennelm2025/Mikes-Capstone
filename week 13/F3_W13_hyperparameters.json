@@ -1,0 +1,69 @@
+{
+  "function": "F3",
+  "week": 13,
+  "timestamp": "2026-04-17 19:57:31",
+  "strategy": "ATB OVERRIDE -- replicate W11 ATB [0.998126, 0.621218, 0.453080] (FINAL ROUND)",
+  "cluster_type": "TIGHT ATTRACTOR with locked-dimension structure",
+  "atb_value": -0.001285,
+  "atb_week": 11,
+  "w12_result_at_same_coords": -0.00713,
+  "oracle_noise_sigma": 0.003,
+  "noise_evidence": "W11: -0.00129 | W12: -0.00713 (identical coords)",
+  "override_str": "0.998126-0.621218-0.453080",
+  "hyperparameters": {
+    "EXPLOIT_RATIO": 0.92,
+    "EXPLOIT_SIGMA": 0.012,
+    "ANISO_SIGMA": [
+      0.005,
+      0.02,
+      0.025
+    ],
+    "EI_XI": 0.01,
+    "UCB_KAPPA": 2.0,
+    "GP_RESTARTS": 10,
+    "TOP_PERCENTILE": 30,
+    "FILTER_PERCENTILE": 50
+  },
+  "gp_kernel": "1.12**2 * Matern(length_scale=0.806, nu=2.5)",
+  "gp_r2": 0.999839,
+  "gp_rmse": 0.00098612,
+  "best_model": "Random Forest",
+  "best_model_cv": 0.9583,
+  "pca_analysis": {
+    "case_type": "scree / removable-PC (tight attractor with locked X1)",
+    "full_ev_ratios": [
+      0.538,
+      0.298,
+      0.164
+    ],
+    "top_subset_n": 8,
+    "top_subset_ev_ratios": [
+      0.5274,
+      0.3356,
+      0.137
+    ],
+    "top_subset_dim_variance": {
+      "X1": 0.051755,
+      "X2": 0.00172,
+      "X3": 0.002307
+    },
+    "top_subset_dim_mean": {
+      "X1": 0.8376,
+      "X2": 0.5862,
+      "X3": 0.4383
+    },
+    "strictly_locked_dims": [],
+    "boundary_anchor_dims": [],
+    "all_anchor_dims": [],
+    "active_dims": [
+      "X1",
+      "X2",
+      "X3"
+    ],
+    "effective_dimensionality": 3,
+    "module23_video": "Video 3 -- Scree plots and cumulative variance",
+    "verdict": "X1 structural anchor near 1.0 (see anchor_dims). Effective dim = 3. Smaller-scale mirror of F8 zero-boundary showcase."
+  },
+  "submission_string": "0.998126-0.621218-0.453080",
+  "final_round_note": "W13 is the last BBO submission. Module 24 is reflection-only."
+}

@@ -1,0 +1,5 @@
+# F3 Week 13 | ATB OVERRIDE | MAXIMIZE | FINAL ROUND
+# ATB: -0.000707 @ W11 -- exact replication; W12 regressed at same coords (noise).
+# Oracle noise sigma ~ 0.003 at replay coords (stochastic).
+# PCA lens: scree/removable-PC case (Module 23 V3); X1 locked ~1.0, effective dim = 2.
+0.998126-0.621218-0.453080

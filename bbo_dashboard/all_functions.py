@@ -125,8 +125,8 @@ def render(wk_idx=None):
     fns_list = list(FUNCTIONS.keys())
     # Heatmap shows all actual transitions — CURRENT_WEEK-1 actuals, so CURRENT_WEEK-2 transitions
     # (last week is always pending/None, so actual count = CURRENT_WEEK-1)
-    _n_actuals    = CURRENT_WEEK - 1          # 10 actual weeks at W11
-    n_transitions = _n_actuals - 1            # 9 transitions W1→W2 … W9→W10
+    _n_actuals    = CURRENT_WEEK - 1          # 12 actual weeks at W13
+    n_transitions = _n_actuals - 1            # 11 transitions W1→W2 … W11→W12
     weeks         = [f"W{i+1}→W{i+2}" for i in range(n_transitions)]
 
     z_matrix, text_matrix = [], []
@@ -205,8 +205,10 @@ def render(wk_idx=None):
     st.plotly_chart(fig2, use_container_width=True)
     st.caption("Green = improved vs prior week · Red = regressed · Intensity = relative magnitude")
 
-    # ── W7 submission strings table ───────────────────────────────────────────
-    st.markdown('<div class="sec-head">Submission Strings — All Functions · W1–W10 Actuals + W11 Submitted (88 rows · scroll)</div>', unsafe_allow_html=True)
+    # ── Submission strings table ──────────────────────────────────────────────
+    _n_actuals_cap    = CURRENT_WEEK - 1
+    _total_rows       = CURRENT_WEEK * 8
+    st.markdown(f'<div class="sec-head">Submission Strings — All Functions · W1–W{_n_actuals_cap} Actuals + W{CURRENT_WEEK} Submitted ({_total_rows} rows · scroll)</div>', unsafe_allow_html=True)
 
     rows_html = ""
     for fn in FUNCTIONS:
@@ -244,4 +246,4 @@ def render(wk_idx=None):
     </table>
     </div>
     """, unsafe_allow_html=True)
-    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score · W11 pending result rows hidden")
+    st.caption(f"Blue row = currently selected {week_label} · ★ gold = all-time best score · W{CURRENT_WEEK} pending result rows hidden")

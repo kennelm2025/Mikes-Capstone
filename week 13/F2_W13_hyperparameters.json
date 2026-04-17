@@ -1,0 +1,54 @@
+{
+  "function": "F2",
+  "week": 13,
+  "timestamp": "2026-04-17 19:41:58",
+  "strategy": "ATB OVERRIDE -- replicate W12 ATB [0.710068, 0.161630] (FINAL ROUND)",
+  "cluster_type": "* TWO-ZONE HIERARCHICAL CLUSTER (Module 22 primary showcase)",
+  "atb_value": 0.688,
+  "atb_week": 12,
+  "atb_transition": "W5 0.6497 -> W12 0.6880 (+0.038, NEW ATB)",
+  "oracle_noise_sigma": 0.035,
+  "noise_evidence": "W5: 0.6497 | W9: 0.6497 | W11: 0.6090 | W12: 0.6880 (identical coords)",
+  "override_str": "0.710068-0.161630",
+  "hyperparameters": {
+    "EXPLOIT_RATIO": 0.92,
+    "EXPLOIT_SIGMA": 0.015,
+    "ANISO_SIGMA": [
+      0.012,
+      0.008
+    ],
+    "EI_XI": 0.01,
+    "UCB_KAPPA": 2.0,
+    "GP_RESTARTS": 10,
+    "TOP_PERCENTILE": 30,
+    "FILTER_PERCENTILE": 50
+  },
+  "gp_kernel": "0.958**2 * Matern(length_scale=0.184, nu=2.5)",
+  "gp_r2": 0.997522,
+  "gp_rmse": 0.01191529,
+  "best_model": "Logistic Regression",
+  "best_model_cv": 0.7321,
+  "pca_analysis": {
+    "case_type": "kernel-PCA (non-linear two-basin)",
+    "full_linear_pca_status": "degenerate -- PC1 runs through both basins",
+    "full_ev_ratios": [
+      0.6253,
+      0.3747
+    ],
+    "top_subset_n": 7,
+    "top_subset_ev_ratios": [
+      0.6828,
+      0.3172
+    ],
+    "top_subset_dim_variance": {
+      "X1": 0.003011,
+      "X2": 0.102259
+    },
+    "locked_dims": [],
+    "kernel_pca_zone_separation": 0.5848,
+    "module23_video": "Video 6 -- Kernel PCA for non-linear structure",
+    "verdict": "No removable dims within LOW-X2 basin. Attractor is 2D tight cluster within a non-linear two-zone landscape."
+  },
+  "submission_string": "0.710068-0.161630",
+  "final_round_note": "W13 is the last BBO submission. Module 24 is reflection-only."
+}

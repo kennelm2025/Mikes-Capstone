@@ -1,0 +1,8 @@
+BBO Run Report -- F3 Week 13 (FINAL ROUND)
+============================================================
+Strategy   : ATB OVERRIDE -- replicate W11 ATB [0.998126, 0.621218, 0.453080]
+Clustering : TIGHT ATTRACTOR with locked-dim structure
+PCA lens   : Scree / removable-PC case (Module 23 V3) -- X1 locked, effective dim = 2
+ATB        : -0.000707 @ W11 (still best; W12 regressed at same coords)
+Noise      : oracle sigma ~ 0.003 at replay coords
+Submit     : 0.998126-0.621218-0.453080

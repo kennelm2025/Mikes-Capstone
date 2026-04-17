@@ -1,0 +1,5 @@
+# F1 Week 13 | ATB OVERRIDE | MAXIMIZE | FINAL SUBMISSION
+# ATB: 8.968178e-07 @ W11 (confirmed W12 exact match)
+# W13 final round: risk-minimisation. GP R2=1.0 flat landscape, EI~0.
+# PCA lens: TIGHT ATTRACTOR, one PC captures basin, ATB = centroid.
+0.684200-0.704200

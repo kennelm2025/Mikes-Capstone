@@ -1,0 +1,88 @@
+{
+  "function": "F5",
+  "week": 13,
+  "timestamp": "2026-04-17 20:45:13",
+  "strategy": "ATB OVERRIDE -- corner maximum [1,1,1,1] (FINAL ROUND)",
+  "cluster_type": "CORNER ATTRACTOR (tightest of all 8 functions)",
+  "atb_value": 8662.48,
+  "atb_week": 9,
+  "atb_confirmation": "triple-confirmed -- W9 + W11 + W12 all returned 8662.48 at [1,1,1,1]",
+  "w11_result": 8662.48,
+  "w12_result": 8662.48,
+  "oracle_type": "deterministic corner",
+  "override_str": "1.000000-1.000000-1.000000-1.000000",
+  "data_note": "F5 W13 npy stays at n=30 -- W12 submission was exact duplicate of W9 row (skip-append rule)",
+  "hyperparameters": {
+    "EXPLOIT_RATIO": 0.95,
+    "EXPLOIT_SIGMA": 0.005,
+    "ANISO_SIGMA": [
+      0.005,
+      0.005,
+      0.005,
+      0.005
+    ],
+    "EI_XI": 0.01,
+    "UCB_KAPPA": 2.0,
+    "GP_RESTARTS": 10,
+    "TOP_PERCENTILE": 30,
+    "FILTER_PERCENTILE": 50
+  },
+  "gp_kernel": "5.49**2 * Matern(length_scale=6.66, nu=2.5)",
+  "gp_r2": 1.0,
+  "gp_rmse": 0.61742777,
+  "best_model": "Linear SVM",
+  "best_model_cv": 0.9688,
+  "pca_analysis": {
+    "case_type": "CORNER -- cleanest flat-scree case in capstone",
+    "full_ev_ratios": [
+      0.556,
+      0.1892,
+      0.1567,
+      0.0982
+    ],
+    "top30_subset_n": 9,
+    "top30_subset_ev_ratios": [
+      0.974,
+      0.0236,
+      0.0022,
+      0.0002
+    ],
+    "top30_note": "Top-30% is permissive for F5 and includes W6/W7/W8 drift rows; PC1 dominated by X1 spread.",
+    "top30_subset_total_variance": 0.11122102,
+    "top30_subset_dim_variance": {
+      "X1": 0.10507227,
+      "X2": 0.00284347,
+      "X3": 0.0015717,
+      "X4": 0.00173357
+    },
+    "top30_subset_dim_mean": {
+      "X1": 0.7094,
+      "X2": 0.9643,
+      "X3": 0.9848,
+      "X4": 0.9778
+    },
+    "confirmed_corner_subset_n": 3,
+    "confirmed_corner_ev_ratios": [
+      0.7976,
+      0.2024,
+      0.0
+    ],
+    "confirmed_corner_total_variance": 0.00010777,
+    "confirmed_corner_locked_dims": [
+      "X1",
+      "X2",
+      "X3",
+      "X4"
+    ],
+    "locked_dims_top30": [],
+    "corner_exact_matches_in_full": 1,
+    "corner_y_values": [
+      8662.4825
+    ],
+    "oracle_type": "deterministic",
+    "module23_video": "Video 3 -- Scree plots (primary demonstration; F5 is the cleanest case)",
+    "verdict": "Corner [1,1,1,1]. Within confirmed-corner subset (n=3), 4/4 dims locked -- cleanest Module 23 scree case in capstone."
+  },
+  "submission_string": "1.000000-1.000000-1.000000-1.000000",
+  "final_round_note": "W13 is the last BBO submission. Module 24 is reflection-only."
+}

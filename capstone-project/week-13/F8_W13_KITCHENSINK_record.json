@@ -1,0 +1,133 @@
+{
+  "function": "F8",
+  "week": 13,
+  "edition": "KITCHEN SINK",
+  "timestamp": "2026-04-18 07:50:16",
+  "tools_used": [
+    "Module 15: SVM, DT, RF, LR (classifiers)",
+    "Module 16: MLP (3 sizes)",
+    "Module 17: CNN-1D (PyTorch)",
+    "Module 18: Sobol sequences + Dual-kernel GP (Matern + RBF)",
+    "Module 19: Anisotropic sigma (per-dim)",
+    "Module 20: Ollama LLM advisor",
+    "Module 22: AgglomerativeClustering (Ward linkage)",
+    "Module 23: PCA variance analysis",
+    "XAI: SHAP (TreeExplainer), Captum (IntegratedGradients), LIME (LimeTabularExplainer)",
+    "TuRBO trust region (Eriksson 2019) \u2014 real algorithm"
+  ],
+  "pca_zero_locked": [],
+  "shap_lowest3": [
+    "X4",
+    "X6",
+    "X8"
+  ],
+  "captum_lowest3": [
+    "X2",
+    "X6",
+    "X8"
+  ],
+  "lime_lowest3_at_atb": [
+    "X2",
+    "X4",
+    "X8"
+  ],
+  "xai_consensus": [
+    "X8"
+  ],
+  "turbo_final_tr_length": 0.0125,
+  "turbo_log": [
+    {
+      "wk": 1,
+      "score": 9.0093,
+      "outcome": "SUCCESS",
+      "tr_len": 0.1,
+      "action": "\u2014"
+    },
+    {
+      "wk": 2,
+      "score": 9.832,
+      "outcome": "SUCCESS",
+      "tr_len": 0.1,
+      "action": "\u2014"
+    },
+    {
+      "wk": 3,
+      "score": 9.8188,
+      "outcome": "FAILURE",
+      "tr_len": 0.1,
+      "action": "\u2014"
+    },
+    {
+      "wk": 4,
+      "score": 9.3341,
+      "outcome": "FAILURE",
+      "tr_len": 0.1,
+      "action": "\u2014"
+    },
+    {
+      "wk": 5,
+      "score": 8.956,
+      "outcome": "FAILURE",
+      "tr_len": 0.05,
+      "action": "SHRINK"
+    },
+    {
+      "wk": 6,
+      "score": 9.7741,
+      "outcome": "FAILURE",
+      "tr_len": 0.05,
+      "action": "\u2014"
+    },
+    {
+      "wk": 7,
+      "score": 9.8251,
+      "outcome": "FAILURE",
+      "tr_len": 0.05,
+      "action": "\u2014"
+    },
+    {
+      "wk": 8,
+      "score": 9.8021,
+      "outcome": "FAILURE",
+      "tr_len": 0.025,
+      "action": "SHRINK"
+    },
+    {
+      "wk": 9,
+      "score": 9.8115,
+      "outcome": "FAILURE",
+      "tr_len": 0.025,
+      "action": "\u2014"
+    },
+    {
+      "wk": 10,
+      "score": 9.8013,
+      "outcome": "FAILURE",
+      "tr_len": 0.025,
+      "action": "\u2014"
+    },
+    {
+      "wk": 11,
+      "score": 9.8269,
+      "outcome": "FAILURE",
+      "tr_len": 0.0125,
+      "action": "SHRINK"
+    },
+    {
+      "wk": 12,
+      "score": 9.831962,
+      "outcome": "FAILURE",
+      "tr_len": 0.0125,
+      "action": "\u2014"
+    }
+  ],
+  "best_classifier": "Decision Tree",
+  "best_classifier_cv_acc": 0.9,
+  "gp_matern_r2": 1.0,
+  "submission_atb": "0.000000-0.179297-0.000000-0.071406-0.929270-0.459981-0.000000-0.541212",
+  "submission_gp": "0.011507-0.177361-0.000000-0.067352-0.975720-0.436441-0.000000-0.520022",
+  "submission_turbo": "0.004648-0.179648-0.002570-0.068516-0.935504-0.454627-0.000272-0.537678",
+  "final_choice": "DUAL-KERNEL GP EI",
+  "final_rationale": "GP predicts meaningful gain beyond uncertainty",
+  "final_submission": "0.011507-0.177361-0.000000-0.067352-0.975720-0.436441-0.000000-0.520022"
+}

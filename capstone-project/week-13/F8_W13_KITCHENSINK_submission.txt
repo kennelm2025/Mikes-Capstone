@@ -1,0 +1,9 @@
+# F8 W13 KITCHEN SINK | DUAL-KERNEL GP EI
+# Rationale: GP predicts meaningful gain beyond uncertainty
+# PCA flat PCs : []
+# SHAP low-3   : ['X4', 'X6', 'X8']
+# Captum low-3 : ['X2', 'X6', 'X8']
+# LIME low-3   : ['X2', 'X4', 'X8']
+# TuRBO tr_len : 0.0125
+# GP μ best   : 10.181694 vs ATB 9.831962
+0.011507-0.177361-0.000000-0.067352-0.975720-0.436441-0.000000-0.520022
